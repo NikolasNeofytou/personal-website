@@ -90,53 +90,6 @@ document.querySelectorAll('.section, .project-card, .skill-category, .lab-card, 
 });
 
 // ==========================================
-// Substack RSS Feed
-// ==========================================
-const substackContainer = document.getElementById('substackPosts');
-
-if (substackContainer) {
-    const RSS_URL = 'https://nikolasneofytou.substack.com/feed';
-    const PROXY_URL = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(RSS_URL);
-
-    fetch(PROXY_URL)
-        .then(res => res.json())
-        .then(data => {
-            if (data.status !== 'ok' || !data.items || data.items.length === 0) {
-                throw new Error('No posts found');
-            }
-
-            const posts = data.items.slice(0, 6);
-            substackContainer.innerHTML = posts.map(post => {
-                const date = new Date(post.pubDate).toLocaleDateString('en-US', {
-                    year: 'numeric', month: 'short', day: 'numeric'
-                });
-                // Strip HTML tags for a clean description
-                const desc = post.description
-                    .replace(/<[^>]*>/g, '')
-                    .substring(0, 150)
-                    .trim() + '...';
-
-                return `
-                    <a href="${post.link}" class="writing-card" target="_blank" rel="noopener noreferrer">
-                        <div class="writing-date">${date}</div>
-                        <h3 class="writing-title">${post.title}</h3>
-                        <p class="writing-excerpt">${desc}</p>
-                        <span class="writing-read-more">Read on Substack <i class="fas fa-arrow-right"></i></span>
-                    </a>
-                `;
-            }).join('');
-        })
-        .catch(() => {
-            substackContainer.innerHTML = `
-                <div class="writing-placeholder">
-                    <i class="fas fa-newspaper fa-2x"></i>
-                    <p>Visit my Substack to read my latest articles on philosophy, history, and more.</p>
-                </div>
-            `;
-        });
-}
-
-// ==========================================
 // Active nav link on scroll
 // ==========================================
 const sections = document.querySelectorAll('section[id]');

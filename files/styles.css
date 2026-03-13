@@ -832,68 +832,6 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
     text-align: center;
     color: var(--text-tertiary);
     padding: var(--spacing-lg);
-    grid-column: 1 / -1;
-}
-
-.writing-card {
-    display: block;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    padding: 2rem;
-    transition: all 0.3s;
-    text-decoration: none;
-}
-.writing-card:hover {
-    border-color: var(--border-hover);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0, 191, 255, 0.08);
-}
-
-.writing-date {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 300;
-    color: var(--accent-dim);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 0.6rem;
-}
-
-.writing-title {
-    font-family: var(--font-body);
-    font-size: 1.05rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: 0.6rem;
-    line-height: 1.4;
-}
-
-.writing-excerpt {
-    font-size: 0.85rem;
-    font-weight: 300;
-    color: var(--text-secondary);
-    line-height: 1.65;
-    margin-bottom: 1rem;
-}
-
-.writing-read-more {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 400;
-    color: var(--text-tertiary);
-    letter-spacing: 0.05em;
-    transition: color 0.3s;
-}
-.writing-read-more i {
-    font-size: 0.6rem;
-    margin-left: 0.3rem;
-    transition: transform 0.3s;
-}
-.writing-card:hover .writing-read-more {
-    color: var(--accent);
-}
-.writing-card:hover .writing-read-more i {
-    transform: translateX(3px);
 }
 
 .view-more-writing {
@@ -906,14 +844,8 @@ button { border: none; background: none; cursor: pointer; font-family: inherit; 
    ========================================== */
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
-}
-
-@media (max-width: 900px) {
-    .skills-grid {
-        grid-template-columns: 1fr;
-    }
 }
 
 .skill-category {
