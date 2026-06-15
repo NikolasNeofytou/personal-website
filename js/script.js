@@ -68,26 +68,35 @@ if (backToTop) {
 
 // ==========================================
 // Intersection Observer — fade-in on scroll
+// (with accessibility + no-scroll failsafes so content is never trapped invisible)
 // ==========================================
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
+const revealTargets = document.querySelectorAll('.section, .project-card, .skill-category, .lab-card, .timeline-item, .contact-item');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-        }
+const revealAll = () => revealTargets.forEach(el => el.classList.add('visible'));
+
+if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    // No animation: show everything immediately, never hide it.
+    revealAll();
+} else {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    revealTargets.forEach(el => {
+        el.classList.add('fade-in');
+        observer.observe(el);
     });
-}, observerOptions);
 
-// Observe all sections and major elements
-document.querySelectorAll('.section, .project-card, .skill-category, .lab-card, .timeline-item, .contact-item').forEach(el => {
-    el.classList.add('fade-in');
-    observer.observe(el);
-});
+    // Failsafe: if the observer hasn't revealed everything within 2s
+    // (slow JS, no scroll event, full-page/headless capture), force it.
+    window.setTimeout(revealAll, 2000);
+}
 
 // ==========================================
 // Substack RSS Feed
@@ -159,3 +168,62 @@ window.addEventListener('scroll', () => {
         }
     });
 });
+
+// ==========================================
+// Photography lightbox (grid → click → EXIF readout)
+// ==========================================
+(function () {
+    const lightbox = document.getElementById('photoLightbox');
+    const items = [...document.querySelectorAll('.photo-item')];
+    if (!lightbox || !items.length) return;
+
+    const imgEl = document.getElementById('photoLightboxImg');
+    const closeBtn = document.getElementById('photoLightboxClose');
+    const prevBtn = document.getElementById('photoPrev');
+    const nextBtn = document.getElementById('photoNext');
+    const fields = {
+        camera: document.getElementById('exifCamera'),
+        lens: document.getElementById('exifLens'),
+        focal: document.getElementById('exifFocal'),
+        aperture: document.getElementById('exifAperture'),
+        shutter: document.getElementById('exifShutter'),
+        iso: document.getElementById('exifIso'),
+        date: document.getElementById('exifDate')
+    };
+    let current = 0;
+    let lastFocused = null;
+
+    function render(i) {
+        current = (i + items.length) % items.length;
+        const d = items[current].dataset;
+        imgEl.src = d.full;
+        imgEl.alt = d.title || 'Photograph by Nikolas Neofytou';
+        Object.keys(fields).forEach(k => {
+            if (fields[k]) fields[k].textContent = d[k] || '—';
+        });
+    }
+    function open(i) {
+        lastFocused = document.activeElement;
+        render(i);
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+    }
+    function close() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+        if (lastFocused) lastFocused.focus();
+    }
+
+    items.forEach((el, i) => el.addEventListener('click', () => open(i)));
+    closeBtn.addEventListener('click', close);
+    if (prevBtn) prevBtn.addEventListener('click', () => render(current - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => render(current + 1));
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        else if (e.key === 'ArrowLeft') render(current - 1);
+        else if (e.key === 'ArrowRight') render(current + 1);
+    });
+})();

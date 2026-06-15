@@ -3,16 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Nikolas Neofytou — ECE student at NTUA specializing in electronics, control systems, and embedded design.">
+    <meta name="description" content="Nikolas Neofytou — ECE student at NTUA specializing in electronics, control systems, and embedded design. Full-stack engineer (Flutter, Next.js, Django REST, PostgreSQL/PostGIS).">
     <meta name="author" content="Nikolas Neofytou">
-    
+    <meta name="theme-color" content="#080B14">
+    <link rel="canonical" href="https://nikolasneofytou.github.io/personal-website/">
+
+    <!-- Open Graph -->
     <meta property="og:title" content="Nikolas Neofytou — Portfolio">
-    <meta property="og:description" content="Electrical & Computer Engineering · NTUA · Electronics · Control · Embedded">
+    <meta property="og:description" content="Electrical & Computer Engineer · NTUA · Electronics · Control · Embedded · Full-stack">
     <meta property="og:type" content="website">
-    
+    <meta property="og:url" content="https://nikolasneofytou.github.io/personal-website/">
+    <meta property="og:site_name" content="Nikolas Neofytou">
+    <meta property="og:image" content="https://nikolasneofytou.github.io/personal-website/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Nikolas Neofytou — Electrical & Computer Engineer, NTUA">
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nikolas Neofytou — Portfolio">
+    <meta name="twitter:description" content="Electrical & Computer Engineer · NTUA · Electronics · Control · Embedded · Full-stack">
+    <meta name="twitter:image" content="https://nikolasneofytou.github.io/personal-website/assets/og-image.png">
+
     <title>Nikolas Neofytou — Portfolio</title>
-    
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Nikolas Neofytou",
+      "url": "https://nikolasneofytou.github.io/personal-website/",
+      "image": "https://nikolasneofytou.github.io/personal-website/assets/PROFILE.JPEG",
+      "jobTitle": "Electrical & Computer Engineering Student",
+      "affiliation": {
+        "@type": "CollegeOrUniversity",
+        "name": "National Technical University of Athens"
+      },
+      "knowsAbout": ["Electronics", "Control Systems", "Embedded Systems", "Full-Stack Development", "Flutter", "Django", "Next.js", "PostgreSQL"],
+      "sameAs": [
+        "https://github.com/NikolasNeofytou",
+        "https://www.linkedin.com/in/nikolas-n-17078a201",
+        "https://substack.com/@nikolasneofytou"
+      ]
+    }
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -34,6 +71,7 @@
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="#timeline" class="nav-link">Experience</a></li>
+                <li><a href="#photography" class="nav-link">Photography</a></li>
                 <li><a href="#skills" class="nav-link">Skills</a></li>
                 <li><a href="#lab" class="nav-link">Lab</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
@@ -101,7 +139,7 @@
                 </div>
                 <div class="status-row">
                     <span class="status-key">location</span>
-                    <span class="status-val">Athens, GR</span>
+                    <span class="status-val">Cyprus</span>
                 </div>
                 <div class="status-row">
                     <span class="status-key">institution</span>
@@ -267,151 +305,88 @@
             <p class="section-subtitle">Featured work and open-source contributions</p>
             
             <div class="projects-grid">
+                <!-- Cinna — lead project (private) -->
                 <article class="project-card">
                     <div class="project-image">
                         <div class="project-placeholder">
-                            <i class="fas fa-futbol"></i>
+                            <i class="fas fa-bus"></i>
+                        </div>
+                        <span class="project-status"><i class="fas fa-lock"></i> Private</span>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Cinna</h3>
+                        <p class="project-description">
+                            A real-time public-transit companion — live vehicle tracking over GTFS-RT, trip
+                            planning, and an in-app wallet for ticketing. Flutter/Riverpod client backed by a
+                            Django REST API with PostGIS geospatial queries and Redis caching.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">Riverpod</span>
+                            <span class="tech-tag">Django REST</span>
+                            <span class="tech-tag">PostGIS</span>
+                            <span class="tech-tag">Redis</span>
+                            <span class="tech-tag">GTFS-RT</span>
+                        </div>
+                        <div class="project-meta">
+                            <span class="project-badge"><i class="fas fa-lock"></i> Private · demo on request</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Plutarch (public) -->
+                <article class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-feather-pointed"></i>
                         </div>
                         <div class="project-overlay">
-                            <a href="https://github.com/NikolasNeofytou/proper_soccer_matcher" class="project-link" target="_blank" rel="noopener noreferrer">
+                            <a href="https://github.com/NikolasNeofytou/Plutarch" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="Plutarch on GitHub">
                                 <i class="fab fa-github"></i>
                             </a>
                         </div>
                     </div>
                     <div class="project-content">
-                        <h3 class="project-title">Soccer Matcher</h3>
+                        <h3 class="project-title">Plutarch</h3>
                         <p class="project-description">
-                            An app that brings organization between players and pitch owners, making it easier 
-                            to coordinate and schedule soccer games.
+                            A modern Greek dictionary and language-exploration web app — fast lookup, structured
+                            entries, and cross-references. Built with Next.js and TypeScript on a PostgreSQL
+                            data layer.
                         </p>
                         <div class="project-tech">
+                            <span class="tech-tag">Next.js</span>
                             <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Web App</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                        </div>
+                        <div class="project-meta">
+                            <a class="project-badge project-badge--link" href="https://github.com/NikolasNeofytou/Plutarch" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> View source</a>
                         </div>
                     </div>
                 </article>
 
+                <!-- Aristophanes (private) -->
                 <article class="project-card">
                     <div class="project-image">
                         <div class="project-placeholder">
-                            <i class="fas fa-comments"></i>
+                            <i class="fas fa-masks-theater"></i>
                         </div>
-                        <div class="project-overlay">
-                            <a href="https://github.com/NikolasNeofytou/better_ece_forum" class="project-link" target="_blank" rel="noopener noreferrer">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
+                        <span class="project-status"><i class="fas fa-lock"></i> Private</span>
                     </div>
                     <div class="project-content">
-                        <h3 class="project-title">Better ECE Forum</h3>
+                        <h3 class="project-title">Aristophanes</h3>
                         <p class="project-description">
-                            An attempt to enhance the forum of my university, providing better communication 
-                            and collaboration features for students.
+                            A native iOS app built in Flutter with a Ports-and-Adapters (hexagonal)
+                            architecture — domain logic kept independent of frameworks, with key decisions
+                            captured in Architecture Decision Records.
                         </p>
                         <div class="project-tech">
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">Forum</span>
-                            <span class="tech-tag">Education</span>
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">iOS</span>
+                            <span class="tech-tag">Ports &amp; Adapters</span>
+                            <span class="tech-tag">ADRs</span>
                         </div>
-                    </div>
-                </article>
-
-                <article class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-gamepad"></i>
-                        </div>
-                        <div class="project-overlay">
-                            <a href="https://github.com/NikolasNeofytou/card_game_player" class="project-link" target="_blank" rel="noopener noreferrer">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Card Game Player</h3>
-                        <p class="project-description">
-                            Modernizing the playing card games experience to make socializing over games 
-                            more fun and accessible online.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Gaming</span>
-                            <span class="tech-tag">Social</span>
-                            <span class="tech-tag">WebApp</span>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <div class="project-overlay">
-                            <a href="https://github.com/NikolasNeofytou/proper_utilities_wpa" class="project-link" target="_blank" rel="noopener noreferrer">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Utilities WPA</h3>
-                        <p class="project-description">
-                            A progressive web application providing various utility tools and features 
-                            for everyday tasks.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">PWA</span>
-                            <span class="tech-tag">Utilities</span>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-university"></i>
-                        </div>
-                        <div class="project-overlay">
-                            <a href="https://github.com/NikolasNeofytou/uni-website" class="project-link" target="_blank" rel="noopener noreferrer">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">University Website</h3>
-                        <p class="project-description">
-                            A comprehensive website project for university resources and information.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">Web</span>
-                            <span class="tech-tag">Education</span>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="project-overlay">
-                            <a href="https://github.com/NikolasNeofytou/third_generation_grader" class="project-link" target="_blank" rel="noopener noreferrer">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Third Generation Grader</h3>
-                        <p class="project-description">
-                            An advanced grading system built with Python to streamline the evaluation 
-                            process for educational purposes.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Education</span>
-                            <span class="tech-tag">Automation</span>
+                        <div class="project-meta">
+                            <span class="project-badge"><i class="fas fa-lock"></i> Private · demo on request</span>
                         </div>
                     </div>
                 </article>
@@ -447,6 +422,96 @@
             </div>
         </div>
     </section>
+
+    <!-- =============================================
+         PHOTOGRAPHY SECTION
+         ============================================= -->
+    <section id="photography" class="photography section">
+        <div class="container">
+            <h2 class="section-title">Photography</h2>
+            <p class="section-subtitle">Shot on a Sony A7 III — click a frame for the capture data</p>
+
+            <!-- To rename a shot, edit its data-title. Add more by uploading to Unsplash (then we switch to the live feed) or dropping files in assets/photography/ and resizing. -->
+            <div class="photo-grid">
+                <button class="photo-item" type="button"
+                    data-full="assets/photography/web/DSC01033-lg.jpg"
+                    data-title="Capture 01"
+                    data-camera="Sony A7 III"
+                    data-lens="FE 28–70mm F3.5–5.6 OSS"
+                    data-focal="41 mm"
+                    data-aperture="ƒ/4.5"
+                    data-shutter="1/40 s"
+                    data-iso="12800"
+                    data-date="13 Sep 2025">
+                    <img src="assets/photography/web/DSC01033-thumb.jpg" alt="Photograph by Nikolas Neofytou" loading="lazy" width="1000" height="563">
+                    <span class="photo-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                </button>
+
+                <button class="photo-item" type="button"
+                    data-full="assets/photography/web/DSC01034-lg.jpg"
+                    data-title="Capture 02"
+                    data-camera="Sony A7 III"
+                    data-lens="FE 28–70mm F3.5–5.6 OSS"
+                    data-focal="40 mm"
+                    data-aperture="ƒ/4.0"
+                    data-shutter="1/40 s"
+                    data-iso="12800"
+                    data-date="13 Sep 2025">
+                    <img src="assets/photography/web/DSC01034-thumb.jpg" alt="Photograph by Nikolas Neofytou" loading="lazy" width="1000" height="563">
+                    <span class="photo-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                </button>
+
+                <button class="photo-item" type="button"
+                    data-full="assets/photography/web/DSC01035-lg.jpg"
+                    data-title="Capture 03"
+                    data-camera="Sony A7 III"
+                    data-lens="FE 28–70mm F3.5–5.6 OSS"
+                    data-focal="70 mm"
+                    data-aperture="ƒ/5.6"
+                    data-shutter="1/20 s"
+                    data-iso="12800"
+                    data-date="13 Sep 2025">
+                    <img src="assets/photography/web/DSC01035-thumb.jpg" alt="Photograph by Nikolas Neofytou" loading="lazy" width="1000" height="563">
+                    <span class="photo-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                </button>
+            </div>
+
+            <div class="view-more-photography">
+                <a href="https://unsplash.com/@nikolasneofytou" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-camera"></i> View on Unsplash
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photography lightbox -->
+    <div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+        <button class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close viewer">
+            <i class="fas fa-times"></i>
+        </button>
+        <button class="photo-nav photo-prev" id="photoPrev" aria-label="Previous photo">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="photo-lightbox-inner">
+            <div class="photo-lightbox-image">
+                <img id="photoLightboxImg" src="" alt="">
+            </div>
+            <aside class="photo-lightbox-meta">
+                <div class="photo-exif-header">// capture.exif</div>
+                <div class="photo-exif-row"><span class="exif-key">camera</span><span class="exif-val" id="exifCamera"></span></div>
+                <div class="photo-exif-row"><span class="exif-key">lens</span><span class="exif-val" id="exifLens"></span></div>
+                <div class="photo-exif-row"><span class="exif-key">focal</span><span class="exif-val" id="exifFocal"></span></div>
+                <div class="photo-exif-row"><span class="exif-key">aperture</span><span class="exif-val accent" id="exifAperture"></span></div>
+                <div class="photo-exif-row"><span class="exif-key">shutter</span><span class="exif-val" id="exifShutter"></span></div>
+                <div class="photo-exif-row"><span class="exif-key">iso</span><span class="exif-val" id="exifIso"></span></div>
+                <div class="photo-exif-row"><span class="exif-key">date</span><span class="exif-val" id="exifDate"></span></div>
+                <a class="photo-exif-link" href="https://unsplash.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer">View on Unsplash <i class="fas fa-arrow-right"></i></a>
+            </aside>
+        </div>
+        <button class="photo-nav photo-next" id="photoNext" aria-label="Next photo">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
 
     <!-- =============================================
          SKILLS SECTION
@@ -495,18 +560,36 @@
 
                 <div class="skill-category">
                     <h3 class="category-title">
-                        <i class="fas fa-laptop-code"></i> Software & Tools
+                        <i class="fas fa-laptop-code"></i> Languages & Tooling
                     </h3>
                     <div class="skill-items">
                         <div class="skill-item"><i class="fas fa-code"></i><span>C</span></div>
                         <div class="skill-item"><i class="fas fa-code"></i><span>C++</span></div>
                         <div class="skill-item"><i class="fab fa-python"></i><span>Python</span></div>
+                        <div class="skill-item"><i class="fas fa-code"></i><span>TypeScript</span></div>
+                        <div class="skill-item"><i class="fab fa-js"></i><span>JavaScript</span></div>
                         <div class="skill-item"><i class="fas fa-calculator"></i><span>MATLAB/Simulink</span></div>
                         <div class="skill-item"><i class="fab fa-git-alt"></i><span>Git</span></div>
                         <div class="skill-item"><i class="fab fa-linux"></i><span>Linux</span></div>
+                        <div class="skill-item"><i class="fas fa-terminal"></i><span>Bash</span></div>
                         <div class="skill-item"><i class="fab fa-docker"></i><span>Docker</span></div>
-                        <div class="skill-item"><i class="fas fa-server"></i><span>Django</span></div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <i class="fas fa-layer-group"></i> Full-Stack & Web
+                    </h3>
+                    <div class="skill-items">
+                        <div class="skill-item"><i class="fas fa-mobile-screen"></i><span>Flutter / Dart</span></div>
+                        <div class="skill-item"><i class="fas fa-diagram-project"></i><span>Riverpod</span></div>
+                        <div class="skill-item"><i class="fab fa-react"></i><span>React</span></div>
+                        <div class="skill-item"><i class="fas fa-layer-group"></i><span>Next.js</span></div>
+                        <div class="skill-item"><i class="fas fa-server"></i><span>Django REST</span></div>
                         <div class="skill-item"><i class="fas fa-flask"></i><span>Flask</span></div>
+                        <div class="skill-item"><i class="fas fa-database"></i><span>PostgreSQL</span></div>
+                        <div class="skill-item"><i class="fas fa-location-dot"></i><span>PostGIS</span></div>
+                        <div class="skill-item"><i class="fas fa-bolt"></i><span>Redis</span></div>
                     </div>
                 </div>
 
@@ -604,7 +687,7 @@
                     <i class="fas fa-map-marker-alt"></i>
                     <div>
                         <h3>Location</h3>
-                        <p>Athens, Greece</p>
+                        <p>Cyprus</p>
                     </div>
                 </div>
                 <div class="contact-item">
