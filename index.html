@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Nikolas Neofytou — ECE student at NTUA specializing in electronics, control systems, and embedded design. Full-stack engineer (Flutter, Next.js, Django REST, PostgreSQL/PostGIS).">
+    <meta name="description" content="Nikolas Neofytou — Electrical & Computer Engineer (NTUA) building embedded systems and the full-stack apps around them. Flutter, Django REST, Next.js, PostGIS. Available for freelance.">
     <meta name="author" content="Nikolas Neofytou">
-    <meta name="theme-color" content="#080B14">
+    <meta name="theme-color" content="#F5F4EF">
     <link rel="canonical" href="https://nikolasneofytou.github.io/personal-website/">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Nikolas Neofytou — Portfolio">
-    <meta property="og:description" content="Electrical & Computer Engineer · NTUA · Electronics · Control · Embedded · Full-stack">
+    <meta property="og:title" content="Nikolas Neofytou — Electrical & Computer Engineer">
+    <meta property="og:description" content="I build at the seam between hardware and software — embedded systems and the full-stack apps around them. NTUA ECE · Flutter · Django · Next.js.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://nikolasneofytou.github.io/personal-website/">
     <meta property="og:site_name" content="Nikolas Neofytou">
@@ -21,11 +21,11 @@
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Nikolas Neofytou — Portfolio">
-    <meta name="twitter:description" content="Electrical & Computer Engineer · NTUA · Electronics · Control · Embedded · Full-stack">
+    <meta name="twitter:title" content="Nikolas Neofytou — Electrical & Computer Engineer">
+    <meta name="twitter:description" content="I build at the seam between hardware and software — embedded systems and the full-stack apps around them.">
     <meta name="twitter:image" content="https://nikolasneofytou.github.io/personal-website/assets/og-image.png">
 
-    <title>Nikolas Neofytou — Portfolio</title>
+    <title>Nikolas Neofytou — Electrical & Computer Engineer</title>
 
     <!-- Structured data -->
     <script type="application/ld+json">
@@ -35,16 +35,14 @@
       "name": "Nikolas Neofytou",
       "url": "https://nikolasneofytou.github.io/personal-website/",
       "image": "https://nikolasneofytou.github.io/personal-website/assets/PROFILE.JPEG",
-      "jobTitle": "Electrical & Computer Engineering Student",
-      "affiliation": {
-        "@type": "CollegeOrUniversity",
-        "name": "National Technical University of Athens"
-      },
-      "knowsAbout": ["Electronics", "Control Systems", "Embedded Systems", "Full-Stack Development", "Flutter", "Django", "Next.js", "PostgreSQL"],
+      "jobTitle": "Electrical & Computer Engineer",
+      "affiliation": { "@type": "CollegeOrUniversity", "name": "National Technical University of Athens" },
+      "knowsAbout": ["Embedded Systems", "Electronics", "Control Systems", "Full-Stack Development", "Flutter", "Django", "Next.js", "PostgreSQL", "PostGIS"],
       "sameAs": [
         "https://github.com/NikolasNeofytou",
         "https://www.linkedin.com/in/nikolas-n-17078a201",
-        "https://substack.com/@nikolasneofytou"
+        "https://substack.com/@nikolasneofytou",
+        "https://unsplash.com/@nikolasneofytou"
       ]
     }
     </script>
@@ -54,448 +52,324 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
-        <div class="nav-container">
-            <a href="#home" class="logo" aria-label="Home">
-                <span class="logo-text">Nikolas Neofytou</span>
-            </a>
-            
-            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu" aria-expanded="false">
-                <span class="hamburger"></span>
-                <span class="hamburger"></span>
-                <span class="hamburger"></span>
-            </button>
-            
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#timeline" class="nav-link">Experience</a></li>
-                <li><a href="#photography" class="nav-link">Photography</a></li>
-                <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#lab" class="nav-link">Lab</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+    <a class="skip-link" href="#work">Skip to content</a>
 
-    <!-- =============================================
-         HERO SECTION — Redesigned
-         ============================================= -->
-    <section id="home" class="hero" role="banner">
-        <!-- Circuit trace background decoration -->
-        <div class="trace-lines">
-            <svg viewBox="0 0 1200 800" preserveAspectRatio="none" fill="none">
-                <path d="M0 300 L180 300 L180 420 L400 420" stroke="rgba(0,191,255,0.05)" stroke-width="1"/>
-                <path d="M0 500 L120 500 L120 350 L320 350 L320 250" stroke="rgba(0,191,255,0.035)" stroke-width="1"/>
-                <path d="M600 0 L600 200 L750 200 L750 500 L900 500" stroke="rgba(0,191,255,0.04)" stroke-width="1"/>
-                <path d="M850 0 L850 150 L1000 150 L1000 400" stroke="rgba(0,191,255,0.035)" stroke-width="1"/>
-                <path d="M1100 200 L1100 600 L950 600" stroke="rgba(0,191,255,0.03)" stroke-width="1"/>
-                <!-- Junction nodes -->
-                <circle cx="180" cy="300" r="2.5" fill="rgba(0,191,255,0.1)"/>
-                <circle cx="180" cy="420" r="2.5" fill="rgba(0,191,255,0.1)"/>
-                <circle cx="120" cy="500" r="2.5" fill="rgba(0,191,255,0.07)"/>
-                <circle cx="320" cy="350" r="2.5" fill="rgba(0,191,255,0.07)"/>
-                <circle cx="600" cy="200" r="2.5" fill="rgba(0,191,255,0.08)"/>
-                <circle cx="750" cy="200" r="2.5" fill="rgba(0,191,255,0.08)"/>
-                <circle cx="750" cy="500" r="2.5" fill="rgba(0,191,255,0.08)"/>
-                <circle cx="850" cy="150" r="2.5" fill="rgba(0,191,255,0.07)"/>
-                <circle cx="1000" cy="150" r="2.5" fill="rgba(0,191,255,0.07)"/>
-            </svg>
-        </div>
+    <div class="layout">
+        <!-- ============================================================
+             SIDEBAR — fixed identity + nav (the persistent hero)
+             ============================================================ -->
+        <header class="sidebar" role="banner">
+            <div class="sidebar-inner">
+                <div class="sidebar-top">
+                    <a href="#top" class="side-name">Nikolas&nbsp;Neofytou</a>
+                    <p class="side-tagline">I build at the seam between hardware and&nbsp;software.</p>
+                    <p class="side-blurb">
+                        Electrical &amp; Computer Engineer at NTUA, shipping embedded systems
+                        and the full-stack apps around them.
+                    </p>
+                    <p class="side-status"><span class="status-pulse" aria-hidden="true"></span> Available for freelance</p>
 
-        <!-- Left: name + intro -->
-        <div class="hero-content">
-            <div class="hero-tag">Electrical &amp; Computer Engineer</div>
-            <h1 class="hero-title">
-                Nikolas<br><span class="highlight">Neofytou</span>
-            </h1>
-            <p class="hero-subtitle">
-                ECE student at NTUA specializing in electronics, control systems, and embedded design. Building hardware, writing philosophy, capturing light.
-            </p>
-            <div class="hero-divider"></div>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">View Projects</a>
-                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-            </div>
-            <div class="social-links">
-                <a href="https://github.com/NikolasNeofytou" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://substack.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer" aria-label="Substack">
-                    <i class="fas fa-newspaper"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/nikolas-n-17078a201" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-            </div>
-        </div>
+                    <nav class="side-nav" aria-label="Section navigation">
+                        <ul>
+                            <li><a href="#about" class="nav-link"><span class="nav-rule"></span><span class="nav-text">About</span></a></li>
+                            <li><a href="#work" class="nav-link"><span class="nav-rule"></span><span class="nav-text">Selected work</span></a></li>
+                            <li><a href="#experience" class="nav-link"><span class="nav-rule"></span><span class="nav-text">Experience</span></a></li>
+                            <li><a href="#beyond" class="nav-link"><span class="nav-rule"></span><span class="nav-text">Beyond engineering</span></a></li>
+                            <li><a href="#contact" class="nav-link"><span class="nav-rule"></span><span class="nav-text">Contact</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
 
-        <!-- Right: status card -->
-        <div class="hero-status">
-            <div class="status-card">
-                <div class="status-header">
-                    <span>//</span> system.status
-                </div>
-                <div class="status-row">
-                    <span class="status-key">location</span>
-                    <span class="status-val">Cyprus</span>
-                </div>
-                <div class="status-row">
-                    <span class="status-key">institution</span>
-                    <span class="status-val accent">NTUA — ECE</span>
-                </div>
-                <div class="status-row">
-                    <span class="status-key">focus</span>
-                    <span class="status-val">Electronics · Control · Embedded</span>
-                </div>
-                <div class="status-row">
-                    <span class="status-key">expected_grad</span>
-                    <span class="status-val">2027</span>
-                </div>
-                <div class="status-row">
-                    <span class="status-key">languages</span>
-                    <span class="status-val">C · C++ · Python · MATLAB</span>
-                </div>
-                <div class="status-row">
-                    <span class="status-key">hardware</span>
-                    <span class="status-val">STM32 · AVR · FPGA</span>
-                </div>
-                <div class="status-row">
-                    <span class="status-key">interests</span>
-                    <span class="status-val">Philosophy · Photography</span>
-                </div>
-                <div class="status-row">
-                    <span class="status-key">status</span>
-                    <span class="status-val"><span class="status-pulse"></span>Building</span>
+                <div class="sidebar-bottom">
+                    <div class="side-socials">
+                        <a href="https://github.com/NikolasNeofytou" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/nikolas-n-17078a201" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://substack.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer" aria-label="Substack"><i class="fas fa-newspaper"></i></a>
+                        <a href="https://unsplash.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer" aria-label="Unsplash"><i class="fas fa-camera"></i></a>
+                    </div>
+                    <a href="assets/cv.pdf" download="Nikolas_Neofytou_CV.pdf" class="side-cv"><i class="fas fa-arrow-down"></i> Résumé</a>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <div class="scroll-indicator">
-            <a href="#about" aria-label="Scroll to about section">
-                <i class="fas fa-chevron-down"></i>
-            </a>
-        </div>
-    </section>
+        <!-- ============================================================
+             MAIN — scrolling content
+             ============================================================ -->
+        <main class="main" id="top">
 
-    <!-- =============================================
-         ABOUT SECTION
-         ============================================= -->
-    <section id="about" class="about section">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-text">
+            <!-- ABOUT -->
+            <section id="about" class="section" aria-labelledby="about-h">
+                <h2 class="section-head" id="about-h"><span class="section-num">00</span> About</h2>
+                <div class="prose">
                     <p>
-                        I am an ECE student at NTUA, with a specialization in electronics and control systems. In regard to my specialization courses, something more interesting has never come up before—something more interesting will not come up again. The more time I devote to electronics and systems, the more I am assured this is the field I want to acquire mastery over, and naturally, it is the one through which I am able to materialize my will to power. With the help of my golden sponsors (my parents), I have already acquired a significant subset of lab material to work with in my spare time, with no horizon in sight.
+                        I'm an Electrical &amp; Computer Engineer at NTUA, specialising in electronics, control
+                        systems and embedded design — and I build the full-stack software that brings hardware
+                        to life. What began as coursework became the thing I want mastery over: I run a home lab,
+                        ship production apps, and care about the <em>decisions</em> behind the code as much as the
+                        code itself.
                     </p>
                     <p>
-                        In parallel with my studies, I have a great interest in the fields of history and philosophy. A special emphasis is given to the study of Roman politics throughout their history—from the early beginnings to the late Republic, to the eventual decline and fall. The classical age of Greece still beams the light of civilization, which can be encapsulated through their tragedies and philosophical works of Plato and Aristotle. My favourite philosophers of all time, Schopenhauer and Nietzsche, for me push the boundaries of elegance and original thought, with the latter even paying the price of insanity.
+                        Away from the bench I read and write — history and philosophy, with a soft spot for Roman
+                        politics, Greek tragedy, Schopenhauer and Nietzsche (essays under <a href="#beyond">Beyond</a>).
+                        Since 2025 I've been shooting with a Sony A7 III — nature, moments, and macro shots of my own
+                        circuits.
                     </p>
-                    <p>
-                        In pursuit of equilibrium between mind and body, I keep myself active through sport activities. I have played football from a young age and until recently played for a local team in Zografou. Now my main sport is tennis, which took me a while to learn the basics, but stillness and patience have kept me on the path of progress.
-                    </p>
-                    <p>
-                        During the summer of 2025, I acquired a more quality camera and have loved every second of it. Now I get to capture my best personal moments, nature in more vivid detail, and even my electronics from a smaller distance using a macro lens. Not only is it the recipient of warming moments but also the agent of exploring new territories and places.
-                    </p>
-                    <div class="about-buttons">
-                        <a href="https://github.com/NikolasNeofytou" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                            <i class="fab fa-github"></i> GitHub
-                        </a>
-                        <a href="assets/cv.pdf" class="btn btn-secondary" download="Nikolas_Neofytou_CV.pdf">
-                            <i class="fas fa-download"></i> Download CV
-                        </a>
-                    </div>
                 </div>
-                <div class="about-image">
-                    <img src="assets/PROFILE.JPEG" alt="Nikolas Neofytou" loading="lazy">
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- =============================================
-         ACADEMIC TIMELINE
-         ============================================= -->
-    <section id="timeline" class="timeline-section section">
-        <div class="container">
-            <h2 class="section-title">Experience</h2>
-            <p class="section-subtitle">Academic journey and professional milestones</p>
-            
-            <div class="timeline-cv-button">
-                <a href="assets/cv.pdf" class="btn btn-secondary" download="Nikolas_Neofytou_CV.pdf">
-                    <i class="fas fa-download"></i> Download Full CV
-                </a>
-            </div>
-            
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">Oct 2022 — Present</div>
-                        <h3>MEng Electrical & Computer Engineering</h3>
-                        <p class="timeline-institution">National Technical University of Athens (NTUA)</p>
-                        <p class="timeline-description">
-                            Specialization: Electronics, Systems and Embedded Computers. Expected graduation: June 2027.
-                            Coursework: Digital Signal Processing, Control Systems Design, Microcomputer Systems, Operating Systems, VLSI.
-                        </p>
+                <div class="toolbox">
+                    <div class="toolbox-col">
+                        <h3 class="toolbox-label">Embedded &amp; hardware</h3>
+                        <p>STM32 · AVR · FPGA · Arduino · Jetson Orin Nano · PCB design (Altium) · oscilloscope · logic analyzer</p>
+                    </div>
+                    <div class="toolbox-col">
+                        <h3 class="toolbox-label">Control &amp; robotics</h3>
+                        <p>PID · root locus · Bode/Nyquist · state-space · observers · LQR · kinematics · Denavit–Hartenberg</p>
+                    </div>
+                    <div class="toolbox-col">
+                        <h3 class="toolbox-label">Languages</h3>
+                        <p>C · C++ · Python · TypeScript · JavaScript · Dart · MATLAB/Simulink · Bash</p>
+                    </div>
+                    <div class="toolbox-col">
+                        <h3 class="toolbox-label">Full-stack &amp; data</h3>
+                        <p>Flutter · Riverpod · Next.js · React · Django REST · PostgreSQL · PostGIS · Redis · Docker · Linux</p>
                     </div>
                 </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">Jul 2025 — Aug 2025</div>
-                        <h3>Electrical Engineering Internship</h3>
-                        <p class="timeline-institution">SignalGeneriX</p>
-                        <p class="timeline-description">
-                            Designed comprehensive test plans for AI edge boards (Ethernet, RS-485, CAN, USB, CSI, GPIO, PCIe).
-                            Automated verification processes using Linux/Bash/Python. Created documentation templates for lab team.
-                        </p>
-                    </div>
-                </div>
+                <p class="bench"><span class="bench-label">Home lab</span> STM32 Nucleo · ESP32 · Raspberry Pi 4 · Jetson Orin Nano · oscilloscope · function generator · logic analyzer · soldering station · CAN / RS-485 / Ethernet modules</p>
+            </section>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">Jun 2024 — Nov 2024</div>
-                        <h3>Software Engineering Internship</h3>
-                        <p class="timeline-institution">PHOEBE</p>
-                        <p class="timeline-description">
-                            Developed web application fetching official fuel prices and ranking stations by price/distance.
-                            Implemented API integration and responsive UI with full development documentation.
-                        </p>
-                    </div>
-                </div>
+            <!-- SELECTED WORK -->
+            <section id="work" class="section" aria-labelledby="work-h">
+                <h2 class="section-head" id="work-h"><span class="section-num">01</span> Selected work</h2>
 
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">Jul 2021 — Jul 2022</div>
-                        <h3>Military Service — Leadership Role</h3>
-                        <p class="timeline-institution">Cyprus National Guard</p>
-                        <p class="timeline-description">
-                            Honorary promotion for ethics and leadership. Trained and guided team of 10 in daily operations and safety protocols.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">Sep 2014 — Jun 2020</div>
-                        <h3>High School Diploma</h3>
-                        <p class="timeline-institution">Pascal English School</p>
-                        <p class="timeline-description">
-                            GPA: 19.8/20 (2nd in class of 80). A-Levels: Physics (A), Mathematics (A), Greek (A*).
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- =============================================
-         PROJECTS SECTION
-         ============================================= -->
-    <section id="projects" class="projects section">
-        <div class="container">
-            <h2 class="section-title">Projects</h2>
-            <p class="section-subtitle">Featured work and open-source contributions</p>
-            
-            <div class="projects-grid">
-                <!-- Cinna — lead project (private) -->
-                <article class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-bus"></i>
+                <!-- Cinna -->
+                <article class="case">
+                    <div class="case-rule" aria-hidden="true"><span>01</span></div>
+                    <div class="case-body">
+                        <header class="case-head">
+                            <h3 class="case-title">Cinna</h3>
+                            <span class="case-flag"><i class="fas fa-lock"></i> Private</span>
+                        </header>
+                        <p class="case-role">Solo · Flutter client + Django backend · 2024–2025</p>
+                        <p class="case-line"><span class="case-k">Problem</span> Public-transit riders are stuck with schedules that drift from reality and clunky paper-or-card ticketing — no single place to see where the bus actually is and pay for the ride.</p>
+                        <p class="case-line"><span class="case-k">Approach</span> A real-time transit companion: a Flutter/Riverpod client over a Django REST API that ingests live GTFS-RT feeds, answers geospatial queries with PostGIS, and caches hot data in Redis — plus an in-app wallet for ticketing.</p>
+                        <ul class="case-decisions">
+                            <li>GTFS-RT ingestion behind a Redis cache so live vehicle positions are served without hammering Postgres.</li>
+                            <li>PostGIS for spatial work — nearest-stop, route geometry, &ldquo;arriving near me&rdquo;.</li>
+                            <li>Riverpod to keep UI state predictable across real-time streams.</li>
+                            <li>A wallet abstraction that keeps ticketing logic independent of the payment provider.</li>
+                        </ul>
+                        <p class="case-line"><span class="case-k">Outcome</span> A working end-to-end system (live tracking → trip planning → ticket) running on a geospatial backend. Private repo — walkthrough/demo available on request.</p>
+                        <div class="case-tech">
+                            <span class="tech-tag">Flutter</span><span class="tech-tag">Riverpod</span><span class="tech-tag">Django REST</span><span class="tech-tag">PostGIS</span><span class="tech-tag">Redis</span><span class="tech-tag">GTFS-RT</span>
                         </div>
-                        <span class="project-status"><i class="fas fa-lock"></i> Private</span>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Cinna</h3>
-                        <p class="project-description">
-                            A real-time public-transit companion — live vehicle tracking over GTFS-RT, trip
-                            planning, and an in-app wallet for ticketing. Flutter/Riverpod client backed by a
-                            Django REST API with PostGIS geospatial queries and Redis caching.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Flutter</span>
-                            <span class="tech-tag">Riverpod</span>
-                            <span class="tech-tag">Django REST</span>
-                            <span class="tech-tag">PostGIS</span>
-                            <span class="tech-tag">Redis</span>
-                            <span class="tech-tag">GTFS-RT</span>
-                        </div>
-                        <div class="project-meta">
-                            <span class="project-badge"><i class="fas fa-lock"></i> Private · demo on request</span>
+                        <div class="case-links">
+                            <span class="case-badge"><i class="fas fa-lock"></i> Private · demo on request</span>
                         </div>
                     </div>
                 </article>
 
-                <!-- Plutarch (public) -->
-                <article class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-feather-pointed"></i>
+                <!-- Aristophanes -->
+                <article class="case">
+                    <div class="case-rule" aria-hidden="true"><span>02</span></div>
+                    <div class="case-body">
+                        <header class="case-head">
+                            <h3 class="case-title">Aristophanes</h3>
+                            <span class="case-flag"><i class="fas fa-lock"></i> Private</span>
+                        </header>
+                        <p class="case-role">Solo · Native iOS (Flutter) · architecture-first</p>
+                        <p class="case-line"><span class="case-k">Problem</span> Mobile apps rot when business logic is welded to the framework. I wanted a codebase whose core could outlive any SDK churn and stay genuinely testable.</p>
+                        <p class="case-line"><span class="case-k">Approach</span> A native iOS app built to a strict Ports-and-Adapters (hexagonal) architecture: the domain sits in the centre, frameworks and I/O are adapters at the edges, and every significant decision is written down as an Architecture Decision Record.</p>
+                        <ul class="case-decisions">
+                            <li>Domain logic depends on nothing — UI, storage and platform are plug-in adapters.</li>
+                            <li>ADRs capture the &ldquo;why&rdquo; behind each call, so the reasoning is reviewable, not folklore.</li>
+                            <li>A pure core that can be unit-tested without a simulator.</li>
+                        </ul>
+                        <p class="case-line"><span class="case-k">Outcome</span> A framework-independent, test-first core with a documented decision log. Private repo — code walkthrough on request.</p>
+                        <div class="case-tech">
+                            <span class="tech-tag">Flutter</span><span class="tech-tag">iOS</span><span class="tech-tag">Ports &amp; Adapters</span><span class="tech-tag">ADRs</span>
                         </div>
-                        <div class="project-overlay">
-                            <a href="https://github.com/NikolasNeofytou/Plutarch" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="Plutarch on GitHub">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Plutarch</h3>
-                        <p class="project-description">
-                            A modern Greek dictionary and language-exploration web app — fast lookup, structured
-                            entries, and cross-references. Built with Next.js and TypeScript on a PostgreSQL
-                            data layer.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                        </div>
-                        <div class="project-meta">
-                            <a class="project-badge project-badge--link" href="https://github.com/NikolasNeofytou/Plutarch" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> View source</a>
+                        <div class="case-links">
+                            <span class="case-badge"><i class="fas fa-lock"></i> Private · demo on request</span>
                         </div>
                     </div>
                 </article>
 
-                <!-- Aristophanes (private) -->
-                <article class="project-card">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <i class="fas fa-masks-theater"></i>
+                <!-- Plutarch -->
+                <article class="case">
+                    <div class="case-rule" aria-hidden="true"><span>03</span></div>
+                    <div class="case-body">
+                        <header class="case-head">
+                            <h3 class="case-title">Plutarch</h3>
+                            <span class="case-flag case-flag--open"><i class="fas fa-unlock"></i> Public</span>
+                        </header>
+                        <p class="case-role">Solo · Next.js + PostgreSQL · open source</p>
+                        <p class="case-line"><span class="case-k">Problem</span> Greek dictionaries online are slow and shallow — hard to scan, weak on cross-references, painful to explore a word's neighbourhood.</p>
+                        <p class="case-line"><span class="case-k">Approach</span> A modern Greek dictionary &amp; language-exploration web app — fast lookup, structured entries, and cross-references — built on Next.js + TypeScript over a PostgreSQL data layer.</p>
+                        <ul class="case-decisions">
+                            <li>Structured, normalised entries so meanings and relations are first-class, not free text.</li>
+                            <li>Server-rendered Next.js for fast, shareable, search-friendly pages.</li>
+                        </ul>
+                        <p class="case-line"><span class="case-k">Outcome</span> Public, open-source, and still growing. Source on GitHub.</p>
+                        <div class="case-tech">
+                            <span class="tech-tag">Next.js</span><span class="tech-tag">TypeScript</span><span class="tech-tag">PostgreSQL</span>
                         </div>
-                        <span class="project-status"><i class="fas fa-lock"></i> Private</span>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Aristophanes</h3>
-                        <p class="project-description">
-                            A native iOS app built in Flutter with a Ports-and-Adapters (hexagonal)
-                            architecture — domain logic kept independent of frameworks, with key decisions
-                            captured in Architecture Decision Records.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Flutter</span>
-                            <span class="tech-tag">iOS</span>
-                            <span class="tech-tag">Ports &amp; Adapters</span>
-                            <span class="tech-tag">ADRs</span>
-                        </div>
-                        <div class="project-meta">
-                            <span class="project-badge"><i class="fas fa-lock"></i> Private · demo on request</span>
+                        <div class="case-links">
+                            <a class="case-badge case-badge--link" href="https://github.com/NikolasNeofytou/Plutarch" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> View source</a>
                         </div>
                     </div>
                 </article>
-            </div>
-            
-            <div class="view-more-projects">
-                <a href="https://github.com/NikolasNeofytou?tab=repositories" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-github"></i> View All on GitHub
-                </a>
-            </div>
-        </div>
-    </section>
 
-    <!-- =============================================
-         WRITING SECTION
-         ============================================= -->
-    <section id="writing" class="writing section">
-        <div class="container">
-            <h2 class="section-title">Writing</h2>
-            <p class="section-subtitle">Latest articles from Substack</p>
-            
-            <div class="writing-grid" id="substackPosts">
-                <div class="writing-placeholder">
-                    <i class="fas fa-spinner fa-spin fa-2x"></i>
-                    <p>Loading latest posts...</p>
+                <a class="more-link" href="https://github.com/NikolasNeofytou?tab=repositories" target="_blank" rel="noopener noreferrer">All projects on GitHub <i class="fas fa-arrow-right"></i></a>
+            </section>
+
+            <!-- EXPERIENCE -->
+            <section id="experience" class="section" aria-labelledby="exp-h">
+                <h2 class="section-head" id="exp-h"><span class="section-num">02</span> Experience</h2>
+                <ol class="xp">
+                    <li class="xp-item">
+                        <div class="xp-date">2022 — Now</div>
+                        <div class="xp-body">
+                            <h3 class="xp-role">MEng Electrical &amp; Computer Engineering <span class="xp-org">· NTUA</span></h3>
+                            <p>Specialising in Electronics, Systems &amp; Embedded Computers (grad. June 2027). DSP, control-systems design, microcomputer systems, operating systems, VLSI.</p>
+                        </div>
+                    </li>
+                    <li class="xp-item">
+                        <div class="xp-date">Jul — Aug 2025</div>
+                        <div class="xp-body">
+                            <h3 class="xp-role">Electrical Engineering Intern <span class="xp-org">· SignalGeneriX</span></h3>
+                            <p>Designed test plans for AI edge boards (Ethernet, RS-485, CAN, USB, CSI, GPIO, PCIe) and automated verification in Linux/Bash/Python, with documentation templates for the lab team.</p>
+                        </div>
+                    </li>
+                    <li class="xp-item">
+                        <div class="xp-date">Jun — Nov 2024</div>
+                        <div class="xp-body">
+                            <h3 class="xp-role">Software Engineering Intern <span class="xp-org">· PHOEBE</span></h3>
+                            <p>Built a web app that pulls official fuel prices and ranks stations by price and distance — API integration, responsive UI, full dev documentation.</p>
+                        </div>
+                    </li>
+                    <li class="xp-item">
+                        <div class="xp-date">2021 — 2022</div>
+                        <div class="xp-body">
+                            <h3 class="xp-role">Leadership role <span class="xp-org">· Cyprus National Guard</span></h3>
+                            <p>Honorary promotion for ethics and leadership; trained and guided a team of 10 through daily operations and safety protocols.</p>
+                        </div>
+                    </li>
+                    <li class="xp-item">
+                        <div class="xp-date">2014 — 2020</div>
+                        <div class="xp-body">
+                            <h3 class="xp-role">High School Diploma <span class="xp-org">· Pascal English School</span></h3>
+                            <p>GPA 19.8/20 (2nd of 80). A-Levels: Physics (A), Mathematics (A), Greek (A*).</p>
+                        </div>
+                    </li>
+                </ol>
+                <a class="more-link" href="assets/cv.pdf" download="Nikolas_Neofytou_CV.pdf">Download full résumé <i class="fas fa-arrow-down"></i></a>
+            </section>
+
+            <!-- BEYOND ENGINEERING -->
+            <section id="beyond" class="section" aria-labelledby="beyond-h">
+                <h2 class="section-head" id="beyond-h"><span class="section-num">03</span> Beyond engineering</h2>
+
+                <h3 class="sub-head">Writing <span class="sub-note">— philosophy &amp; history, on Substack</span></h3>
+                <div class="writing-list" id="substackPosts">
+                    <div class="writing-placeholder"><i class="fas fa-spinner fa-spin"></i> Loading latest posts…</div>
                 </div>
-            </div>
-            
-            <div class="view-more-writing">
-                <a href="https://substack.com/@nikolasneofytou" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-                    <i class="fas fa-newspaper"></i> Read All on Substack
-                </a>
-            </div>
-        </div>
-    </section>
+                <a class="more-link" href="https://substack.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer">Read on Substack <i class="fas fa-arrow-right"></i></a>
 
-    <!-- =============================================
-         PHOTOGRAPHY SECTION
-         ============================================= -->
-    <section id="photography" class="photography section">
-        <div class="container">
-            <h2 class="section-title">Photography</h2>
-            <p class="section-subtitle">Shot on a Sony A7 III — click a frame for the capture data</p>
+                <h3 class="sub-head sub-head--gap">Bookshelf <span class="sub-note">— what's shaping how I think · drag to browse</span></h3>
+                <!-- Swappable: to change a book, replace its JPG in assets/books/ (keep the filename) or edit the src + title/author. Covers auto-sourced; some are non-Penguin editions until you drop in the Penguin scans. -->
+                <div class="shelf" role="list" aria-label="Books on my shelf">
+                    <figure class="book" role="listitem">
+                        <div class="book-cover"><img src="assets/books/nietzsche-bge.jpg" alt="Beyond Good and Evil by Friedrich Nietzsche" loading="lazy" width="150" height="225"></div>
+                        <figcaption class="book-meta"><span class="book-title">Beyond Good and Evil</span><span class="book-author">Friedrich Nietzsche</span></figcaption>
+                    </figure>
+                    <figure class="book" role="listitem">
+                        <div class="book-cover"><img src="assets/books/schopenhauer-ea.jpg" alt="Essays and Aphorisms by Arthur Schopenhauer" loading="lazy" width="150" height="225"></div>
+                        <figcaption class="book-meta"><span class="book-title">Essays and Aphorisms</span><span class="book-author">Arthur Schopenhauer</span></figcaption>
+                    </figure>
+                    <figure class="book" role="listitem">
+                        <div class="book-cover"><img src="assets/books/plato-republic.jpg" alt="Republic by Plato" loading="lazy" width="150" height="225"></div>
+                        <figcaption class="book-meta"><span class="book-title">Republic</span><span class="book-author">Plato</span></figcaption>
+                    </figure>
+                    <figure class="book" role="listitem">
+                        <div class="book-cover"><img src="assets/books/aristotle-ethics.jpg" alt="The Nicomachean Ethics by Aristotle" loading="lazy" width="150" height="225"></div>
+                        <figcaption class="book-meta"><span class="book-title">The Nicomachean Ethics</span><span class="book-author">Aristotle</span></figcaption>
+                    </figure>
+                    <figure class="book" role="listitem">
+                        <div class="book-cover"><img src="assets/books/sophocles-theban.jpg" alt="The Three Theban Plays by Sophocles" loading="lazy" width="150" height="225"></div>
+                        <figcaption class="book-meta"><span class="book-title">The Three Theban Plays</span><span class="book-author">Sophocles</span></figcaption>
+                    </figure>
+                    <figure class="book" role="listitem">
+                        <div class="book-cover"><img src="assets/books/gibbon-decline.jpg" alt="The Decline and Fall of the Roman Empire by Edward Gibbon" loading="lazy" width="150" height="225"></div>
+                        <figcaption class="book-meta"><span class="book-title">The Decline and Fall of the Roman Empire</span><span class="book-author">Edward Gibbon</span></figcaption>
+                    </figure>
+                </div>
 
-            <!-- To rename a shot, edit its data-title. Add more by uploading to Unsplash (then we switch to the live feed) or dropping files in assets/photography/ and resizing. -->
-            <div class="photo-grid">
-                <button class="photo-item" type="button"
-                    data-full="assets/photography/web/DSC01033-lg.jpg"
-                    data-title="Capture 01"
-                    data-camera="Sony A7 III"
-                    data-lens="FE 28–70mm F3.5–5.6 OSS"
-                    data-focal="41 mm"
-                    data-aperture="ƒ/4.5"
-                    data-shutter="1/40 s"
-                    data-iso="12800"
-                    data-date="13 Sep 2025">
-                    <img src="assets/photography/web/DSC01033-thumb.jpg" alt="Photograph by Nikolas Neofytou" loading="lazy" width="1000" height="563">
-                    <span class="photo-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
-                </button>
+                <h3 class="sub-head sub-head--gap">Photography <span class="sub-note">— Sony A7 III, click a frame for the capture data</span></h3>
+                <!-- Rename a shot via its data-title. More photos: upload to Unsplash (then we switch to a live feed) or drop files in assets/photography/ and resize. -->
+                <div class="photo-grid">
+                    <button class="photo-item" type="button"
+                        data-full="assets/photography/web/DSC01033-lg.jpg" data-title="Capture 01"
+                        data-camera="Sony A7 III" data-lens="FE 28–70mm F3.5–5.6 OSS" data-focal="41 mm" data-aperture="ƒ/4.5" data-shutter="1/40 s" data-iso="12800" data-date="13 Sep 2025">
+                        <img src="assets/photography/web/DSC01033-thumb.jpg" alt="Photograph by Nikolas Neofytou" loading="lazy" width="1000" height="563">
+                        <span class="photo-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                    </button>
+                    <button class="photo-item" type="button"
+                        data-full="assets/photography/web/DSC01034-lg.jpg" data-title="Capture 02"
+                        data-camera="Sony A7 III" data-lens="FE 28–70mm F3.5–5.6 OSS" data-focal="40 mm" data-aperture="ƒ/4.0" data-shutter="1/40 s" data-iso="12800" data-date="13 Sep 2025">
+                        <img src="assets/photography/web/DSC01034-thumb.jpg" alt="Photograph by Nikolas Neofytou" loading="lazy" width="1000" height="563">
+                        <span class="photo-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                    </button>
+                    <button class="photo-item" type="button"
+                        data-full="assets/photography/web/DSC01035-lg.jpg" data-title="Capture 03"
+                        data-camera="Sony A7 III" data-lens="FE 28–70mm F3.5–5.6 OSS" data-focal="70 mm" data-aperture="ƒ/5.6" data-shutter="1/20 s" data-iso="12800" data-date="13 Sep 2025">
+                        <img src="assets/photography/web/DSC01035-thumb.jpg" alt="Photograph by Nikolas Neofytou" loading="lazy" width="1000" height="563">
+                        <span class="photo-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                    </button>
+                </div>
+                <a class="more-link" href="https://unsplash.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer">View on Unsplash <i class="fas fa-arrow-right"></i></a>
 
-                <button class="photo-item" type="button"
-                    data-full="assets/photography/web/DSC01034-lg.jpg"
-                    data-title="Capture 02"
-                    data-camera="Sony A7 III"
-                    data-lens="FE 28–70mm F3.5–5.6 OSS"
-                    data-focal="40 mm"
-                    data-aperture="ƒ/4.0"
-                    data-shutter="1/40 s"
-                    data-iso="12800"
-                    data-date="13 Sep 2025">
-                    <img src="assets/photography/web/DSC01034-thumb.jpg" alt="Photograph by Nikolas Neofytou" loading="lazy" width="1000" height="563">
-                    <span class="photo-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
-                </button>
+                <h3 class="sub-head sub-head--gap">Off the bench <span class="sub-note">— mind &amp; body in the same room</span></h3>
+                <div class="prose">
+                    <p>
+                        When I'm not at the bench I'm usually on a court or a pitch. Football's back in my week —
+                        I've signed for Aiantas Alethrikou here in Cyprus — and tennis is the quieter reset on the
+                        side: a slow lesson in stillness and patience that took a while to click. Sport keeps mind
+                        and body in the same room; it's where the head goes quiet enough for the careful work.
+                    </p>
+                </div>
+            </section>
 
-                <button class="photo-item" type="button"
-                    data-full="assets/photography/web/DSC01035-lg.jpg"
-                    data-title="Capture 03"
-                    data-camera="Sony A7 III"
-                    data-lens="FE 28–70mm F3.5–5.6 OSS"
-                    data-focal="70 mm"
-                    data-aperture="ƒ/5.6"
-                    data-shutter="1/20 s"
-                    data-iso="12800"
-                    data-date="13 Sep 2025">
-                    <img src="assets/photography/web/DSC01035-thumb.jpg" alt="Photograph by Nikolas Neofytou" loading="lazy" width="1000" height="563">
-                    <span class="photo-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
-                </button>
-            </div>
+            <!-- CONTACT -->
+            <section id="contact" class="section" aria-labelledby="contact-h">
+                <h2 class="section-head" id="contact-h"><span class="section-num">04</span> Contact</h2>
+                <div class="prose">
+                    <p>
+                        I'm open to freelance work and collaborations — embedded, full-stack, or the messy bit
+                        in between. The fastest way to reach me is email; I read everything.
+                    </p>
+                </div>
+                <a class="contact-cta" href="mailto:nikiforialicht@gmail.com"><i class="fas fa-envelope"></i> Say hello</a>
+                <ul class="contact-list">
+                    <li><span class="contact-k">Email</span> <a href="mailto:nikiforialicht@gmail.com">nikiforialicht@gmail.com</a></li>
+                    <li><span class="contact-k">Phone</span> <a href="tel:+35796666897">+357 96 666 897</a></li>
+                    <li><span class="contact-k">Based in</span> <span>Cyprus</span></li>
+                </ul>
+            </section>
 
-            <div class="view-more-photography">
-                <a href="https://unsplash.com/@nikolasneofytou" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-                    <i class="fas fa-camera"></i> View on Unsplash
-                </a>
-            </div>
-        </div>
-    </section>
+            <footer class="site-footer">
+                <p>Hand-coded in HTML, CSS &amp; JavaScript, deployed on GitHub Pages. Built for speed and accessibility.</p>
+                <p>&copy; 2026 Nikolas Neofytou</p>
+            </footer>
+        </main>
+    </div>
 
     <!-- Photography lightbox -->
     <div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
-        <button class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close viewer">
-            <i class="fas fa-times"></i>
-        </button>
-        <button class="photo-nav photo-prev" id="photoPrev" aria-label="Previous photo">
-            <i class="fas fa-chevron-left"></i>
-        </button>
+        <button class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close viewer"><i class="fas fa-times"></i></button>
+        <button class="photo-nav photo-prev" id="photoPrev" aria-label="Previous photo"><i class="fas fa-chevron-left"></i></button>
         <div class="photo-lightbox-inner">
-            <div class="photo-lightbox-image">
-                <img id="photoLightboxImg" src="" alt="">
-            </div>
+            <div class="photo-lightbox-image"><img id="photoLightboxImg" src="" alt=""></div>
             <aside class="photo-lightbox-meta">
                 <div class="photo-exif-header">// capture.exif</div>
                 <div class="photo-exif-row"><span class="exif-key">camera</span><span class="exif-val" id="exifCamera"></span></div>
@@ -508,223 +382,10 @@
                 <a class="photo-exif-link" href="https://unsplash.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer">View on Unsplash <i class="fas fa-arrow-right"></i></a>
             </aside>
         </div>
-        <button class="photo-nav photo-next" id="photoNext" aria-label="Next photo">
-            <i class="fas fa-chevron-right"></i>
-        </button>
+        <button class="photo-nav photo-next" id="photoNext" aria-label="Next photo"><i class="fas fa-chevron-right"></i></button>
     </div>
 
-    <!-- =============================================
-         SKILLS SECTION
-         ============================================= -->
-    <section id="skills" class="skills section">
-        <div class="container">
-            <h2 class="section-title">Skills & Technologies</h2>
-            <p class="section-subtitle">Engineering competencies and tools</p>
-            
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3 class="category-title">
-                        <i class="fas fa-microchip"></i> Embedded & Hardware
-                    </h3>
-                    <div class="skill-items">
-                        <div class="skill-item"><i class="fas fa-microchip"></i><span>STM32</span></div>
-                        <div class="skill-item"><i class="fas fa-microchip"></i><span>AVR</span></div>
-                        <div class="skill-item"><i class="fas fa-microchip"></i><span>Arduino</span></div>
-                        <div class="skill-item"><i class="fas fa-microchip"></i><span>Jetson Orin Nano</span></div>
-                        <div class="skill-item"><i class="fas fa-wave-square"></i><span>Oscilloscope</span></div>
-                        <div class="skill-item"><i class="fas fa-bolt"></i><span>Function Generator</span></div>
-                        <div class="skill-item"><i class="fas fa-bolt"></i><span>Multimeter</span></div>
-                        <div class="skill-item"><i class="fas fa-chart-line"></i><span>Logic Analyzer</span></div>
-                        <div class="skill-item"><i class="fas fa-pencil-ruler"></i><span>PCB Design (Altium)</span></div>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3 class="category-title">
-                        <i class="fas fa-robot"></i> Control & Robotics
-                    </h3>
-                    <div class="skill-items">
-                        <div class="skill-item"><i class="fas fa-sliders-h"></i><span>PID Control</span></div>
-                        <div class="skill-item"><i class="fas fa-project-diagram"></i><span>Root Locus</span></div>
-                        <div class="skill-item"><i class="fas fa-chart-area"></i><span>Bode/Nyquist</span></div>
-                        <div class="skill-item"><i class="fas fa-vector-square"></i><span>State-Space Control</span></div>
-                        <div class="skill-item"><i class="fas fa-eye"></i><span>Observers</span></div>
-                        <div class="skill-item"><i class="fas fa-bullseye"></i><span>LQR</span></div>
-                        <div class="skill-item"><i class="fas fa-robot"></i><span>Kinematics</span></div>
-                        <div class="skill-item"><i class="fas fa-cogs"></i><span>Dynamics</span></div>
-                        <div class="skill-item"><i class="fas fa-border-all"></i><span>Denavit-Hartenberg</span></div>
-                        <div class="skill-item"><i class="fas fa-grip-lines"></i><span>Jacobians</span></div>
-                        <div class="skill-item"><i class="fas fa-robot"></i><span>Cobot Programming</span></div>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3 class="category-title">
-                        <i class="fas fa-laptop-code"></i> Languages & Tooling
-                    </h3>
-                    <div class="skill-items">
-                        <div class="skill-item"><i class="fas fa-code"></i><span>C</span></div>
-                        <div class="skill-item"><i class="fas fa-code"></i><span>C++</span></div>
-                        <div class="skill-item"><i class="fab fa-python"></i><span>Python</span></div>
-                        <div class="skill-item"><i class="fas fa-code"></i><span>TypeScript</span></div>
-                        <div class="skill-item"><i class="fab fa-js"></i><span>JavaScript</span></div>
-                        <div class="skill-item"><i class="fas fa-calculator"></i><span>MATLAB/Simulink</span></div>
-                        <div class="skill-item"><i class="fab fa-git-alt"></i><span>Git</span></div>
-                        <div class="skill-item"><i class="fab fa-linux"></i><span>Linux</span></div>
-                        <div class="skill-item"><i class="fas fa-terminal"></i><span>Bash</span></div>
-                        <div class="skill-item"><i class="fab fa-docker"></i><span>Docker</span></div>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3 class="category-title">
-                        <i class="fas fa-layer-group"></i> Full-Stack & Web
-                    </h3>
-                    <div class="skill-items">
-                        <div class="skill-item"><i class="fas fa-mobile-screen"></i><span>Flutter / Dart</span></div>
-                        <div class="skill-item"><i class="fas fa-diagram-project"></i><span>Riverpod</span></div>
-                        <div class="skill-item"><i class="fab fa-react"></i><span>React</span></div>
-                        <div class="skill-item"><i class="fas fa-layer-group"></i><span>Next.js</span></div>
-                        <div class="skill-item"><i class="fas fa-server"></i><span>Django REST</span></div>
-                        <div class="skill-item"><i class="fas fa-flask"></i><span>Flask</span></div>
-                        <div class="skill-item"><i class="fas fa-database"></i><span>PostgreSQL</span></div>
-                        <div class="skill-item"><i class="fas fa-location-dot"></i><span>PostGIS</span></div>
-                        <div class="skill-item"><i class="fas fa-bolt"></i><span>Redis</span></div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- =============================================
-         LAB SECTION
-         ============================================= -->
-    <section id="lab" class="lab-section section">
-        <div class="container">
-            <h2 class="section-title">Personal Lab</h2>
-            <p class="section-subtitle">Hardware and tools for personal projects</p>
-            
-            <div class="lab-grid">
-                <div class="lab-card">
-                    <h3><i class="fas fa-microchip"></i> Development Boards</h3>
-                    <ul class="lab-equipment-list">
-                        <li>STM32 Nucleo Board</li>
-                        <li>Arduino Uno/Mega</li>
-                        <li>ESP32 Dev Board</li>
-                        <li>Raspberry Pi 4</li>
-                        <li>NVIDIA Jetson Orin Nano</li>
-                    </ul>
-                </div>
-
-                <div class="lab-card">
-                    <h3><i class="fas fa-tools"></i> Test & Measurement</h3>
-                    <ul class="lab-equipment-list">
-                        <li>Digital Oscilloscope</li>
-                        <li>Function Generator</li>
-                        <li>Logic Analyzer</li>
-                        <li>Multimeter (Fluke)</li>
-                        <li>Power Supply (Variable)</li>
-                        <li>Soldering Station</li>
-                    </ul>
-                </div>
-
-                <div class="lab-card">
-                    <h3><i class="fas fa-network-wired"></i> Interface Modules</h3>
-                    <ul class="lab-equipment-list">
-                        <li>USB-to-Serial Adapters</li>
-                        <li>CAN Bus Module</li>
-                        <li>RS-485 Converter</li>
-                        <li>Ethernet Module</li>
-                        <li>I2C/SPI Breakout Boards</li>
-                    </ul>
-                </div>
-
-                <div class="lab-card">
-                    <h3><i class="fas fa-cogs"></i> Sensors & Actuators</h3>
-                    <ul class="lab-equipment-list">
-                        <li>IMU (Gyro/Accelerometer)</li>
-                        <li>Temperature Sensors</li>
-                        <li>Servo Motors</li>
-                        <li>Stepper Motors & Drivers</li>
-                        <li>Ultrasonic/IR Sensors</li>
-                        <li>Camera Module (CSI)</li>
-                    </ul>
-                </div>
-
-                <div class="lab-card">
-                    <h3><i class="fas fa-cubes"></i> Components & Parts</h3>
-                    <ul class="lab-equipment-list">
-                        <li>Resistor/Capacitor Kit</li>
-                        <li>MOSFETs & Transistors</li>
-                        <li>Voltage Regulators</li>
-                        <li>Op-Amps & Comparators</li>
-                        <li>Breadboards & Jumper Wires</li>
-                        <li>LED Strips & Displays</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- =============================================
-         CONTACT SECTION
-         ============================================= -->
-    <section id="contact" class="contact section">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <p class="section-subtitle">Open for collaborations or just a friendly hello</p>
-            
-            <div class="contact-info-centered">
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <div>
-                        <h3>Email</h3>
-                        <a href="mailto:nikiforialicht@gmail.com">nikiforialicht@gmail.com</a>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <h3>Location</h3>
-                        <p>Cyprus</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <div>
-                        <h3>Phone</h3>
-                        <a href="tel:+35796666897">+357 96 666 897</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2026 Nikolas Neofytou. All rights reserved.</p>
-                <div class="footer-social">
-                    <a href="https://github.com/NikolasNeofytou" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://substack.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer" aria-label="Substack">
-                        <i class="fas fa-newspaper"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/nikolas-n-17078a201" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Back to Top -->
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
     <script src="js/script.js"></script>
 </body>

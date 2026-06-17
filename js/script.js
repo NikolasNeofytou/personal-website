@@ -1,173 +1,73 @@
 /**
- * Nikolas Neofytou — Portfolio
- * Minimal, clean JavaScript
+ * Nikolas Neofytou — refined-technical portfolio
  */
 
 // ==========================================
-// Mobile Navigation
+// Sidebar scroll-spy — highlight active section
 // ==========================================
-const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-const navMenu = document.getElementById('navMenu');
+(function () {
+    const navLinks = [...document.querySelectorAll('.side-nav .nav-link')];
+    if (!navLinks.length || !('IntersectionObserver' in window)) return;
 
-if (mobileMenuToggle && navMenu) {
-    mobileMenuToggle.addEventListener('click', () => {
-        const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
-        navMenu.classList.toggle('active');
-        mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
+    const byId = {};
+    const sections = [];
+    navLinks.forEach(link => {
+        const id = link.getAttribute('href').slice(1);
+        const section = document.getElementById(id);
+        if (section) { byId[id] = link; sections.push(section); }
     });
 
-    // Close on link click
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            mobileMenuToggle.setAttribute('aria-expanded', 'false');
-        });
-    });
+    const setActive = (id) => navLinks.forEach(l => l.classList.toggle('active', byId[id] === l));
+    if (sections[0]) setActive(sections[0].id);
 
-    // Close on outside click
-    document.addEventListener('click', (e) => {
-        if (!navMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-            navMenu.classList.remove('active');
-            mobileMenuToggle.setAttribute('aria-expanded', 'false');
-        }
-    });
-}
+    const spy = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+    sections.forEach(s => spy.observe(s));
+})();
 
 // ==========================================
-// Smooth Scrolling
+// Back to top
 // ==========================================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const offset = target.offsetTop - 70;
-            window.scrollTo({ top: offset, behavior: 'smooth' });
-        }
-    });
-});
-
-// ==========================================
-// Back to Top Button
-// ==========================================
-const backToTop = document.getElementById('backToTop');
-
-if (backToTop) {
+(function () {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
     window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 400) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
-        }
-    });
-
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-}
+        btn.classList.toggle('visible', window.pageYOffset > 500);
+    }, { passive: true });
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+})();
 
 // ==========================================
-// Intersection Observer — fade-in on scroll
-// (with accessibility + no-scroll failsafes so content is never trapped invisible)
+// Substack RSS feed (Writing)
 // ==========================================
-const revealTargets = document.querySelectorAll('.section, .project-card, .skill-category, .lab-card, .timeline-item, .contact-item');
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+(function () {
+    const container = document.getElementById('substackPosts');
+    if (!container) return;
 
-const revealAll = () => revealTargets.forEach(el => el.classList.add('visible'));
-
-if (prefersReducedMotion || !('IntersectionObserver' in window)) {
-    // No animation: show everything immediately, never hide it.
-    revealAll();
-} else {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-    revealTargets.forEach(el => {
-        el.classList.add('fade-in');
-        observer.observe(el);
-    });
-
-    // Failsafe: if the observer hasn't revealed everything within 2s
-    // (slow JS, no scroll event, full-page/headless capture), force it.
-    window.setTimeout(revealAll, 2000);
-}
-
-// ==========================================
-// Substack RSS Feed
-// ==========================================
-const substackContainer = document.getElementById('substackPosts');
-
-if (substackContainer) {
     const RSS_URL = 'https://nikolasneofytou.substack.com/feed';
     const PROXY_URL = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(RSS_URL);
 
     fetch(PROXY_URL)
         .then(res => res.json())
         .then(data => {
-            if (data.status !== 'ok' || !data.items || data.items.length === 0) {
-                throw new Error('No posts found');
-            }
-
-            const posts = data.items.slice(0, 6);
-            substackContainer.innerHTML = posts.map(post => {
-                const date = new Date(post.pubDate).toLocaleDateString('en-US', {
-                    year: 'numeric', month: 'short', day: 'numeric'
-                });
-                // Strip HTML tags for a clean description
-                const desc = post.description
-                    .replace(/<[^>]*>/g, '')
-                    .substring(0, 150)
-                    .trim() + '...';
-
+            if (data.status !== 'ok' || !data.items || !data.items.length) throw new Error('no posts');
+            container.innerHTML = data.items.slice(0, 5).map(post => {
+                const date = new Date(post.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                const desc = post.description.replace(/<[^>]*>/g, '').trim().substring(0, 140).trim() + '…';
                 return `
                     <a href="${post.link}" class="writing-card" target="_blank" rel="noopener noreferrer">
                         <div class="writing-date">${date}</div>
                         <h3 class="writing-title">${post.title}</h3>
                         <p class="writing-excerpt">${desc}</p>
-                        <span class="writing-read-more">Read on Substack <i class="fas fa-arrow-right"></i></span>
-                    </a>
-                `;
+                    </a>`;
             }).join('');
         })
         .catch(() => {
-            substackContainer.innerHTML = `
-                <div class="writing-placeholder">
-                    <i class="fas fa-newspaper fa-2x"></i>
-                    <p>Visit my Substack to read my latest articles on philosophy, history, and more.</p>
-                </div>
-            `;
+            container.innerHTML = `<div class="writing-placeholder">Visit my Substack for essays on philosophy, history, and more.</div>`;
         });
-}
-
-// ==========================================
-// Active nav link on scroll
-// ==========================================
-const sections = document.querySelectorAll('section[id]');
-
-window.addEventListener('scroll', () => {
-    const scrollY = window.pageYOffset + 100;
-    
-    sections.forEach(section => {
-        const top = section.offsetTop;
-        const height = section.offsetHeight;
-        const id = section.getAttribute('id');
-        const link = document.querySelector(`.nav-link[href="#${id}"]`);
-        
-        if (link) {
-            if (scrollY >= top && scrollY < top + height) {
-                link.style.color = 'var(--accent)';
-            } else {
-                link.style.color = '';
-            }
-        }
-    });
-});
+})();
 
 // ==========================================
 // Photography lightbox (grid → click → EXIF readout)
@@ -198,9 +98,7 @@ window.addEventListener('scroll', () => {
         const d = items[current].dataset;
         imgEl.src = d.full;
         imgEl.alt = d.title || 'Photograph by Nikolas Neofytou';
-        Object.keys(fields).forEach(k => {
-            if (fields[k]) fields[k].textContent = d[k] || '—';
-        });
+        Object.keys(fields).forEach(k => { if (fields[k]) fields[k].textContent = d[k] || '—'; });
     }
     function open(i) {
         lastFocused = document.activeElement;
