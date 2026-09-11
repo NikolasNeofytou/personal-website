@@ -48,7 +48,7 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=20260911">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -142,8 +142,12 @@
             <section id="work" class="section" aria-labelledby="work-h">
                 <h2 class="section-head" id="work-h"><span class="section-num">01</span> Selected work</h2>
 
+                <!-- Horizontal snap gallery (Apple-style scroll-container + paddlenav) -->
+                <div class="case-gallery" id="caseGallery">
+                    <div class="case-track" id="caseTrack" role="group" aria-roledescription="carousel" aria-label="Selected work — scroll horizontally" tabindex="0">
+
                 <!-- Cinna -->
-                <article class="case">
+                <article class="case" role="group" aria-roledescription="slide" aria-label="Project 1 of 3">
                     <div class="case-rule" aria-hidden="true"><span>01</span></div>
                     <div class="case-body">
                         <header class="case-head">
@@ -170,7 +174,7 @@
                 </article>
 
                 <!-- Aristophanes -->
-                <article class="case">
+                <article class="case" role="group" aria-roledescription="slide" aria-label="Project 2 of 3">
                     <div class="case-rule" aria-hidden="true"><span>02</span></div>
                     <div class="case-body">
                         <header class="case-head">
@@ -196,7 +200,7 @@
                 </article>
 
                 <!-- Plutarch -->
-                <article class="case">
+                <article class="case" role="group" aria-roledescription="slide" aria-label="Project 3 of 3">
                     <div class="case-rule" aria-hidden="true"><span>03</span></div>
                     <div class="case-body">
                         <header class="case-head">
@@ -219,6 +223,20 @@
                         </div>
                     </div>
                 </article>
+
+                    </div><!-- /.case-track -->
+
+                    <div class="case-nav">
+                        <div class="case-progress">
+                            <span class="case-counter" id="caseCounter"><span id="caseIndex">01</span> <span class="case-counter-sep">/</span> <span id="caseTotal">03</span></span>
+                            <span class="case-progress-rule" aria-hidden="true"><span class="case-progress-fill" id="caseProgressFill"></span></span>
+                        </div>
+                        <div class="paddlenav">
+                            <button class="paddle paddle-prev" id="casePrev" type="button" aria-label="Previous project" aria-disabled="true"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+                            <button class="paddle paddle-next" id="caseNext" type="button" aria-label="Next project"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div><!-- /.case-gallery -->
 
                 <a class="more-link" href="https://github.com/NikolasNeofytou?tab=repositories" target="_blank" rel="noopener noreferrer">All projects on GitHub <i class="fas fa-arrow-right"></i></a>
             </section>
@@ -387,6 +405,6 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
-    <script src="js/script.js"></script>
+    <script src="js/script.js?v=20260911"></script>
 </body>
 </html>

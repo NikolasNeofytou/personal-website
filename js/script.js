@@ -125,3 +125,97 @@
         else if (e.key === 'ArrowRight') render(current + 1);
     });
 })();
+
+// ==========================================
+// Selected work — horizontal snap gallery
+// (Apple-style scroll-container + paddlenav)
+// ==========================================
+(function () {
+    const track = document.getElementById('caseTrack');
+    if (!track) return;
+    const cards = [...track.querySelectorAll('.case')];
+    if (cards.length < 2) return;
+
+    const prevBtn = document.getElementById('casePrev');
+    const nextBtn = document.getElementById('caseNext');
+    const indexEl = document.getElementById('caseIndex');
+    const totalEl = document.getElementById('caseTotal');
+    const fill = document.getElementById('caseProgressFill');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const pad2 = n => String(n).padStart(2, '0');
+    if (totalEl) totalEl.textContent = pad2(cards.length);
+    if (fill) fill.style.width = (100 / cards.length) + '%';
+
+    // Left edge of the snapport (scroll-padding-left), so card positions line up with it.
+    const snapPadLeft = () => parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
+    // Where a card sits when snapped to the start edge.
+    const targetFor = i => cards[i].offsetLeft - snapPadLeft();
+
+    let current = 0;
+
+    function nearestIndex() {
+        const x = track.scrollLeft;
+        let best = 0, bestD = Infinity;
+        cards.forEach((_, i) => {
+            const d = Math.abs(targetFor(i) - x);
+            if (d < bestD) { bestD = d; best = i; }
+        });
+        // At the far right the last card may not reach the start edge — treat max scroll as "last".
+        if (track.scrollLeft >= track.scrollWidth - track.clientWidth - 2) best = cards.length - 1;
+        return best;
+    }
+
+    function setDisabled(btn, v) {
+        if (!btn) return;
+        btn.setAttribute('aria-disabled', v ? 'true' : 'false');
+        btn.tabIndex = v ? -1 : 0;
+    }
+
+    function render(i) {
+        current = i;
+        cards.forEach((c, k) => c.classList.toggle('is-active', k === i));
+        if (indexEl) indexEl.textContent = pad2(i + 1);
+        if (fill) fill.style.transform = `translateX(${i * 100}%)`;
+        setDisabled(prevBtn, i === 0);
+        setDisabled(nextBtn, i === cards.length - 1);
+    }
+
+    function goTo(i) {
+        i = Math.max(0, Math.min(cards.length - 1, i));
+        track.scrollTo({ left: targetFor(i), behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+        render(i);
+    }
+
+    // Track native scrolling (trackpad / touch / scrollbar) with rAF throttling.
+    let ticking = false;
+    track.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+            ticking = false;
+            const i = nearestIndex();
+            if (i !== current) render(i);
+        });
+    }, { passive: true });
+
+    if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    // Keyboard: arrows / Home / End while the track has focus.
+    track.addEventListener('keydown', (e) => {
+        const map = { ArrowRight: current + 1, ArrowLeft: current - 1, Home: 0, End: cards.length - 1 };
+        if (!(e.key in map)) return;
+        e.preventDefault();
+        goTo(map[e.key]);
+    });
+
+    // Keep the snapped card aligned when the column width changes.
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => track.scrollTo({ left: targetFor(current), behavior: 'auto' }), 120);
+    });
+
+    render(0);
+})();

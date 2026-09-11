@@ -283,21 +283,137 @@ img { max-width: 100%; display: block; }
 /* ==========================================================================
    Case studies
    ========================================================================== */
-.case {
-    display: grid;
-    grid-template-columns: 2.5rem 1fr;
-    gap: 1.25rem;
-    padding: 2.75rem 0;
-    border-top: 1px solid var(--line);
+/* Horizontal snap gallery — modelled on Apple's scroll-container pattern:
+   a native overflow-x scroller with mandatory x-snapping that bleeds past the
+   content column, fixed-width tiles that snap to the column's left edge,
+   a hidden scrollbar, and paddle buttons that disable at either end. */
+.case-gallery {
+    /* distance from the main column's right edge to the viewport edge */
+    --gutter: clamp(1.5rem, 5vw, 4rem);
+    --bleed-right: calc(max((100vw - var(--maxw)) / 2, 0px) + var(--gutter));
+    --bleed-left: 0px;
+    --case-gap: 1.25rem;
+    --case-w: 100%;
+    position: relative;
 }
-.case:first-of-type { border-top: none; padding-top: 0.5rem; }
+.case-track {
+    display: flex;
+    gap: var(--case-gap);
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--bleed-left) var(--bleed-right);
+    margin-inline: calc(-1 * var(--bleed-left)) calc(-1 * var(--bleed-right));
+    padding-inline: var(--bleed-left) var(--bleed-right);
+    padding-block: 2px 1.25rem;
+    scrollbar-width: none;
+    outline: none;
+}
+.case-track::-webkit-scrollbar { display: none; }
+.case-track:focus-visible { box-shadow: inset 0 0 0 1px var(--accent-line); }
 
+.case {
+    position: relative;
+    flex: 0 0 var(--case-w);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem 1.75rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    transition: border-color 0.25s, opacity 0.35s;
+}
+.case:hover { border-color: var(--line-strong); }
+/* corner tick, echoing the blueprint theme */
+.case::after {
+    content: '';
+    position: absolute;
+    top: -1px; right: -1px;
+    width: 14px; height: 14px;
+    border-top: 1px solid var(--accent);
+    border-right: 1px solid var(--accent);
+    opacity: 0;
+    transition: opacity 0.25s;
+}
+.case.is-active::after { opacity: 1; }
+
+.case-rule { margin-bottom: 1.1rem; }
 .case-rule span {
     font-family: var(--mono);
     font-size: 0.85rem;
     color: var(--accent);
     font-weight: 500;
 }
+.case-rule span::after {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: 2.25rem; height: 1px;
+    margin-left: 0.75rem;
+    background: var(--accent-line);
+}
+.case-body { display: flex; flex-direction: column; flex: 1; }
+.case-body .case-tech { margin-top: auto; padding-top: 0.75rem; }
+
+/* paddle nav + progress */
+.case-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+.case-progress {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    min-width: 0;
+}
+.case-counter {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+.case-counter-sep { color: var(--text-faint); margin: 0 0.1rem; }
+.case-progress-rule {
+    position: relative;
+    flex: 1;
+    max-width: 200px;
+    height: 1px;
+    background: var(--line-strong);
+}
+.case-progress-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 33.333%;
+    background: var(--accent);
+    transform-origin: left;
+    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.paddlenav { display: flex; gap: 0.5rem; }
+.paddle {
+    width: 38px; height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s, opacity 0.2s;
+}
+.paddle:hover { color: var(--accent); border-color: var(--accent); }
+.paddle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.paddle[aria-disabled="true"] { opacity: 0.35; cursor: default; pointer-events: none; }
 .case-head {
     display: flex;
     align-items: center;
@@ -686,8 +802,9 @@ img { max-width: 100%; display: block; }
     .side-tagline { max-width: none; }
     .side-blurb { max-width: none; }
     .main { padding-top: 1rem; }
-    .case { grid-template-columns: 1fr; gap: 0; }
-    .case-rule { display: none; }
+    .case-gallery { --bleed-left: var(--gutter); --case-w: 86%; --case-gap: 1rem; }
+    .case { padding: 1.4rem 1.25rem 1.25rem; }
+    .case-progress-rule { max-width: 120px; }
     .xp-item { grid-template-columns: 1fr; gap: 0.4rem; }
     .photo-lightbox-inner { flex-direction: column; max-height: 90vh; overflow-y: auto; }
     .photo-lightbox-image img { max-height: 56vh; }
