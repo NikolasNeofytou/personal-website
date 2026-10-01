@@ -1095,52 +1095,74 @@ img { max-width: 100%; display: block; }
 .demo-eta.is-wrong .demo-eta-why { color: #9A4526; }
 .demo-eta-count { margin-top: 0.4rem; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; color: var(--text-faint); }
 
-/* Aristophanes: who can do what */
-.demo-roles { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
-.demo-role {
-    padding: 0.4rem 0.75rem;
-    font: 400 0.85rem/1.2 var(--sans);
-    color: var(--text-dim);
-    background: var(--bg);
-    border: 1px solid var(--line-strong);
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
-}
-.demo-role:hover { border-color: var(--accent); }
-.demo-role.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
-.demo-role:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.demo-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
-.demo-matrix { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
-.demo-matrix th, .demo-matrix td { padding: 0.5rem 0.4rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-.demo-matrix thead th {
-    font-family: var(--mono); font-size: 0.6rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--text-faint);
-}
-.demo-matrix tbody th { font-weight: 400; color: var(--text); }
-.demo-gate { white-space: nowrap; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.04em; }
-.demo-matrix tr.is-ok .demo-gate span { color: var(--accent); }
-.demo-matrix tr.is-off th, .demo-matrix tr.is-off .demo-gate span { color: var(--text-faint); }
-.demo-matrix tr.is-blocked .demo-gate:last-child span { color: #9A4526; font-weight: 500; }
-.demo-matrix tr.is-blocked { background: rgba(180, 83, 46, 0.06); }
-.demo-tamper { margin-top: 1rem; }
-.demo-btn.is-warn { border-color: #B4532E; color: #9A4526; }
-.demo-roles-summary { margin-top: 0.75rem; font-size: 0.92rem; color: var(--text-dim); }
-.demo-code {
-    margin: 0;
-    padding: 0.9rem 1rem;
-    overflow-x: auto;
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    line-height: 1.6;
-    color: var(--text);
-    background: var(--bg);
-    border: 1px solid var(--line);
-}
-.demo-port-label { margin: 0 0 0.5rem; font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); }
-.demo-code-note { margin-top: 0.6rem; font-size: 0.8rem; line-height: 1.5; color: var(--text-faint); }
+/* Aristophanes: a week in the production (scroll-driven) */
+.week { margin-top: 2rem; }
+.week .demo-body { background: var(--surface); border: 1px solid var(--line); padding: 1.1rem 1.25rem 1rem; }
+.week.is-live { height: 460vh; height: 460svh; }
+.week.is-live .demo-body { position: sticky; top: max(1rem, 6svh); }
+.week-head { position: relative; }
+.week-rail { list-style: none; margin: 0; padding: 0 0 0.7rem; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+.week-rail li { display: flex; flex-direction: column; gap: 0.15rem; padding-bottom: 0.15rem; }
+.week-day { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
+.week-rail li.is-on .week-day { color: var(--accent); }
+.week-title { font-family: var(--serif); font-size: 1.05rem; line-height: 1.15; color: var(--text-faint); transition: color 0.3s; }
+.week-rail li.is-on .week-title { color: var(--text); }
+.week-rail-track { display: block; height: 1px; background: var(--line); overflow: hidden; }
+.week-rail-fill { display: block; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
+.week-svg { display: block; width: 100%; height: auto; max-height: 60svh; margin: 0.6rem auto 0; }
+.week-caption { min-height: 2.9em; margin-top: 0.4rem; font-size: 0.98rem; line-height: 1.45; color: var(--text); }
+.week-phone { fill: var(--surface); stroke: var(--text); stroke-width: 1.5; }
+.week-notch { fill: var(--text); }
+.week-kicker { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.12em; fill: var(--text-faint); }
+.week-screen-title { font-family: var(--serif); font-size: 17px; fill: var(--text); }
+.week-card { fill: var(--bg); stroke: var(--line-strong); stroke-width: 1; }
+.week-text { font-family: var(--sans); font-size: 10.5px; fill: var(--text-dim); }
+.week-strong { font-weight: 500; fill: var(--text); }
+.week-small { font-family: var(--mono); font-size: 8px; letter-spacing: 0.04em; fill: var(--text-faint); }
+.week-btn { fill: var(--bg); stroke: var(--accent); stroke-width: 1.2; transition: fill 0.2s; }
+.week-btn-label { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em; fill: var(--accent); }
+.week-btn.is-pressed { fill: var(--accent); }
+.week-btn.is-pressed + .week-btn-label { fill: #fff; }
+.week-who { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.1em; fill: var(--text-faint); }
+.week-line { font-family: var(--sans); font-size: 11px; }
+.week-line--base { fill: rgba(26, 26, 23, 0.25); }
+.week-line--read { fill: var(--text); }
+.week-line--mine { fill: var(--accent); font-weight: 500; }
+.week-eyeline { fill: var(--accent); }
+.week-wave { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+.week-track { fill: var(--line); }
+.week-bar { fill: var(--accent); }
+.week-qr { fill: var(--text); }
+.week-verdict { fill: var(--surface-2); stroke: var(--line); transition: fill 0.2s, opacity 0.2s; }
+.week-verdict.is-ok { fill: var(--accent); }
+.week-verdict.is-dup { fill: #F5A623; }
+.week-verdict.is-hidden { opacity: 0; }
+.week-verdict-text { font-family: var(--sans); font-size: 14px; font-weight: 600; fill: #fff; }
+.week-verdict-text.is-dark { fill: var(--text); }
+.week-curtain { font-family: var(--serif); font-size: 24px; fill: var(--text); }
+.week-link { stroke: var(--line); stroke-width: 1; }
+.week-link.is-hot { stroke: var(--accent); stroke-width: 1.4; }
+.week-dot { fill: var(--accent); }
+.week-seal { transition: opacity 0.3s; }
+.week-seal.is-dim { opacity: 0.3; }
+.week-wax { stroke: rgba(0, 0, 0, 0.18); stroke-width: 1; }
+.week-initial { font-family: var(--serif); font-size: 17px; fill: #fff; }
+.week-name { font-family: var(--sans); font-size: 9px; fill: var(--text-dim); }
+.week-ring { fill: none; stroke: var(--accent); stroke-width: 2; }
+.week-badge { fill: var(--surface); stroke: var(--text); stroke-width: 0.8; }
+.week-screen { transition: none; }
+/* static storyboard (no JS / reduced motion) */
+.week-story { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+.week-story li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.75rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+.week-story li:first-child { border-top: 0; padding-top: 0; }
+.week-story b { display: block; font-family: var(--mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+.week-story span { font-family: var(--serif); font-size: 1.1rem; color: var(--text); }
+.week-story p { font-size: 0.95rem; line-height: 1.55; color: var(--text-dim); }
 
 @media (max-width: 760px) {
-    .demo-grid, .demo-etas { grid-template-columns: minmax(0, 1fr); }
+    .demo-etas { grid-template-columns: minmax(0, 1fr); }
+    .week-title { font-size: 0.85rem; }
+    .week-story li { grid-template-columns: 1fr; gap: 0.2rem; }
     .demo-step { grid-template-columns: 1fr; gap: 0.35rem; }
 }
 

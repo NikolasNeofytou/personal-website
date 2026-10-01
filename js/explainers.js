@@ -233,127 +233,285 @@
     }
 
     // ======================================================================
-    // Aristophanes — who can do what in a production
-    // `can` below is a line-for-line port of the app's
-    // lib/domain/accounts/capability.dart (ADR-047). In the app it only
-    // decides which buttons a member sees; the server never trusts it —
-    // Postgres row-level security mirrors the same matrix and has the final
-    // say. The "tampered client" switch makes that split visible.
+    // Aristophanes — a week in the production (scroll-driven)
+    // One production as its own space: the phone on the left is "the app",
+    // the seals on the right are the company. Scroll progress p ∈ [0,1]
+    // picks the day and how far into it we are; everything is a pure
+    // function of p, so it scrubs both ways. Illustrative, not real data.
     // ======================================================================
-    const ROLES = [
-        ['organizer', 'Organizer'], ['director', 'Director'], ['assistantDirector', 'Assistant director'],
-        ['costume', 'Costume (ενδυματολόγος)'], ['sound', 'Sound'], ['music', 'Music'], ['cast', 'Cast'],
-    ];
-    const CAPS = [
-        ['manageMembers', 'Add or remove members, share invites'],
-        ['assignRolesAndCasting', 'Assign roles and cast parts'],
-        ['editCalendar', 'Edit the rehearsal calendar'],
-        ['postToBoard', 'Post to the call board'],
-        ['openWardrobe', 'Open the wardrobe'],
-        ['editWardrobe', 'Upload costume photos'],
-        ['runBoxOffice', 'Run the box office and the door'],
-        ['viewOwnRoleAndPart', 'See your own role and part'],
-        ['practiceOwnPart', 'Practise your own part'],
-    ];
-    function can(roles, cap) {
-        if (roles.has('organizer')) return true;              // superuser (A7)
-        switch (cap) {
-            case 'manageMembers': return false;               // organizer-only
-            case 'assignRolesAndCasting': return roles.has('director');
-            case 'openWardrobe':
-            case 'editWardrobe': return roles.has('director') || roles.has('costume');
-            case 'editCalendar':
-            case 'postToBoard': return roles.has('director') || roles.has('assistantDirector');
-            case 'runBoxOffice': return roles.has('director'); // canManageBoxOffice + the admit RPC
-            case 'viewOwnRoleAndPart':
-            case 'practiceOwnPart': return true;              // every member
-        }
-        return false;
-    }
-    const DART = `bool can(Set<ProductionRole> roles, Capability action) {
-  if (roles.contains(ProductionRole.organizer)) return true;
-  switch (action) {
-    case Capability.manageMembers:
-      return false; // organizer-only
-    case Capability.assignRolesAndCasting:
-      return roles.contains(ProductionRole.director);
-    case Capability.openWardrobe:
-    case Capability.editWardrobe:
-      return roles.contains(ProductionRole.director) ||
-          roles.contains(ProductionRole.costume);
-    case Capability.editCalendar:
-    case Capability.postToBoard:
-      return roles.contains(ProductionRole.director) ||
-          roles.contains(ProductionRole.assistantDirector);
-    case Capability.viewOwnRoleAndPart:
-    case Capability.practiceOwnPart:
-      return true; // every member
-  }
-}`;
+    function weekDemo(root) {
+        const section = root.closest('.week');
+        if (reduceMotion || !('IntersectionObserver' in window)) return false;   // static storyboard stays
 
-    function rolesDemo(root) {
-        const held = new Set(['cast']);
-        let tampered = false;
-        const chips = ROLES.map(([key, label]) => {
-            const b = h('button', { type: 'button', class: 'demo-role', text: label, 'aria-pressed': 'false',
-                onclick: () => {
-                    if (held.has(key) && held.size === 1) return;   // every member holds at least one role
-                    held.has(key) ? held.delete(key) : held.add(key);
-                    render();
-                } });
-            b.dataset.role = key;
-            return b;
+        const NS = 'http://www.w3.org/2000/svg';
+        const S = (tag, attrs = {}, parent) => { const n = svg(tag, attrs); if (parent) parent.append(n); return n; };
+        const T = (parent, x, y, text, cls, extra = {}) => { const n = S('text', { x, y, class: cls, ...extra }, parent); n.textContent = text; return n; };
+        const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+        const ease = t => t * t * (3 - 2 * t);
+
+        const DAYS = [
+            ['Mon', 'The call', 'The director posts Thursday’s call. Every member’s phone buzzes.'],
+            ['Wed', 'Rehearsal', 'Lysistrata rehearses alone. The app reads the Magistrate; she says her own lines.'],
+            ['Thu', 'A quick poll', 'Costume fitting, Saturday or Sunday? The cast votes on the call board.'],
+            ['Fri', 'Costumes', 'The costume designer uploads photos. Each actor finds theirs in their wardrobe.'],
+            ['Sat', 'Opening night', 'Tickets sold on the web, scanned at the door. Each one admits exactly once.'],
+        ];
+        const WARM = '#C2603F', COOL = '#3E4A9E', LEAD = '#E3A33B', INK = '#1A1A17';
+        const CAST = [
+            ['Lysistrata', LEAD], ['Kalonike', WARM], ['Myrrhine', WARM], ['Lampito', WARM], ['Stratyllis', WARM], ['Ismenia', WARM],
+            ['Magistrate', COOL], ['Kinesias', COOL], ['Herald', COOL], ['Drakes', COOL], ['Strymodoros', COOL], ['Prytanis', COOL],
+        ];
+        // seat positions: director + costume on the top row, the cast below
+        const SEATS = [[330, 70], [420, 70], [510, 70], [600, 70], [330, 165], [420, 165], [510, 165], [600, 165],
+                       [330, 260], [420, 260], [510, 260], [600, 260], [420, 355], [510, 355]];
+        const members = [
+            { name: 'Director', fill: INK, role: 'director', seat: SEATS[0] },
+            ...CAST.slice(0, 2).map(([n, f], i) => ({ name: n, fill: f, role: 'cast', seat: SEATS[1 + i] })),
+            { name: 'Costume', fill: INK, role: 'costume', seat: SEATS[3] },
+            ...CAST.slice(2).map(([n, f], i) => ({ name: n, fill: f, role: 'cast', seat: SEATS[4 + i] })),
+        ];
+        const HUB = [232, 220];
+        const castIdx = members.map((m, i) => (m.role === 'cast' ? i : -1)).filter(i => i >= 0);
+        const lyIdx = members.findIndex(m => m.name === 'Lysistrata');
+        const costumeIdx = members.findIndex(m => m.role === 'costume');
+
+        // ---- stage skeleton
+        const rail = h('ol', { class: 'week-rail' }, DAYS.map(([d, t]) => h('li', {}, h('span', { class: 'week-day', text: d }), h('span', { class: 'week-title', text: t }))));
+        const railFill = h('span', { class: 'week-rail-fill' });
+        const caption = h('p', { class: 'week-caption', 'aria-live': 'polite' });
+        const art = S('svg', { viewBox: '0 0 640 440', class: 'week-svg', role: 'img',
+            'aria-label': 'Illustration: the production app on a phone, connected to fourteen members of a theatre company' });
+
+        const links = S('g', { class: 'week-links' }, art);
+        const dots = S('g', {}, art);
+        // the phone
+        const phone = S('g', {}, art);
+        S('rect', { x: 20, y: 18, width: 212, height: 404, rx: 30, class: 'week-phone' }, phone);
+        S('rect', { x: 98, y: 30, width: 56, height: 8, rx: 4, class: 'week-notch' }, phone);
+        T(phone, 42, 66, 'ΛΥΣΙΣΤΡΑΤΗ · ΘΙΑΣΟΣ', 'week-kicker');
+        const screenTitle = T(phone, 42, 90, '', 'week-screen-title');
+        const screens = DAYS.map(() => S('g', { class: 'week-screen' }, phone));
+
+        // the company
+        const seals = members.map((m, i) => {
+            const [cx, cy] = m.seat;
+            S('line', { x1: HUB[0], y1: HUB[1], x2: cx - 24, y2: cy, class: 'week-link' }, links);
+            const g = S('g', { class: 'week-seal', transform: `translate(${cx},${cy})` }, art);
+            const ring = S('circle', { r: 28, class: 'week-ring' }, g);
+            const pts = [];
+            for (let k = 0; k < 28; k++) {
+                const a = (k / 28) * Math.PI * 2, r = k % 2 ? 19.5 : 22;
+                pts.push(`${(Math.cos(a) * r).toFixed(1)},${(Math.sin(a) * r).toFixed(1)}`);
+            }
+            S('polygon', { points: pts.join(' '), fill: m.fill, class: 'week-wax' }, g);
+            const initial = m.role === 'director' ? 'Δ' : m.role === 'costume' ? 'Ε' : m.name[0];
+            T(g, 0, 5, initial, 'week-initial', { 'text-anchor': 'middle' });
+            T(g, 0, 38, m.name, 'week-name', { 'text-anchor': 'middle' });
+            const badge = S('rect', { x: 12, y: -24, width: 10, height: 13, rx: 2, class: 'week-badge' }, g);
+            const dot = S('circle', { r: 3.5, class: 'week-dot' }, dots);
+            return { g, ring, badge, dot, cx, cy };
         });
-        const tamper = h('button', { type: 'button', class: 'demo-btn', 'aria-pressed': 'false',
-            onclick: () => { tampered = !tampered; render(); } });
-        const rows = h('tbody');
-        const summary = h('p', { class: 'demo-roles-summary', 'aria-live': 'polite' });
 
-        function render() {
-            chips.forEach(b => {
-                const on = held.has(b.dataset.role);
-                b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', String(on));
-            });
-            tamper.textContent = tampered ? 'Client: tampered — every button shown' : 'Client: honest';
-            tamper.setAttribute('aria-pressed', String(tampered));
-            tamper.classList.toggle('is-warn', tampered);
-            let allowed = 0, blocked = 0;
-            rows.replaceChildren(...CAPS.map(([cap, label]) => {
-                const ok = can(held, cap);
-                const shown = ok || tampered;
-                if (ok) allowed++;
-                if (shown && !ok) blocked++;
-                return h('tr', { class: ok ? 'is-ok' : shown ? 'is-blocked' : 'is-off' },
-                    h('th', { scope: 'row', text: label }),
-                    h('td', { class: 'demo-gate' }, h('span', { text: shown ? 'Shown' : 'Hidden' })),
-                    h('td', { class: 'demo-gate' }, h('span', { text: !shown ? '—' : ok ? 'Allowed' : 'Refused by RLS' })));
-            }));
-            const who = ROLES.filter(([k]) => held.has(k)).map(([, l]) => l.replace(/ \(.*\)/, '')).join(' + ');
-            summary.textContent = tampered && blocked
-                ? `${who}: ${blocked} extra button${blocked > 1 ? 's' : ''} now visible, and the server still refuses every one.`
-                : `${who}: ${allowed} of ${CAPS.length} actions.`;
+        // ---- day screens (built once, revealed by progress)
+        // MON: compose + post
+        const mon = screens[0];
+        S('rect', { x: 42, y: 108, width: 168, height: 92, rx: 8, class: 'week-card' }, mon);
+        const monLines = ['Act II run-through', 'Thursday 19:00 · Studio', 'Bring scripts and shoes'].map((txt, i) =>
+            ({ full: txt, el: T(mon, 54, 132 + i * 20, '', i ? 'week-text' : 'week-text week-strong') }));
+        const postBtn = S('rect', { x: 42, y: 214, width: 168, height: 32, rx: 8, class: 'week-btn' }, mon);
+        T(mon, 126, 235, 'Post to call board', 'week-btn-label', { 'text-anchor': 'middle' });
+        const monSent = T(mon, 42, 270, '', 'week-small');
+
+        // WED: rehearse, partner lines fill as they're read
+        const wed = screens[1];
+        const SCRIPT = [
+            ['MAGISTRATE', 'Who gave the women the', 'keys to the treasury?', false],
+            ['YOU · LYSISTRATA', 'We did. We will keep the', 'money safe from the war.', true],
+            ['MAGISTRATE', 'And what do women know', 'of money?', false],
+            ['YOU · LYSISTRATA', 'We run every house in', 'Athens. Why not the city?', true],
+        ];
+        const lines = SCRIPT.map(([who, a, b, mine], i) => {
+            const y = 112 + i * 70;
+            const g = S('g', {}, wed);
+            const bar = S('rect', { x: 36, y: y - 12, width: 3, height: 46, class: 'week-eyeline' }, g);
+            T(g, 46, y, who, 'week-who');
+            const clipId = `wk-clip-${i}`;
+            const clip = S('clipPath', { id: clipId }, art);
+            const clipRect = S('rect', { x: 46, y: y + 4, width: 0, height: 34 }, clip);
+            [a, b].forEach((txt, k) => T(g, 46, y + 18 + k * 15, txt, 'week-line week-line--base'));
+            const fillG = S('g', { 'clip-path': `url(#${clipId})` }, g);
+            [a, b].forEach((txt, k) => T(fillG, 46, y + 18 + k * 15, txt, mine ? 'week-line week-line--mine' : 'week-line week-line--read'));
+            return { g, bar, clipRect, mine };
+        });
+        const waves = S('g', { class: 'week-waves' }, art);
+        [10, 18, 26].forEach(r => S('path', { d: `M${HUB[0] + 4},${HUB[1] - r} A${r},${r} 0 0 1 ${HUB[0] + 4},${HUB[1] + r}`, class: 'week-wave' }, waves));
+
+        // THU: poll
+        const thu = screens[2];
+        S('rect', { x: 42, y: 108, width: 168, height: 150, rx: 8, class: 'week-card' }, thu);
+        T(thu, 54, 132, 'Costume fitting: which day?', 'week-text week-strong');
+        const pollRows = ['Saturday', 'Sunday'].map((label, i) => {
+            const y = 160 + i * 44;
+            T(thu, 54, y, label, 'week-text');
+            S('rect', { x: 54, y: y + 8, width: 144, height: 10, rx: 5, class: 'week-track' }, thu);
+            const bar = S('rect', { x: 54, y: y + 8, width: 0, height: 10, rx: 5, class: 'week-bar' }, thu);
+            const n = T(thu, 198, y, '0', 'week-text', { 'text-anchor': 'end' });
+            return { bar, n };
+        });
+        const pollNote = T(thu, 54, 248, '', 'week-small');
+        const VOTES = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1];   // 8 Saturday · 4 Sunday
+
+        // FRI: wardrobe fills
+        const fri = screens[3];
+        const tiles = CAST.slice(0, 6).map(([, fill], i) => {
+            const x = 42 + (i % 3) * 58, y = 108 + Math.floor(i / 3) * 84;
+            const g = S('g', {}, fri);
+            S('rect', { x, y, width: 52, height: 76, rx: 6, class: 'week-card' }, g);
+            S('path', { d: `M${x + 18},${y + 14} h16 l10 12 l-6 4 l-3 -4 v40 h-18 v-40 l-3 4 l-6 -4 z`, fill }, g);
+            return g;
+        });
+        const friNote = T(fri, 42, 290, '', 'week-small');
+
+        // SAT: the door
+        const sat = screens[4];
+        const qr = S('g', {}, sat);
+        let seed = 7;
+        for (let r = 0; r < 9; r++) for (let c = 0; c < 9; c++) {
+            seed = (seed * 9301 + 49297) % 233280;
+            const finder = (r < 3 && c < 3) || (r < 3 && c > 5) || (r > 5 && c < 3);
+            if (finder || seed / 233280 > 0.5) S('rect', { x: 80 + c * 10, y: 108 + r * 10, width: 9, height: 9, class: 'week-qr' }, qr);
+        }
+        const ticketLabel = T(sat, 126, 214, '', 'week-text', { 'text-anchor': 'middle' });
+        const verdict = S('rect', { x: 42, y: 226, width: 168, height: 46, rx: 8, class: 'week-verdict' }, sat);
+        const verdictText = T(sat, 126, 254, '', 'week-verdict-text', { 'text-anchor': 'middle' });
+        const curtain = T(sat, 126, 304, '', 'week-curtain', { 'text-anchor': 'middle' });
+
+        root.replaceChildren(h('div', { class: 'week-head' }, rail, h('span', { class: 'week-rail-track' }, railFill)), art, caption);
+
+        // ---- render: everything is a function of scroll progress p
+        let lastDay = -1;
+        function render(p) {
+            const s = clamp(p) * DAYS.length;
+            const day = Math.min(DAYS.length - 1, Math.floor(s));
+            const t = clamp(s - day);
+            railFill.style.transform = `scaleX(${clamp(p)})`;
+            if (day !== lastDay) {
+                [...rail.children].forEach((li, i) => li.classList.toggle('is-on', i === day));
+                screenTitle.textContent = ['Call board', 'Rehearse', 'Call board', 'Wardrobe', 'Door'][day];
+                caption.textContent = DAYS[day][2];
+                lastDay = day;
+            }
+            screens.forEach((g, i) => g.style.opacity = i === day ? clamp(t / 0.08) : 0);
+            waves.style.opacity = 0;
+
+            // defaults, then each day overrides
+            seals.forEach((sl, i) => { sl.ring.style.opacity = 0; sl.dot.style.opacity = 0; sl.badge.style.opacity = day > 3 && members[i].role === 'cast' ? 1 : 0; sl.g.classList.remove('is-dim'); });
+            [...links.children].forEach(l => l.classList.remove('is-hot'));
+
+            if (day === 0) {
+                monLines.forEach((ln, i) => {
+                    const k = clamp((t - i * 0.12) / 0.14);
+                    ln.el.textContent = ln.full.slice(0, Math.round(ln.full.length * k));
+                });
+                postBtn.classList.toggle('is-pressed', t > 0.48);
+                let reached = 0;
+                seals.forEach((sl, i) => {
+                    if (i === 0) return;                         // the director sends, not receives
+                    const u = clamp((t - 0.5 - i * 0.018) / 0.22);
+                    if (u > 0 && u < 1) {
+                        sl.dot.style.opacity = 1;
+                        sl.dot.setAttribute('cx', HUB[0] + (sl.cx - 24 - HUB[0]) * ease(u));
+                        sl.dot.setAttribute('cy', HUB[1] + (sl.cy - HUB[1]) * ease(u));
+                    }
+                    if (u >= 1) { sl.ring.style.opacity = 1; reached++; }
+                });
+                monSent.textContent = t > 0.5 ? `Notified ${reached} of 13 members` : '';
+            }
+
+            if (day === 1) {
+                const seg = Math.min(3, Math.floor(t * 4)), u = clamp(t * 4 - seg);
+                lines.forEach((ln, i) => {
+                    const done = i < seg, now = i === seg;
+                    ln.clipRect.setAttribute('width', done ? 170 : now ? 170 * (ln.mine ? (u > 0.15 ? 1 : 0) : ease(u)) : 0);
+                    ln.bar.style.opacity = now && ln.mine ? 1 : 0;
+                    ln.g.style.opacity = i <= seg ? 1 : 0.35;
+                });
+                const reading = !lines[seg].mine;
+                waves.style.opacity = reading ? 0.4 + 0.6 * Math.abs(Math.sin(u * Math.PI * 6)) : 0;
+                seals.forEach((sl, i) => { if (i !== lyIdx) sl.g.classList.add('is-dim'); });
+                seals[lyIdx].ring.style.opacity = 1;
+                links.children[lyIdx].classList.add('is-hot');
+            }
+
+            if (day === 2) {
+                const tally = [0, 0];
+                castIdx.forEach((mi, k) => {
+                    const sl = seals[mi];
+                    const u = clamp((t - 0.08 - k * 0.06) / 0.14);
+                    if (u > 0 && u < 1) {
+                        sl.dot.style.opacity = 1;
+                        sl.dot.setAttribute('cx', sl.cx - 24 + (HUB[0] - sl.cx + 24) * ease(u));
+                        sl.dot.setAttribute('cy', sl.cy + (HUB[1] - sl.cy) * ease(u));
+                        sl.ring.style.opacity = 1 - u;
+                    }
+                    if (u >= 1) tally[VOTES[k]]++;
+                });
+                pollRows.forEach((r, i) => { r.bar.setAttribute('width', (144 * tally[i]) / 12); r.n.textContent = String(tally[i]); });
+                pollNote.textContent = `${tally[0] + tally[1]} of 12 voted`;
+            }
+
+            if (day === 3) {
+                seals[costumeIdx].ring.style.opacity = 1;
+                const from = seals[costumeIdx];
+                let got = 0;
+                castIdx.forEach((mi, k) => {
+                    const sl = seals[mi];
+                    const u = clamp((t - 0.1 - k * 0.055) / 0.16);
+                    if (u > 0 && u < 1) {
+                        sl.dot.style.opacity = 1;
+                        sl.dot.setAttribute('cx', from.cx + (sl.cx - from.cx) * ease(u));
+                        sl.dot.setAttribute('cy', from.cy + (sl.cy - from.cy) * ease(u));
+                    }
+                    sl.badge.style.opacity = u >= 1 ? 1 : 0;
+                    if (u >= 1) got++;
+                });
+                tiles.forEach((tile, i) => tile.style.opacity = clamp((t - 0.1 - i * 0.1) / 0.1));
+                friNote.textContent = `${got} of 12 costumes delivered`;
+            }
+
+            if (day === 4) {
+                const step = Math.min(3, Math.floor(t * 4)), u = clamp(t * 4 - step);
+                const STATES = [['Ticket 7A', 'Admitted', 'ok'], ['Ticket 12C', 'Admitted', 'ok'], ['Ticket 7A', 'Already admitted', 'dup'], ['', '', 'curtain']];
+                const [ticket, word, kind] = STATES[step];
+                const scanned = u > 0.35;
+                ticketLabel.textContent = ticket ? (scanned ? ticket : `Scanning ${ticket}…`) : '';
+                verdict.setAttribute('class', 'week-verdict' + (kind === 'curtain' ? ' is-hidden' : scanned ? ` is-${kind}` : ''));
+                verdictText.textContent = scanned ? word : '';
+                verdictText.setAttribute('class', 'week-verdict-text' + (kind === 'dup' ? ' is-dark' : ''));
+                qr.style.opacity = kind === 'curtain' ? 0.15 : 1;
+                curtain.textContent = kind === 'curtain' ? 'Curtain up' : '';
+                if (kind === 'curtain') seals.forEach(sl => sl.ring.style.opacity = ease(u));
+            }
         }
 
-        root.replaceChildren(
-            h('p', { class: 'demo-port-label', text: 'This member holds (a person can hold several roles)' }),
-            h('div', { class: 'demo-roles' }, chips),
-            h('div', { class: 'demo-grid' },
-                h('div', {},
-                    h('table', { class: 'demo-matrix' },
-                        h('thead', {}, h('tr', {}, h('th', { scope: 'col', text: 'Action' }), h('th', { scope: 'col', text: 'In the app' }), h('th', { scope: 'col', text: 'On the server' }))),
-                        rows),
-                    h('div', { class: 'demo-controls demo-tamper' }, tamper),
-                    summary),
-                h('div', {},
-                    h('p', { class: 'demo-port-label', text: 'The app’s permission map (Dart, pure domain)' }),
-                    h('pre', { class: 'demo-code' }, h('code', { text: DART })),
-                    h('p', { class: 'demo-code-note', text: 'Box-office access is a separate check (organizer or director), enforced again by the server’s admit-once function.' }))));
-        render();
+        // ---- scroll wiring (same pattern as Fig. 01)
+        let queued = false, near = false;
+        const update = () => {
+            queued = false;
+            const travel = section.offsetHeight - window.innerHeight;
+            render(travel > 0 ? -section.getBoundingClientRect().top / travel : 0);
+        };
+        const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+        new IntersectionObserver(([e]) => { near = e.isIntersecting; if (near) schedule(); }, { rootMargin: '100% 0px' }).observe(section);
+        window.addEventListener('scroll', () => { if (near) schedule(); }, { passive: true });
+        window.addEventListener('resize', schedule);
+        render(0);
     }
 
-    const DEMOS = { normalise: normaliseDemo, eta: etaDemo, roles: rolesDemo };
+    const DEMOS = { normalise: normaliseDemo, eta: etaDemo, week: weekDemo };
     document.querySelectorAll('[data-demo]').forEach(el => {
         const fn = DEMOS[el.dataset.demo];
-        if (fn) { el.classList.add('is-live'); fn(el.querySelector('.demo-body') || el); }
+        // a demo can decline (return false), e.g. under reduced motion, and keep its static fallback
+        if (fn && fn(el.querySelector('.demo-body') || el) !== false) el.classList.add('is-live');
     });
 })();
