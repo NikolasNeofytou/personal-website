@@ -17,7 +17,7 @@
     <meta property="og:image" content="https://nikolasneofytou.github.io/personal-website/assets/og-image.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-    <link rel="stylesheet" href="../css/styles.css?v=20261002i">
+    <link rel="stylesheet" href="../css/styles.css?v=20261002j">
     <link rel="preload" href="../assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/covers/plutarch-1344.webp" as="image" fetchpriority="high">
@@ -195,8 +195,26 @@
                     </figure>
                 </section>
 
+                <section class="section" aria-labelledby="pl-week">
+                    <h2 class="section-head" id="pl-week"><span class="section-num">04</span> A week with Ρίζα</h2>
+                    <div class="cs-prose">
+                        <p>One reader's week with the dictionary. The phone shows the app's own Greek interface, and the right side shows the data behind each page: the search key, a lemma with its inflected forms, the cited senses, the cross-references and the reports queue. Every beat is a feature that ships; the glosses are short paraphrases, not quoted entries.</p>
+                    </div>
+                    <div class="week" data-demo="week-plutarch">
+                        <div class="demo-body">
+                            <ol class="week-story">
+                                <li><div><b>Mon</b><span>Any form</span></div><p>A reader types εκανες, no accents. The search key strips them, finds the inflected form, and lands on its verb: κάνω.</p></li>
+                                <li><div><b>Tue</b><span>Cited senses</span></div><p>Every sense carries a link to where it came from: Greek Wiktionary, CC BY-SA.</p></li>
+                                <li><div><b>Wed</b><span>The table</span></div><p>The conjugation table shows the form they typed, in context.</p></li>
+                                <li><div><b>Thu</b><span>Word of the day</span></div><p>Ρίζα, “root”, the dictionary’s own name. Cross-references lead to the words around it.</p></li>
+                                <li><div><b>Fri</b><span>Report a mistake</span></div><p>A reader flags an example. It’s sent anonymously (only a salted hash is kept, for rate limiting) to the reports queue.</p></li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="section" aria-labelledby="pl-try">
-                    <h2 class="section-head" id="pl-try"><span class="section-num">04</span> Try it</h2>
+                    <h2 class="section-head" id="pl-try"><span class="section-num">05</span> Try it</h2>
                     <div class="cs-prose">
                         <p>Every query and every stored word goes through the same few steps before they're compared. Type any form of a Greek word, accented or not, monotonic or polytonic, and watch it reduce to the key the database actually searches. Combining accent marks are highlighted as they're stripped.</p>
                     </div>
@@ -207,7 +225,7 @@
                 </section>
 
                 <section class="section" aria-labelledby="pl-decisions">
-                    <h2 class="section-head" id="pl-decisions"><span class="section-num">05</span> Key decisions</h2>
+                    <h2 class="section-head" id="pl-decisions"><span class="section-num">06</span> Key decisions</h2>
                     <div class="cs-decisions">
                         <article class="cs-adr">
                             <p class="cs-adr-id">Decision 1</p>
@@ -249,7 +267,7 @@
                 </section>
 
                 <section class="section" aria-labelledby="pl-hard">
-                    <h2 class="section-head" id="pl-hard"><span class="section-num">06</span> Hard problems</h2>
+                    <h2 class="section-head" id="pl-hard"><span class="section-num">07</span> Hard problems</h2>
                     <div class="cs-story">
                         <h3>One letter, three encodings</h3>
                         <p>The accented letter ά reaches the database as three different codepoint sequences, and decomposition collapses them. Then a second bug turned up: Postgres's libc collation on macOS lowercases Ύ to ώ instead of ύ. Both normalisers now strip accents <em>before</em> lowercasing, so the order of operations can't reintroduce it.</p>
@@ -265,7 +283,7 @@
                 </section>
 
                 <section class="section" aria-labelledby="pl-outcome">
-                    <h2 class="section-head" id="pl-outcome"><span class="section-num">07</span> Outcome &amp; what I'd do differently</h2>
+                    <h2 class="section-head" id="pl-outcome"><span class="section-num">08</span> Outcome &amp; what I'd do differently</h2>
                     <div class="cs-prose">
                         <p>Ρίζα is live and stable: 95,774 entries, declension tables for 63,971 of them, conjugation tables for 5,455 verbs, and a 98-test suite, built in four days. The source is private for now. The dictionary content is CC&nbsp;BY-SA, inherited from Wiktionary.</p>
                         <ul>
@@ -293,7 +311,7 @@
     </div>
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up"></use></svg></button>
-    <script src="../js/script.js?v=20261002i"></script>
-    <script src="../js/explainers.js?v=20261002i" defer></script>
+    <script src="../js/script.js?v=20261002j"></script>
+    <script src="../js/explainers.js?v=20261002j" defer></script>
 </body>
 </html>
