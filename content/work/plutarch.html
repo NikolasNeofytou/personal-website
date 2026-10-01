@@ -1,0 +1,164 @@
+                <section class="section" aria-labelledby="pl-problem">
+                    <h2 class="section-head" id="pl-problem"><span class="section-num">01</span> Problem</h2>
+                    <div class="cs-prose">
+                        <p>Online Greek dictionaries are either thin word lists or closed products. Greek also makes lookup hard: the same word arrives as dozens of inflected forms, with or without accents, and in monotonic or polytonic spelling. A search box that only matches the headword exactly fails most real queries.</p>
+                        <p>I wanted the opposite: an <strong>open</strong> dictionary where any form of a word finds its entry, and every definition cites where it came from.</p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="pl-built">
+                    <h2 class="section-head" id="pl-built"><span class="section-num">02</span> What I built</h2>
+                    <div class="cs-prose">
+                        <p><strong>Ρίζα</strong> ("root") imports the Greek Wiktionary extraction from kaikki.org into Postgres and serves it through a Next.js app:</p>
+                        <ul>
+                            <li>Search that ignores accents and case, accepts polytonic input, and resolves inflected forms back to their lemma.</li>
+                            <li>Server-rendered entry pages with senses, usage examples, cross-references, and declension and conjugation tables.</li>
+                            <li>Greek permalinks (<code>/λέξη/…</code>), a sitemap, word of the day, and an anonymous report-an-error flow.</li>
+                        </ul>
+                    </div>
+                    <div class="cs-stats" role="list">
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">95,774</span><span class="cs-stat-label">Entries</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">130,584</span><span class="cs-stat-label">Senses</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">38,920</span><span class="cs-stat-label">Usage examples</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">98</span><span class="cs-stat-label">Tests</span></div>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="pl-arch">
+                    <h2 class="section-head" id="pl-arch"><span class="section-num">03</span> Architecture</h2>
+                    <div class="cs-prose">
+                        <p>Two halves. At <strong>build time</strong>, a streaming pipeline turns 1.76&nbsp;million raw records into five CSVs and bulk-loads them. At <strong>request time</strong>, two SQL functions do all of the search and ranking, so the app stays thin.</p>
+                    </div>
+                    <figure class="cs-diagram">
+                        <svg viewBox="0 0 680 300" role="img" aria-labelledby="pl-dg-title">
+                            <title id="pl-dg-title">Data flow: kaikki Greek Wiktionary dump, streamed through a reader and a pure mapper into five CSVs, bulk-loaded into Postgres on Neon; at request time SQL search functions serve a Next.js app on Vercel that renders entry pages for the browser.</title>
+                            <defs>
+                                <marker id="pl-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="rgba(26,26,23,0.55)"/></marker>
+                                <marker id="pl-arrow-a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="#1F3BFF"/></marker>
+                            </defs>
+                            <text class="dg-tag" x="0" y="14">BUILD TIME</text>
+                            <rect class="dg-box" x="0" y="26" width="118" height="58"/>
+                            <text class="dg-label" x="10" y="48">kaikki dump</text>
+                            <text class="dg-sub" x="10" y="64">el Wiktionary</text>
+                            <text class="dg-sub" x="10" y="77">1.76M records</text>
+                            <rect class="dg-box" x="140" y="26" width="118" height="58"/>
+                            <text class="dg-label" x="150" y="48">read.ts</text>
+                            <text class="dg-sub" x="150" y="64">streaming gunzip</text>
+                            <text class="dg-sub" x="150" y="77">flat memory</text>
+                            <rect class="dg-box" x="280" y="26" width="118" height="58"/>
+                            <text class="dg-label" x="290" y="48">map.ts</text>
+                            <text class="dg-sub" x="290" y="64">pure: entry or</text>
+                            <text class="dg-sub" x="290" y="77">reject reason</text>
+                            <rect class="dg-box" x="420" y="26" width="118" height="58"/>
+                            <text class="dg-label" x="430" y="48">5 × CSV</text>
+                            <text class="dg-sub" x="430" y="64">entries, senses,</text>
+                            <text class="dg-sub" x="430" y="77">forms, relations…</text>
+                            <rect class="dg-box" x="560" y="26" width="120" height="58"/>
+                            <text class="dg-label" x="570" y="48">COPY → stage</text>
+                            <text class="dg-sub" x="570" y="64">dedup + renumber</text>
+                            <text class="dg-sub" x="570" y="77">in SQL</text>
+                            <path class="dg-edge" d="M118,55 H138" marker-end="url(#pl-arrow)"/>
+                            <path class="dg-edge" d="M258,55 H278" marker-end="url(#pl-arrow)"/>
+                            <path class="dg-edge" d="M398,55 H418" marker-end="url(#pl-arrow)"/>
+                            <path class="dg-edge" d="M538,55 H558" marker-end="url(#pl-arrow)"/>
+                            <path class="dg-edge" d="M620,84 V128 H118 V176" marker-end="url(#pl-arrow)"/>
+
+                            <text class="dg-tag" x="0" y="164">REQUEST TIME</text>
+                            <rect class="dg-box dg-box--accent" x="0" y="178" width="148" height="72"/>
+                            <text class="dg-label" x="10" y="200">Postgres · Neon</text>
+                            <text class="dg-sub" x="10" y="216">Frankfurt · 15 migrations</text>
+                            <text class="dg-sub" x="10" y="229">btree prefix range +</text>
+                            <text class="dg-sub" x="10" y="242">pg_trgm GIN</text>
+                            <rect class="dg-box dg-box--accent" x="176" y="178" width="148" height="72"/>
+                            <text class="dg-label" x="186" y="200">SQL functions</text>
+                            <text class="dg-sub" x="186" y="216">search_entries()</text>
+                            <text class="dg-sub" x="186" y="229">get_entries()</text>
+                            <text class="dg-sub" x="186" y="242">6-tier ranking</text>
+                            <rect class="dg-box dg-box--accent" x="352" y="178" width="148" height="72"/>
+                            <text class="dg-label" x="362" y="200">Next.js · Vercel</text>
+                            <text class="dg-sub" x="362" y="216">/api/search</text>
+                            <text class="dg-sub" x="362" y="229">/lexi/[word] · ISR 1h</text>
+                            <text class="dg-sub" x="362" y="242">region fra1</text>
+                            <rect class="dg-box" x="528" y="178" width="152" height="72"/>
+                            <text class="dg-label" x="538" y="200">Browser</text>
+                            <text class="dg-sub" x="538" y="216">search box</text>
+                            <text class="dg-sub" x="538" y="229">entry, declension,</text>
+                            <text class="dg-sub" x="538" y="242">conjugation tables</text>
+                            <path class="dg-edge dg-edge--accent" d="M148,214 H174" marker-end="url(#pl-arrow-a)"/>
+                            <path class="dg-edge dg-edge--accent" d="M324,214 H350" marker-end="url(#pl-arrow-a)"/>
+                            <path class="dg-edge dg-edge--accent" d="M500,214 H526" marker-end="url(#pl-arrow-a)"/>
+                            <text class="dg-sub" x="0" y="286">normalise_el() in SQL ≡ normalise() in TypeScript, checked by a parity script</text>
+                        </svg>
+                        <figcaption>Fig. 1 · Build-time pipeline and request path</figcaption>
+                    </figure>
+                </section>
+
+                <section class="section" aria-labelledby="pl-decisions">
+                    <h2 class="section-head" id="pl-decisions"><span class="section-num">04</span> Key decisions</h2>
+                    <div class="cs-decisions">
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">Decision 1</p>
+                            <h3>Two normalisers, and a script that proves they agree</h3>
+                            <dl>
+                                <dt>Context</dt><dd>The search key is generated in SQL when rows are written, but queries are normalised in TypeScript. If the two drift apart, search silently returns nothing.</dd>
+                                <dt>Decision</dt><dd>Keep <code>normalise_el()</code> and <code>normalise()</code> as deliberate twins: decompose, strip combining marks, recompose, lowercase, fold final sigma. A parity checker runs both over the same inputs and also runs the app's real ranking query.</dd>
+                                <dt>Trade-off</dt><dd>Two implementations to maintain, in exchange for a failure mode that is caught instead of invisible.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">Decision 2</p>
+                            <h3>Cap forms per entry instead of dropping words</h3>
+                            <dl>
+                                <dt>Context</dt><dd>The corpus didn't fit the free database tier. The obvious filter would have deleted about 74,000 headwords.</dd>
+                                <dt>Decision</dt><dd>Keep every entry and cap the inflected forms stored per entry, preferring tagged forms. That cut the corpus from 371&nbsp;MB to 255&nbsp;MB with all 95,774 entries intact.</dd>
+                                <dt>Trade-off</dt><dd>The long tail of rare verb forms isn't searchable. Losing words would have been worse.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">Decision 3</p>
+                            <h3>Rank by prominence, and say so</h3>
+                            <dl>
+                                <dt>Context</dt><dd>Good ranking wants word frequency, but frequency lists mean an extra download and licensing questions.</dd>
+                                <dt>Decision</dt><dd>Rank in six tiers (exact lemma first, substring last) and break ties by <em>prominence</em>: how many other entries point at a word.</dd>
+                                <dt>Trade-off</dt><dd>Prominence is a proxy, not usage frequency, and it's documented as such. Real frequency data is the next ranking upgrade.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">Decision 4</p>
+                            <h3>Put the database next to the functions</h3>
+                            <dl>
+                                <dt>Context</dt><dd>The same query took 24&nbsp;ms locally and 103&nbsp;ms deployed, and TCP connection setup dominated cold requests.</dd>
+                                <dt>Decision</dt><dd>Use Neon's HTTP driver in production, with node-postgres over TCP locally, and pin the Vercel functions to Frankfurt, the same region as the database.</dd>
+                                <dt>Trade-off</dt><dd>Two code paths for one database client, switched by host, rather than one slower one.</dd>
+                            </dl>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="pl-hard">
+                    <h2 class="section-head" id="pl-hard"><span class="section-num">05</span> Hard problems</h2>
+                    <div class="cs-story">
+                        <h3>One letter, three encodings</h3>
+                        <p>The accented letter ά reaches the database as three different codepoint sequences, and decomposition collapses them. Then a second bug turned up: Postgres's libc collation on macOS lowercases Ύ to ώ instead of ύ. Both normalisers now strip accents <em>before</em> lowercasing, so the order of operations can't reintroduce it.</p>
+                    </div>
+                    <div class="cs-story">
+                        <h3>A sequential scan on every keystroke</h3>
+                        <p>A <code>LIKE</code> pattern built inside a CTE stopped Postgres from using the index, so every keystroke scanned 880,000 inflected forms. Rewriting the prefix match as a range query on a btree index took it from 61&nbsp;ms to 0.028&nbsp;ms.</p>
+                    </div>
+                    <div class="cs-story">
+                        <h3>Ranking undone by the app</h3>
+                        <p>The SQL function ranked correctly and its tests passed, but the app wrapped it in an outer <code>ORDER BY</code> that threw the ranking away in production. The fix was <code>WITH ORDINALITY</code>. The lesson was to test the query the app actually sends, so the parity checker now does exactly that.</p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="pl-outcome">
+                    <h2 class="section-head" id="pl-outcome"><span class="section-num">06</span> Outcome &amp; what I'd do differently</h2>
+                    <div class="cs-prose">
+                        <p>Ρίζα is live and stable: 95,774 entries, declension tables for 63,971 of them, conjugation tables for 5,455 verbs, and a 98-test suite, built in four days with AI pair-programming. The source is private for now. The dictionary content is CC&nbsp;BY-SA, inherited from Wiktionary.</p>
+                        <ul>
+                            <li><strong>Scope.</strong> The original plan (a diachronic dictionary with five "lenses" and Cypriot dialect research) was far bigger than what a first version needed. Shipping the core first was the right call, and I'd plan that way from day one.</li>
+                            <li><strong>Test the integration, not just the parts.</strong> Unit tests on the SQL function missed the bug in the query that wraps it.</li>
+                            <li><strong>Audience before features.</strong> The next version starts with who it's for, plus an admin view to triage error reports.</li>
+                        </ul>
+                    </div>
+                </section>

@@ -1,0 +1,171 @@
+                <section class="section" aria-labelledby="ci-problem">
+                    <h2 class="section-head" id="ci-problem"><span class="section-num">01</span> Problem</h2>
+                    <div class="cs-prose">
+                        <p>Cyprus publishes open timetables and a live vehicle-position feed for its buses, but riders still stand at stops not knowing whether the bus is two minutes away or already gone. General-purpose map apps paper over the gaps in the local data with confident-looking estimates that are sometimes simply wrong.</p>
+                        <p>The brief I set myself was <strong>trust</strong>: anyone at a bus stop should be able to open the app and believe what it shows. When the data can't support an answer, the app should say so instead of guessing.</p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="ci-built">
+                    <h2 class="section-head" id="ci-built"><span class="section-num">02</span> What I built</h2>
+                    <div class="cs-prose">
+                        <p>A Flutter app for iOS and Android over a Django and PostGIS backend:</p>
+                        <ul>
+                            <li>A live map of every bus across all seven Cypriot operators, refreshed from the official feed every 15 seconds.</li>
+                            <li>Nearby stops, arrival estimates, a trip planner, and push alerts when your bus is approaching.</li>
+                            <li>Ticket purchase through Stripe with Apple and Google Wallet passes, built and switched off until the app is licensed to issue tickets.</li>
+                        </ul>
+                    </div>
+                    <div class="cs-stats" role="list">
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">7</span><span class="cs-stat-label">Bus operators</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">15 s</span><span class="cs-stat-label">Live-feed cycle</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">14</span><span class="cs-stat-label">Written ADRs</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">1,400+</span><span class="cs-stat-label">Automated tests</span></div>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="ci-arch">
+                    <h2 class="section-head" id="ci-arch"><span class="section-num">03</span> Architecture</h2>
+                    <div class="cs-prose">
+                        <p>The live feed and the timetable take different paths into one PostGIS database. A dedicated process ingests vehicle positions. Celery handles the slower jobs: the nightly timetable import, arrival alerts and cache warming. The API answers spatial questions straight from Postgres.</p>
+                    </div>
+                    <figure class="cs-diagram">
+                        <svg viewBox="0 0 680 320" role="img" aria-labelledby="ci-dg-title">
+                            <title id="ci-dg-title">Data flow: the national GTFS-RT vehicle feed is polled every 15 seconds by a dedicated fetcher and upserted into PostGIS; static GTFS timetables are imported nightly by Celery; a Django REST API serves spatial queries to the Flutter app, with Redis for queues and caching and push notifications for arrival alerts.</title>
+                            <defs>
+                                <marker id="ci-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="rgba(26,26,23,0.55)"/></marker>
+                                <marker id="ci-arrow-a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="#1F3BFF"/></marker>
+                            </defs>
+                            <text class="dg-tag" x="0" y="14">SOURCES</text>
+                            <rect class="dg-box" x="0" y="26" width="150" height="58"/>
+                            <text class="dg-label" x="10" y="48">GTFS-RT feed</text>
+                            <text class="dg-sub" x="10" y="64">vehicle positions</text>
+                            <text class="dg-sub" x="10" y="77">7 operators, 1 stream</text>
+                            <rect class="dg-box" x="0" y="112" width="150" height="58"/>
+                            <text class="dg-label" x="10" y="134">Static GTFS</text>
+                            <text class="dg-sub" x="10" y="150">one ZIP per operator</text>
+                            <text class="dg-sub" x="10" y="163">stops, routes, shapes</text>
+
+                            <text class="dg-tag" x="180" y="14">INGEST</text>
+                            <rect class="dg-box dg-box--accent" x="180" y="26" width="150" height="58"/>
+                            <text class="dg-label" x="190" y="48">Fetcher process</text>
+                            <text class="dg-sub" x="190" y="64">poll every 15 s, decode,</text>
+                            <text class="dg-sub" x="190" y="77">bounding-box filter</text>
+                            <rect class="dg-box" x="180" y="112" width="150" height="58"/>
+                            <text class="dg-label" x="190" y="134">Celery beat</text>
+                            <text class="dg-sub" x="190" y="150">nightly import, 30 s</text>
+                            <text class="dg-sub" x="190" y="163">arrival-alert job</text>
+
+                            <text class="dg-tag" x="360" y="14">STORE</text>
+                            <rect class="dg-box dg-box--accent" x="360" y="26" width="150" height="144"/>
+                            <text class="dg-label" x="370" y="48">Postgres + PostGIS</text>
+                            <text class="dg-sub" x="370" y="66">vehicles · current</text>
+                            <text class="dg-sub" x="370" y="80">state, upserted</text>
+                            <text class="dg-sub" x="370" y="98">vehicle_positions ·</text>
+                            <text class="dg-sub" x="370" y="112">append-only history</text>
+                            <text class="dg-sub" x="370" y="130">stops, routes, trips,</text>
+                            <text class="dg-sub" x="370" y="144">shapes · ST_DWithin</text>
+                            <rect class="dg-box" x="360" y="196" width="150" height="46"/>
+                            <text class="dg-label" x="370" y="216">Redis</text>
+                            <text class="dg-sub" x="370" y="232">Celery broker + caches</text>
+
+                            <text class="dg-tag" x="540" y="14">SERVE</text>
+                            <rect class="dg-box dg-box--accent" x="540" y="26" width="140" height="58"/>
+                            <text class="dg-label" x="550" y="48">Django REST</text>
+                            <text class="dg-sub" x="550" y="64">nearby, vehicles,</text>
+                            <text class="dg-sub" x="550" y="77">trip planner</text>
+                            <rect class="dg-box" x="540" y="112" width="140" height="58"/>
+                            <text class="dg-label" x="550" y="134">Flutter app</text>
+                            <text class="dg-sub" x="550" y="150">iOS + Android,</text>
+                            <text class="dg-sub" x="550" y="163">Riverpod, maps</text>
+                            <rect class="dg-box" x="540" y="196" width="140" height="46"/>
+                            <text class="dg-label" x="550" y="216">FCM / APNs</text>
+                            <text class="dg-sub" x="550" y="232">"bus approaching"</text>
+
+                            <path class="dg-edge dg-edge--accent" d="M150,55 H178" marker-end="url(#ci-arrow-a)"/>
+                            <path class="dg-edge" d="M150,141 H178" marker-end="url(#ci-arrow)"/>
+                            <path class="dg-edge dg-edge--accent" d="M330,55 H358" marker-end="url(#ci-arrow-a)"/>
+                            <path class="dg-edge" d="M330,141 H358" marker-end="url(#ci-arrow)"/>
+                            <path class="dg-edge dg-edge--accent" d="M510,55 H538" marker-end="url(#ci-arrow-a)"/>
+                            <path class="dg-edge dg-edge--accent" d="M610,84 V110" marker-end="url(#ci-arrow-a)"/>
+                            <path class="dg-edge" d="M510,219 H538" marker-end="url(#ci-arrow)"/>
+                            <path class="dg-edge" d="M610,196 V172" marker-end="url(#ci-arrow)"/>
+                            <path class="dg-edge" d="M255,170 V219 H358" marker-end="url(#ci-arrow)"/>
+                            <text class="dg-sub" x="0" y="290">Hosted on DigitalOcean App Platform (Frankfurt) · CI/CD via GitHub Actions · errors to Sentry</text>
+                        </svg>
+                        <figcaption>Fig. 1 · Two ingestion paths into one spatial store</figcaption>
+                    </figure>
+                </section>
+
+                <section class="section" aria-labelledby="ci-decisions">
+                    <h2 class="section-head" id="ci-decisions"><span class="section-num">04</span> Key decisions</h2>
+                    <div class="cs-prose">
+                        <p>Every significant call is written down as an architecture decision record, 14 so far. Each one includes what would make me revisit it. Four of them:</p>
+                    </div>
+                    <div class="cs-decisions">
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">ADR-002</p>
+                            <h3>A dedicated fetcher, not a Celery task</h3>
+                            <dl>
+                                <dt>Context</dt><dd>The live feed needs polling every 15 seconds. Celery's scheduler isn't precise below a minute, and a hung request to the upstream feed would tie up a worker that other jobs need.</dd>
+                                <dt>Decision</dt><dd>Run ingestion as its own small long-lived process with a per-operator decoder, a Cyprus bounding-box filter and retries. Write current state to a narrow table and history to an append-only one.</dd>
+                                <dt>Trade-off</dt><dd>One more container to run. Kafka or Redis Streams were considered and parked until the fleet reaches about 5,000 vehicles.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">ADR-003</p>
+                            <h3>Django + GeoDjango over a lighter framework</h3>
+                            <dl>
+                                <dt>Context</dt><dd>Almost every question the app asks is spatial: what's near me, which bus is on this route, how far is it from my stop.</dd>
+                                <dt>Decision</dt><dd>Django REST on Postgres with PostGIS, for the ORM's spatial lookups, the migrations and a free admin. A database without spatial indexes was rejected outright.</dd>
+                                <dt>Trade-off</dt><dd>A heavier framework than FastAPI, in exchange for spatial queries that are one line and indexed.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">ADR-006 / 010</p>
+                            <h3>Zero confident-wrong arrival times</h3>
+                            <dl>
+                                <dt>Context</dt><dd>The live feed doesn't say which scheduled trip a bus is serving, so a naive ETA can attach a bus to the wrong route or direction and show a confident, wrong answer.</dd>
+                                <dt>Decision</dt><dd>A four-tier fallback that infers route and direction from the bus's bearing. A spike showed bearing separates 90% of trips. It sits behind a kill switch, with the explicit goal of 0% confident-wrong estimates: fall back to the timetable, or say "unknown", before guessing.</dd>
+                                <dt>Trade-off</dt><dd>Fewer live estimates on screen. Showing fewer is the point.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">ADR-014</p>
+                            <h3>Reversing an earlier decision on maps</h3>
+                            <dl>
+                                <dt>Context</dt><dd>ADR-001 chose an open-source map stack. Months later, consistency with the rest of the platform mattered more than avoiding vendor lock-in.</dd>
+                                <dt>Decision</dt><dd>Migrate to the Google Maps SDK, with bus markers drawn as bitmaps plus a Flutter overlay, and record it as a new ADR that supersedes the old one rather than editing history.</dd>
+                                <dt>Trade-off</dt><dd>Offline map tiles were lost. Writing the reversal down is what makes the log trustworthy.</dd>
+                            </dl>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="ci-hard">
+                    <h2 class="section-head" id="ci-hard"><span class="section-num">05</span> Hard problems</h2>
+                    <div class="cs-story">
+                        <h3>The timetable that froze in production</h3>
+                        <p>The production worker was started without its queue list, so the timetable-import queue was never consumed. Nobody noticed until the published calendar expired and every route went inactive. The health check had been counting rows, not services running today. The fix went beyond the flag: the health check now grades freshness, tests assert that production and local configs subscribe to the same queues, and a calendar bug found along the way was fixed too.</p>
+                    </div>
+                    <div class="cs-story">
+                        <h3><code>fork()</code> doesn't copy threads</h3>
+                        <p>The trip planner returned a 500 for every production request while working fine locally. A warm-up thread started at app load was still mid-import when gunicorn forked its workers, leaving them with a half-initialised module. I reproduced it with production settings, then moved the warm-up into a post-fork hook.</p>
+                    </div>
+                    <div class="cs-story">
+                        <h3>Bugs that only exist at fleet scale</h3>
+                        <p>With hundreds of live buses, one vehicle could claim every scheduled slot on a route. "Nearest" was also ranked ahead of "soonest", and some estimates drifted far into the future. Each fix was small: rank by ETA, cap estimates at 30 minutes, one bus per slot. None of these bugs showed up with test data.</p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="ci-outcome">
+                    <h2 class="section-head" id="ci-outcome"><span class="section-num">06</span> Outcome &amp; what I'd do differently</h2>
+                    <div class="cs-prose">
+                        <p>The backend runs in production. The iOS app is in a TestFlight pilot, and an Android release build is ready. Payments and wallet passes are built and waiting on ticketing approval. The code is private, and I'm happy to walk through it on a call.</p>
+                        <ul>
+                            <li><strong>Row counts aren't freshness.</strong> Health checks should ask "is today's service running?", not "is the table non-empty?".</li>
+                            <li><strong>One definition per service.</strong> Production and local configs drifted because the same worker was described in two files. Now a test compares them.</li>
+                            <li><strong>Measure the fallback before tuning it.</strong> The bearing spike decided the ETA design. I'd run spikes like that earlier and more often.</li>
+                        </ul>
+                    </div>
+                </section>
