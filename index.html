@@ -48,7 +48,7 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css?v=20261002d">
+    <link rel="stylesheet" href="css/styles.css?v=20261002f">
     <link rel="preload" href="assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/hero/hero-loop-poster.jpg" as="image" fetchpriority="high">
@@ -259,16 +259,16 @@
                             <span class="case-flag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private</span>
                         </header>
                         <p class="case-role">Solo · Flutter (iOS + Android) + Supabase · May – Sep 2026</p>
-                        <p class="case-line"><span class="case-k">Problem</span> Actors learn their parts alone, from paper scripts, with nobody to read the other lines — and then a director wanted the whole company on the app.</p>
-                        <p class="case-line"><span class="case-k">Approach</span> A rehearsal partner that grew into a production platform, built on ports and adapters: a pure Dart core behind 28 ports, with speech, audio, storage and Supabase as swappable adapters — and every significant call written down as an ADR.</p>
+                        <p class="case-line"><span class="case-k">Problem</span> Amateur theatre runs on paper scripts and group chats: actors rehearse alone, and directors juggle schedules, costumes and casting across a dozen threads.</p>
+                        <p class="case-line"><span class="case-k">Approach</span> An end-to-end platform for theatre: each production is its own space, with roles that mirror the org chart, a call board, calendar, shared wardrobe and box office, plus a scene partner for every actor. It began as a rehearsal app for one actor.</p>
                         <ul class="case-decisions">
-                            <li>Domain logic depends on nothing — UI, storage and platform are plug-in adapters.</li>
-                            <li>61 ADRs capture the &ldquo;why&rdquo; behind each call, so the reasoning is reviewable, not folklore.</li>
-                            <li>A pure core that can be unit-tested without a simulator.</li>
+                            <li>Seven production roles: the app shows the right buttons, and row-level security is the only server boundary.</li>
+                            <li>Eight versions in eight days took it from one actor to a whole company, with security tested live.</li>
+                            <li>62 ADRs, and a full design-system pass (Lampblack) before restyling any screen.</li>
                         </ul>
-                        <p class="case-line"><span class="case-k">Outcome</span> In use by a 12-person cast; 24 versions shipped, 779 automated tests. Private repo — code walkthrough on request.</p>
+                        <p class="case-line"><span class="case-k">Outcome</span> In use by a 12-person cast; 829 automated tests. Private repo, walkthrough on request.</p>
                         <div class="case-tech">
-                            <span class="tech-tag">Flutter</span><span class="tech-tag">Supabase</span><span class="tech-tag">Ports &amp; Adapters</span><span class="tech-tag">ADRs</span><span class="tech-tag">Stripe</span>
+                            <span class="tech-tag">Flutter</span><span class="tech-tag">Supabase</span><span class="tech-tag">Postgres RLS</span><span class="tech-tag">Ports &amp; Adapters</span><span class="tech-tag">Stripe</span>
                         </div>
                         <div class="case-links">
                             <a class="case-badge case-badge--read" href="work/aristophanes.html">Read the case study <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
@@ -492,6 +492,6 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up"></use></svg></button>
 
-    <script src="js/script.js?v=20261002d"></script>
+    <script src="js/script.js?v=20261002f"></script>
 </body>
 </html>

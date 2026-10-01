@@ -20,15 +20,15 @@
     "num": "02",
     "title": "Aristophanes",
     "public": false,
-    "tagline": "A rehearsal partner that grew into a production platform.",
-    "description": "Case study: Aristophanes — a theatre rehearsal app that grew into a production platform for a 12-person cast. Flutter (iOS + Android), Supabase and a Next.js ticket site, built with ports and adapters and 61 ADRs.",
-    "lede": "It began as a scene partner for one actor rehearsing <em>Lysistrata</em> alone — reading the other parts aloud and listening for hers. It grew into a production platform for a whole cast: roles, a shared calendar, a call board, wardrobe, push, and tickets.",
+    "tagline": "An end-to-end platform for theatre, from solo practice to running a production.",
+    "description": "Case study: Aristophanes, an end-to-end platform for theatre companies. It grew from a scene partner for one actor into a production space with roles, call board, calendar, wardrobe and box office. Built in Flutter (iOS and Android) on Supabase with row-level security, and documented in 62 ADRs.",
+    "lede": "It began as a scene partner for one actor rehearsing <em>Lysistrata</em> alone. Then a director asked for the whole company. Today it is a platform for theatre: each production gets its own space, with roles that mirror the org chart, a call board, a rehearsal calendar, a shared wardrobe and a box office, and every actor still has a partner to rehearse with.",
     "alt": "A graphite hexagonal block with aluminium adapter plugs around it, one seated and ringed in cobalt light.",
     "meta": {
       "Role": "Solo",
       "Timeline": "May – Sep 2026",
-      "Stack": "Flutter (iOS + Android) · Riverpod · Drift · Supabase · Next.js · Stripe",
-      "Status": "In use by a 12-person cast (TestFlight + Firebase)"
+      "Stack": "Flutter (iOS + Android) · Supabase + RLS · Riverpod · Drift · Next.js · Stripe",
+      "Status": "In use by a 12-person cast · Lampblack redesign in testing"
     }
   },
   {

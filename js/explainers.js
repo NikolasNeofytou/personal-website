@@ -233,133 +233,125 @@
     }
 
     // ======================================================================
-    // Aristophanes — ports & adapters you can swap at runtime
-    // `PracticeEngine.run` is the domain: it only knows the two ports. The
-    // code panel prints this exact function, so what you read is what runs.
+    // Aristophanes — who can do what in a production
+    // `can` below is a line-for-line port of the app's
+    // lib/domain/accounts/capability.dart (ADR-047). In the app it only
+    // decides which buttons a member sees; the server never trusts it —
+    // Postgres row-level security mirrors the same matrix and has the final
+    // say. The "tampered client" switch makes that split visible.
     // ======================================================================
-    const SCENE = [
-        { who: 'MAGISTRATE', mine: false, text: 'The council meets at dawn. Are you ready?' },
-        { who: 'YOU', mine: true, text: 'Ready as I will ever be. Give me my cue.' },
-        { who: 'CHORUS', mine: false, text: 'Then speak, and let the whole city hear it.' },
-        { who: 'YOU', mine: true, text: 'I will say it once, and clearly.' },
+    const ROLES = [
+        ['organizer', 'Organizer'], ['director', 'Director'], ['assistantDirector', 'Assistant director'],
+        ['costume', 'Costume (ενδυματολόγος)'], ['sound', 'Sound'], ['music', 'Music'], ['cast', 'Cast'],
     ];
-    const PracticeEngine = {
-        async run(scene, { tts, store, awaitActor }) {
-            const started = Date.now();
-            for (const line of scene) {
-                if (line.mine) await awaitActor(line);   // the actor says it, taps Done
-                else await tts.speak(line.text);         // the partner reads it
-            }
-            await store.save({ lines: scene.length, ms: Date.now() - started });
-            return store.count();
-        },
-    };
-    const TTS = {
-        voice: (log) => ({
-            name: 'Device voice',
-            speak: text => new Promise(resolve => {
-                if (!('speechSynthesis' in window)) { log('speechSynthesis unavailable, so nothing spoken'); return resolve(); }
-                const u = new SpeechSynthesisUtterance(text);
-                u.rate = 1.05;
-                u.onend = u.onerror = () => resolve();
-                log(`TtsPort.speak → Web Speech API`);
-                speechSynthesis.speak(u);
-            }),
-        }),
-        fake: (log) => ({
-            name: 'Silent fake',
-            speak: text => new Promise(resolve => { log(`TtsPort.speak → fake (silent): “${text.slice(0, 28)}…”`); setTimeout(resolve, 350); }),
-        }),
-    };
-    const STORE = {
-        local: (log) => ({
-            name: 'localStorage',
-            async save(s) { try { const all = JSON.parse(localStorage.getItem('ar-demo-sessions') || '[]'); all.push(s); localStorage.setItem('ar-demo-sessions', JSON.stringify(all)); } catch (e) { /* storage blocked */ } log(`SessionStore.save → localStorage`); },
-            async count() { try { return JSON.parse(localStorage.getItem('ar-demo-sessions') || '[]').length; } catch (e) { return 0; } },
-        }),
-        memory: (log, mem) => ({
-            name: 'In-memory',
-            async save(s) { mem.push(s); log(`SessionStore.save → in-memory array`); },
-            async count() { return mem.length; },
-        }),
-    };
-
-    function adaptersDemo(root) {
-        const mem = [];
-        const logEl = h('ol', { class: 'demo-log', 'aria-live': 'polite' });
-        const log = msg => { logEl.append(h('li', { text: msg })); logEl.scrollTop = logEl.scrollHeight; };
-        const choice = { tts: 'fake', store: 'memory' };
-        const seg = (port, opts) => h('div', { class: 'demo-seg', role: 'radiogroup', 'aria-label': port },
-            opts.map(([key, label]) => {
-                const b = h('button', { type: 'button', role: 'radio', class: 'demo-seg-btn', text: label,
-                    onclick: () => { choice[port] = key; sync(); } });
-                b.dataset.key = key; b.dataset.port = port;
-                return b;
-            }));
-        const ttsSeg = seg('tts', [['fake', 'Silent fake'], ['voice', 'Device voice']]);
-        const storeSeg = seg('store', [['memory', 'In-memory'], ['local', 'localStorage']]);
-        function sync() {
-            root.querySelectorAll('.demo-seg-btn').forEach(b => {
-                const on = choice[b.dataset.port] === b.dataset.key;
-                b.classList.toggle('is-on', on); b.setAttribute('aria-checked', String(on));
-            });
-            portTts.textContent = choice.tts === 'voice' ? 'Device voice' : 'Silent fake';
-            portStore.textContent = choice.store === 'local' ? 'localStorage' : 'In-memory';
+    const CAPS = [
+        ['manageMembers', 'Add or remove members, share invites'],
+        ['assignRolesAndCasting', 'Assign roles and cast parts'],
+        ['editCalendar', 'Edit the rehearsal calendar'],
+        ['postToBoard', 'Post to the call board'],
+        ['openWardrobe', 'Open the wardrobe'],
+        ['editWardrobe', 'Upload costume photos'],
+        ['runBoxOffice', 'Run the box office and the door'],
+        ['viewOwnRoleAndPart', 'See your own role and part'],
+        ['practiceOwnPart', 'Practise your own part'],
+    ];
+    function can(roles, cap) {
+        if (roles.has('organizer')) return true;              // superuser (A7)
+        switch (cap) {
+            case 'manageMembers': return false;               // organizer-only
+            case 'assignRolesAndCasting': return roles.has('director');
+            case 'openWardrobe':
+            case 'editWardrobe': return roles.has('director') || roles.has('costume');
+            case 'editCalendar':
+            case 'postToBoard': return roles.has('director') || roles.has('assistantDirector');
+            case 'runBoxOffice': return roles.has('director'); // canManageBoxOffice + the admit RPC
+            case 'viewOwnRoleAndPart':
+            case 'practiceOwnPart': return true;              // every member
         }
-        const portTts = svg('text', { x: 52, y: 64, class: 'demo-adapter', 'text-anchor': 'middle' });
-        const portStore = svg('text', { x: 268, y: 64, class: 'demo-adapter', 'text-anchor': 'middle' });
-        const hexSvg = svg('svg', { viewBox: '0 0 320 150', class: 'demo-hex', 'aria-hidden': 'true' });
-        hexSvg.append(
-            svg('polygon', { points: '215,75 187.5,122 132.5,122 105,75 132.5,28 187.5,28', class: 'demo-hex-core' }),
-            svg('line', { x1: 105, y1: 75, x2: 70, y2: 75, class: 'demo-hex-wire' }),
-            svg('line', { x1: 215, y1: 75, x2: 250, y2: 75, class: 'demo-hex-wire' }),
-            svg('rect', { x: 2, y: 46, width: 100, height: 28, class: 'demo-hex-adapter' }),
-            svg('rect', { x: 218, y: 46, width: 100, height: 28, class: 'demo-hex-adapter' }),
-            portTts, portStore);
-        [['DOMAIN', 160, 72, 'demo-hex-title'], ['PracticeEngine', 160, 88, 'demo-hex-sub'], ['TtsPort', 52, 38, 'demo-hex-port'], ['SessionStore', 268, 38, 'demo-hex-port']]
-            .forEach(([t, x, y, c]) => { const n = svg('text', { x, y, class: c, 'text-anchor': 'middle' }); n.textContent = t; hexSvg.append(n); });
+        return false;
+    }
+    const DART = `bool can(Set<ProductionRole> roles, Capability action) {
+  if (roles.contains(ProductionRole.organizer)) return true;
+  switch (action) {
+    case Capability.manageMembers:
+      return false; // organizer-only
+    case Capability.assignRolesAndCasting:
+      return roles.contains(ProductionRole.director);
+    case Capability.openWardrobe:
+    case Capability.editWardrobe:
+      return roles.contains(ProductionRole.director) ||
+          roles.contains(ProductionRole.costume);
+    case Capability.editCalendar:
+    case Capability.postToBoard:
+      return roles.contains(ProductionRole.director) ||
+          roles.contains(ProductionRole.assistantDirector);
+    case Capability.viewOwnRoleAndPart:
+    case Capability.practiceOwnPart:
+      return true; // every member
+  }
+}`;
 
-        const cue = h('p', { class: 'demo-cue', 'aria-live': 'polite', text: 'Pick adapters, then run the scene.' });
-        const done = h('button', { type: 'button', class: 'demo-btn demo-btn--accent', text: 'Done', disabled: '' });
-        const run = h('button', { type: 'button', class: 'demo-btn demo-btn--accent', text: 'Run scene' });
-        let busy = false;
-        run.addEventListener('click', async () => {
-            if (busy) return;
-            busy = true; run.disabled = true; logEl.replaceChildren();
-            const tts = TTS[choice.tts](log), store = STORE[choice.store](log, mem);
-            log(`wired: TtsPort ⇐ ${tts.name}, SessionStore ⇐ ${store.name}`);
-            const awaitActor = line => new Promise(resolve => {
-                cue.textContent = `Your line: “${line.text}” Say it, then tap Done.`;
-                done.disabled = false; done.focus();
-                done.onclick = () => { done.disabled = true; done.onclick = null; log('actor tapped Done'); resolve(); };
-            });
-            const n = await PracticeEngine.run(SCENE, {
-                tts: { speak: t => { cue.textContent = `Partner reads: “${t}”`; return tts.speak(t); } },
-                store, awaitActor,
-            });
-            cue.textContent = `Scene complete. Sessions in ${store.name}: ${n}.`;
-            log(`run() returned ${n}. Domain code unchanged.`);
-            busy = false; run.disabled = false;
+    function rolesDemo(root) {
+        const held = new Set(['cast']);
+        let tampered = false;
+        const chips = ROLES.map(([key, label]) => {
+            const b = h('button', { type: 'button', class: 'demo-role', text: label, 'aria-pressed': 'false',
+                onclick: () => {
+                    if (held.has(key) && held.size === 1) return;   // every member holds at least one role
+                    held.has(key) ? held.delete(key) : held.add(key);
+                    render();
+                } });
+            b.dataset.role = key;
+            return b;
         });
+        const tamper = h('button', { type: 'button', class: 'demo-btn', 'aria-pressed': 'false',
+            onclick: () => { tampered = !tampered; render(); } });
+        const rows = h('tbody');
+        const summary = h('p', { class: 'demo-roles-summary', 'aria-live': 'polite' });
 
-        const src = PracticeEngine.run.toString().split('\n');
-        const indent = Math.min(...src.slice(1).filter(l => l.trim()).map(l => l.match(/^ */)[0].length));
-        const code = h('pre', { class: 'demo-code' }, h('code', { text: [src[0], ...src.slice(1).map(l => l.slice(indent))].join('\n') }));
+        function render() {
+            chips.forEach(b => {
+                const on = held.has(b.dataset.role);
+                b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', String(on));
+            });
+            tamper.textContent = tampered ? 'Client: tampered — every button shown' : 'Client: honest';
+            tamper.setAttribute('aria-pressed', String(tampered));
+            tamper.classList.toggle('is-warn', tampered);
+            let allowed = 0, blocked = 0;
+            rows.replaceChildren(...CAPS.map(([cap, label]) => {
+                const ok = can(held, cap);
+                const shown = ok || tampered;
+                if (ok) allowed++;
+                if (shown && !ok) blocked++;
+                return h('tr', { class: ok ? 'is-ok' : shown ? 'is-blocked' : 'is-off' },
+                    h('th', { scope: 'row', text: label }),
+                    h('td', { class: 'demo-gate' }, h('span', { text: shown ? 'Shown' : 'Hidden' })),
+                    h('td', { class: 'demo-gate' }, h('span', { text: !shown ? '—' : ok ? 'Allowed' : 'Refused by RLS' })));
+            }));
+            const who = ROLES.filter(([k]) => held.has(k)).map(([, l]) => l.replace(/ \(.*\)/, '')).join(' + ');
+            summary.textContent = tampered && blocked
+                ? `${who}: ${blocked} extra button${blocked > 1 ? 's' : ''} now visible, and the server still refuses every one.`
+                : `${who}: ${allowed} of ${CAPS.length} actions.`;
+        }
+
         root.replaceChildren(
+            h('p', { class: 'demo-port-label', text: 'This member holds (a person can hold several roles)' }),
+            h('div', { class: 'demo-roles' }, chips),
             h('div', { class: 'demo-grid' },
                 h('div', {},
-                    hexSvg,
-                    h('div', { class: 'demo-ports' },
-                        h('p', { class: 'demo-port-label', text: 'TtsPort adapter' }), ttsSeg,
-                        h('p', { class: 'demo-port-label', text: 'SessionStore adapter' }), storeSeg)),
+                    h('table', { class: 'demo-matrix' },
+                        h('thead', {}, h('tr', {}, h('th', { scope: 'col', text: 'Action' }), h('th', { scope: 'col', text: 'In the app' }), h('th', { scope: 'col', text: 'On the server' }))),
+                        rows),
+                    h('div', { class: 'demo-controls demo-tamper' }, tamper),
+                    summary),
                 h('div', {},
-                    h('p', { class: 'demo-port-label', text: 'Domain · the exact function running this demo' }), code)),
-            h('div', { class: 'demo-run' }, h('div', { class: 'demo-controls' }, run, done), cue),
-            logEl);
-        sync();
+                    h('p', { class: 'demo-port-label', text: 'The app’s permission map (Dart, pure domain)' }),
+                    h('pre', { class: 'demo-code' }, h('code', { text: DART })),
+                    h('p', { class: 'demo-code-note', text: 'Box-office access is a separate check (organizer or director), enforced again by the server’s admit-once function.' }))));
+        render();
     }
 
-    const DEMOS = { normalise: normaliseDemo, eta: etaDemo, adapters: adaptersDemo };
+    const DEMOS = { normalise: normaliseDemo, eta: etaDemo, roles: rolesDemo };
     document.querySelectorAll('[data-demo]').forEach(el => {
         const fn = DEMOS[el.dataset.demo];
         if (fn) { el.classList.add('is-live'); fn(el.querySelector('.demo-body') || el); }
