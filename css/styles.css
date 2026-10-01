@@ -212,7 +212,62 @@ img { max-width: 100%; display: block; }
 .side-cv:hover { color: var(--accent); border-color: var(--accent); }
 
 /* ---------- Main ---------- */
-.main { padding: clamp(3rem, 9vh, 6rem) 0 4rem; min-width: 0; }
+.main { position: relative; padding: clamp(3rem, 9vh, 6rem) 0 4rem; min-width: 0; }
+
+/* ---------- Signal trace ----------
+   A PCB-style trace in the left gutter, built by js/script.js from the
+   section positions. The faint base route is always there; the cobalt
+   copy draws down as you scroll and lights each section's via. Sits on
+   the grid's layer (-1), so content always paints over it. */
+.trace {
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    overflow: visible;
+    pointer-events: none;
+}
+.trace-base,
+.trace-live,
+.trace-stub,
+.trace-gnd {
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+}
+.trace-base, .trace-gnd { stroke: rgba(26, 26, 23, 0.14); }
+.trace-live { stroke: var(--accent); }
+.trace-stub { stroke: rgba(26, 26, 23, 0.14); transition: stroke 0.3s; }
+.trace-via {
+    fill: var(--bg);
+    stroke: rgba(26, 26, 23, 0.28);
+    stroke-width: 1.5;
+    transition: fill 0.3s, stroke 0.3s;
+}
+.trace-pad { fill: rgba(26, 26, 23, 0.18); transition: fill 0.3s; }
+.trace-node.is-lit .trace-stub { stroke: var(--accent); }
+.trace-node.is-lit .trace-via { fill: var(--accent); stroke: var(--accent); }
+.trace-node.is-lit .trace-pad { fill: var(--accent); }
+.trace-node.is-lit .trace-ring {
+    animation: via-ping 0.9s ease-out 1;
+}
+.trace-ring {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+@keyframes via-ping {
+    from { opacity: 0.7; transform: scale(1); }
+    to   { opacity: 0;   transform: scale(3.2); }
+}
+.trace.is-done .trace-gnd { stroke: var(--accent); }
+.trace-tip { fill: var(--accent); }
+.trace-glow { fill: var(--accent); opacity: 0.22; filter: blur(5px); }
+.trace.is-static .trace-tip,
+.trace.is-static .trace-glow { display: none; }
 
 /* ---------- Hero loop (Fig. 00) ---------- */
 .hero-loop[hidden] { display: none; }
