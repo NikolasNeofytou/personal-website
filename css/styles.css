@@ -224,9 +224,19 @@ img { max-width: 100%; display: block; }
 }
 .side-cv:hover { color: var(--accent); border-color: var(--accent); }
 
-/* Font Awesome loads without blocking paint; reserving each icon's box
-   means nothing moves when the icon font arrives. */
-i[class*="fa-"] { display: inline-block; width: 1em; text-align: center; font-style: normal; }
+/* Icons: an inline SVG sprite (Font Awesome Free paths) at the top of
+   <body>, so no icon font, no extra connection, nothing to wait for. */
+.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+    fill: currentColor;
+    overflow: visible;
+}
+.icon-spin { animation: icon-spin 1s linear infinite; }
+@keyframes icon-spin { to { transform: rotate(360deg); } }
 
 /* ---------- Main ---------- */
 .main { position: relative; padding: clamp(3rem, 9vh, 6rem) 0 4rem; min-width: 0; }
@@ -400,8 +410,8 @@ i[class*="fa-"] { display: inline-block; width: 1em; text-align: center; font-st
         border-left: 1px solid var(--line-strong);
     }
 }
-.scrub.is-live .scrub-poster { opacity: 0; transition: opacity 0.3s; }
-.scrub.is-live.is-waiting .scrub-poster { opacity: 1; }
+/* hidden lazy images are never fetched, so live mode skips the poster */
+.scrub.is-live .scrub-poster { display: none; }
 .scrub.is-live .scrub-steps {
     position: absolute;
     left: 0; right: 0; bottom: 0;
@@ -673,7 +683,7 @@ i[class*="fa-"] { display: inline-block; width: 1em; text-align: center; font-st
     border: 1px solid var(--line-strong);
     padding: 0.2rem 0.5rem;
 }
-.case-flag i { margin-right: 0.3rem; }
+.case-flag .icon { margin-right: 0.3rem; }
 .case-flag--open { color: var(--accent-dim); border-color: var(--accent-line); }
 .case-role {
     font-family: var(--mono);
@@ -736,7 +746,7 @@ i[class*="fa-"] { display: inline-block; width: 1em; text-align: center; font-st
     font-size: 0.72rem;
     color: var(--text-faint);
 }
-.case-badge i { color: var(--accent-dim); }
+.case-badge .icon { color: var(--accent-dim); }
 .case-badge--link { color: var(--accent-dim); transition: color 0.2s; }
 .case-badge--link:hover { color: var(--accent); }
 

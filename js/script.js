@@ -72,7 +72,7 @@
 
     let target = 0, drawn = null, queued = false, loading = false;
 
-    sec.classList.add('is-live', 'is-waiting');
+    sec.classList.add('is-live');
 
     function load(i) {
         if (frames[i]) return;
@@ -123,7 +123,6 @@
             const w = img.naturalWidth * k, h = img.naturalHeight * k;
             ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
             drawn = img;
-            sec.classList.remove('is-waiting');
         }
         steps.forEach(s => s.classList.toggle('is-on', p >= +s.dataset.from && p < +s.dataset.to));
         if (fill) fill.style.transform = `scaleX(${p})`;
@@ -306,33 +305,42 @@
 })();
 
 // ==========================================
-// Substack RSS feed (Writing)
+// Writing — latest Substack posts from assets/substack.json, a same-origin
+// snapshot kept fresh by .github/workflows/substack-feed.yml (no runtime
+// third-party proxy). Built with DOM nodes, so feed text is never parsed
+// as HTML.
 // ==========================================
 (function () {
     const container = document.getElementById('substackPosts');
     if (!container) return;
 
-    const RSS_URL = 'https://nikolasneofytou.substack.com/feed';
-    const PROXY_URL = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(RSS_URL);
+    const fallback = () => {
+        container.innerHTML = '<div class="writing-placeholder">Visit my Substack for essays on philosophy, history, and more.</div>';
+    };
+    const make = (tag, cls, text) => {
+        const n = document.createElement(tag);
+        n.className = cls;
+        if (text) n.textContent = text;
+        return n;
+    };
 
-    fetch(PROXY_URL)
-        .then(res => res.json())
-        .then(data => {
-            if (data.status !== 'ok' || !data.items || !data.items.length) throw new Error('no posts');
-            container.innerHTML = data.items.slice(0, 5).map(post => {
-                const date = new Date(post.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-                const desc = post.description.replace(/<[^>]*>/g, '').trim().substring(0, 140).trim() + '…';
-                return `
-                    <a href="${post.link}" class="writing-card" target="_blank" rel="noopener noreferrer">
-                        <div class="writing-date">${date}</div>
-                        <h3 class="writing-title">${post.title}</h3>
-                        <p class="writing-excerpt">${desc}</p>
-                    </a>`;
-            }).join('');
+    fetch('assets/substack.json')
+        .then(res => { if (!res.ok) throw new Error(res.status); return res.json(); })
+        .then(({ posts }) => {
+            if (!posts || !posts.length) throw new Error('no posts');
+            container.replaceChildren(...posts.map(post => {
+                const card = make('a', 'writing-card');
+                card.href = post.link;
+                card.target = '_blank';
+                card.rel = 'noopener noreferrer';
+                const date = new Date(post.date + 'T12:00:00Z')
+                    .toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                card.append(make('div', 'writing-date', date), make('h3', 'writing-title', post.title));
+                if (post.excerpt) card.append(make('p', 'writing-excerpt', post.excerpt));
+                return card;
+            }));
         })
-        .catch(() => {
-            container.innerHTML = `<div class="writing-placeholder">Visit my Substack for essays on philosophy, history, and more.</div>`;
-        });
+        .catch(fallback);
 })();
 
 // ==========================================
