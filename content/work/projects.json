@@ -9,7 +9,7 @@
     "lede": "A live map of every bus in Cyprus, arrival estimates you can trust, and a trip planner that would rather say “I don’t know” than guess. Flutter on iOS and Android, over a Django and PostGIS backend fed by the national real-time feed.",
     "alt": "A folded transit map on a dark desk with one route traced in cobalt thread, a brass token beside it.",
     "meta": {
-      "Role": "Solo, with AI pair-programming",
+      "Role": "Solo",
       "Timeline": "Dec 2025 – Sep 2026",
       "Stack": "Flutter · Riverpod · Django REST · PostGIS · Celery · Redis",
       "Status": "Backend in production · iOS pilot on TestFlight"
@@ -25,7 +25,7 @@
     "lede": "It began as a scene partner for one actor rehearsing <em>Lysistrata</em> alone — reading the other parts aloud and listening for hers. It grew into a production platform for a whole cast: roles, a shared calendar, a call board, wardrobe, push, and tickets.",
     "alt": "A graphite hexagonal block with aluminium adapter plugs around it, one seated and ringed in cobalt light.",
     "meta": {
-      "Role": "Solo, with AI pair-programming",
+      "Role": "Solo",
       "Timeline": "May – Sep 2026",
       "Stack": "Flutter (iOS + Android) · Riverpod · Drift · Supabase · Next.js · Stripe",
       "Status": "In use by a 12-person cast (TestFlight + Firebase)"
@@ -41,7 +41,7 @@
     "lede": "Ρίζα is an open dictionary of Modern Greek where every definition carries a citation you can click through to. Type any form of a word — accented or not, monotonic or polytonic — and land on its entry, with declension and conjugation tables, cross-references and real usage examples.",
     "alt": "An open antique lexicon on a dark desk with a brass loupe resting on the page and a cobalt ribbon bookmark.",
     "meta": {
-      "Role": "Solo, with AI pair-programming",
+      "Role": "Solo",
       "Timeline": "Aug 2026 · 4-day build",
       "Stack": "Next.js 16 · TypeScript · Postgres (Neon) · Vercel",
       "Status": "Live at <a href=\"https://plutarch-five.vercel.app\" target=\"_blank\" rel=\"noopener noreferrer\">plutarch-five.vercel.app</a>"
