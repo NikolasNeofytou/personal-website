@@ -1151,6 +1151,39 @@ img { max-width: 100%; display: block; }
 .week-ring { fill: none; stroke: var(--accent); stroke-width: 2; }
 .week-badge { fill: var(--surface); stroke: var(--text); stroke-width: 0.8; }
 .week-screen { transition: none; }
+/* Cinna week: the route map and the rider's screens */
+.wk-street { stroke: rgba(26, 26, 23, 0.06); stroke-width: 10; stroke-linecap: round; }
+.wk-route22 { fill: none; stroke: rgba(26, 26, 23, 0.16); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 2 7; }
+.wk-route-tag { font-family: var(--mono); font-size: 9px; fill: var(--text-faint); }
+.wk-road { fill: none; stroke: rgba(26, 26, 23, 0.18); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.wk-route-hi { fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.wk-stop { fill: var(--surface); stroke: var(--text); stroke-width: 1.6; transition: fill 0.2s; }
+.wk-stop.is-on { fill: var(--accent); stroke: var(--accent); }
+.wk-stop-label { font-family: var(--sans); font-size: 9.5px; fill: var(--text-dim); }
+.wk-pin { fill: var(--accent); }
+.wk-rider { fill: var(--text); }
+.wk-you { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em; fill: var(--text); }
+.wk-bus { fill: var(--accent); stroke: var(--accent); stroke-width: 1.2; }
+.wk-bus.is-lost { fill: var(--surface); stroke: var(--text-faint); stroke-dasharray: 3 3; }
+.wk-bus-text { font-family: var(--mono); font-size: 10px; font-weight: 500; fill: #fff; }
+.wk-bus.is-lost + .wk-bus-text { fill: var(--text-faint); }
+.wk-badge { fill: var(--accent); }
+.wk-badge-text { font-family: var(--mono); font-size: 10px; font-weight: 500; fill: #fff; }
+.wk-big { font-family: var(--serif); font-size: 20px; fill: var(--text); }
+.wk-live { fill: var(--accent); }
+.wk-live.is-off { fill: var(--text-faint); }
+.week-card.wk-selected { stroke: var(--accent); stroke-width: 1.6; }
+.wk-pass { fill: var(--text); }
+.wk-pass-kicker { font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; fill: rgba(245, 244, 239, 0.6); }
+.wk-pass-title { font-family: var(--sans); font-size: 12px; font-weight: 500; fill: var(--bg); }
+.wk-pass-qr { fill: var(--bg); }
+.wk-tap { fill: rgba(31, 59, 255, 0.12); stroke: var(--accent); stroke-width: 2; }
+.wk-tap-check { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.wk-tap-text { font-family: var(--serif); font-size: 18px; fill: var(--text); }
+.wk-ride-stop { font-family: var(--serif); font-size: 26px; fill: var(--text); }
+.wk-banner { fill: var(--accent); }
+.wk-banner-text { font-family: var(--sans); font-size: 12px; font-weight: 500; fill: #fff; }
+
 /* static storyboard (no JS / reduced motion) */
 .week-story { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
 .week-story li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.75rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }

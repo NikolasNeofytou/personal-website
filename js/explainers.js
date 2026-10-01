@@ -233,6 +233,65 @@
     }
 
     // ======================================================================
+    // Week stories — the shared shell for the scroll-driven case-study
+    // stories: a pinned stage with a rail of days, a phone (the app) on the
+    // left of an SVG, and a caption. Each story builds its own screens and
+    // right-hand scene, then hands render(day, t) to start(). Everything is
+    // a pure function of scroll progress, so it scrubs both ways.
+    // ======================================================================
+    const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+    const ease = t => t * t * (3 - 2 * t);
+
+    function weekShell(root, { days, kicker, titles, label }) {
+        if (reduceMotion || !('IntersectionObserver' in window)) return null;   // static storyboard stays
+        const section = root.closest('.week');
+        const S = (tag, attrs = {}, parent) => { const n = svg(tag, attrs); if (parent) parent.append(n); return n; };
+        const T = (parent, x, y, text, cls, extra = {}) => { const n = S('text', { x, y, class: cls, ...extra }, parent); n.textContent = text; return n; };
+
+        const rail = h('ol', { class: 'week-rail' }, days.map(([d, t]) => h('li', {}, h('span', { class: 'week-day', text: d }), h('span', { class: 'week-title', text: t }))));
+        const railFill = h('span', { class: 'week-rail-fill' });
+        const caption = h('p', { class: 'week-caption', 'aria-live': 'polite' });
+        const art = S('svg', { viewBox: '0 0 640 440', class: 'week-svg', role: 'img', 'aria-label': label });
+        const back = S('g', {}, art);                      // drawn under the phone
+        const phone = S('g', {}, art);
+        S('rect', { x: 20, y: 18, width: 212, height: 404, rx: 30, class: 'week-phone' }, phone);
+        S('rect', { x: 98, y: 30, width: 56, height: 8, rx: 4, class: 'week-notch' }, phone);
+        T(phone, 42, 66, kicker, 'week-kicker');
+        const screenTitle = T(phone, 42, 90, '', 'week-screen-title');
+        const screens = days.map(() => S('g', { class: 'week-screen' }, phone));
+        root.replaceChildren(h('div', { class: 'week-head' }, rail, h('span', { class: 'week-rail-track' }, railFill)), art, caption);
+
+        function start(render) {
+            let lastDay = -1, queued = false, near = false;
+            const frame = p => {
+                const s = clamp(p) * days.length;
+                const day = Math.min(days.length - 1, Math.floor(s));
+                const t = clamp(s - day);
+                railFill.style.transform = `scaleX(${clamp(p)})`;
+                if (day !== lastDay) {
+                    [...rail.children].forEach((li, i) => li.classList.toggle('is-on', i === day));
+                    screenTitle.textContent = titles[day];
+                    caption.textContent = days[day][2];
+                    lastDay = day;
+                }
+                screens.forEach((g, i) => g.style.opacity = i === day ? clamp(t / 0.08) : 0);
+                render(day, t);
+            };
+            const update = () => {
+                queued = false;
+                const travel = section.offsetHeight - window.innerHeight;
+                frame(travel > 0 ? -section.getBoundingClientRect().top / travel : 0);
+            };
+            const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+            new IntersectionObserver(([e]) => { near = e.isIntersecting; if (near) schedule(); }, { rootMargin: '100% 0px' }).observe(section);
+            window.addEventListener('scroll', () => { if (near) schedule(); }, { passive: true });
+            window.addEventListener('resize', schedule);
+            frame(0);
+        }
+        return { art, back, phone, screens, S, T, start };
+    }
+
+    // ======================================================================
     // Aristophanes — a week in the production (scroll-driven)
     // One production as its own space: the phone on the left is "the app",
     // the seals on the right are the company. Scroll progress p ∈ [0,1]
@@ -240,14 +299,6 @@
     // function of p, so it scrubs both ways. Illustrative, not real data.
     // ======================================================================
     function weekDemo(root) {
-        const section = root.closest('.week');
-        if (reduceMotion || !('IntersectionObserver' in window)) return false;   // static storyboard stays
-
-        const NS = 'http://www.w3.org/2000/svg';
-        const S = (tag, attrs = {}, parent) => { const n = svg(tag, attrs); if (parent) parent.append(n); return n; };
-        const T = (parent, x, y, text, cls, extra = {}) => { const n = S('text', { x, y, class: cls, ...extra }, parent); n.textContent = text; return n; };
-        const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-        const ease = t => t * t * (3 - 2 * t);
 
         const DAYS = [
             ['Mon', 'The call', 'The director posts Thursday’s call. Every member’s phone buzzes.'],
@@ -275,22 +326,13 @@
         const lyIdx = members.findIndex(m => m.name === 'Lysistrata');
         const costumeIdx = members.findIndex(m => m.role === 'costume');
 
-        // ---- stage skeleton
-        const rail = h('ol', { class: 'week-rail' }, DAYS.map(([d, t]) => h('li', {}, h('span', { class: 'week-day', text: d }), h('span', { class: 'week-title', text: t }))));
-        const railFill = h('span', { class: 'week-rail-fill' });
-        const caption = h('p', { class: 'week-caption', 'aria-live': 'polite' });
-        const art = S('svg', { viewBox: '0 0 640 440', class: 'week-svg', role: 'img',
-            'aria-label': 'Illustration: the production app on a phone, connected to fourteen members of a theatre company' });
-
-        const links = S('g', { class: 'week-links' }, art);
-        const dots = S('g', {}, art);
-        // the phone
-        const phone = S('g', {}, art);
-        S('rect', { x: 20, y: 18, width: 212, height: 404, rx: 30, class: 'week-phone' }, phone);
-        S('rect', { x: 98, y: 30, width: 56, height: 8, rx: 4, class: 'week-notch' }, phone);
-        T(phone, 42, 66, 'ΛΥΣΙΣΤΡΑΤΗ · ΘΙΑΣΟΣ', 'week-kicker');
-        const screenTitle = T(phone, 42, 90, '', 'week-screen-title');
-        const screens = DAYS.map(() => S('g', { class: 'week-screen' }, phone));
+        const sh = weekShell(root, { days: DAYS, kicker: 'ΛΥΣΙΣΤΡΑΤΗ · ΘΙΑΣΟΣ',
+            titles: ['Call board', 'Rehearse', 'Call board', 'Wardrobe', 'Door'],
+            label: 'Illustration: the production app on a phone, connected to fourteen members of a theatre company' });
+        if (!sh) return false;
+        const { art, screens, S, T } = sh;
+        const links = S('g', { class: 'week-links' }, sh.back);
+        const dots = S('g', {}, sh.back);
 
         // the company
         const seals = members.map((m, i) => {
@@ -386,22 +428,8 @@
         const verdictText = T(sat, 126, 254, '', 'week-verdict-text', { 'text-anchor': 'middle' });
         const curtain = T(sat, 126, 304, '', 'week-curtain', { 'text-anchor': 'middle' });
 
-        root.replaceChildren(h('div', { class: 'week-head' }, rail, h('span', { class: 'week-rail-track' }, railFill)), art, caption);
-
-        // ---- render: everything is a function of scroll progress p
-        let lastDay = -1;
-        function render(p) {
-            const s = clamp(p) * DAYS.length;
-            const day = Math.min(DAYS.length - 1, Math.floor(s));
-            const t = clamp(s - day);
-            railFill.style.transform = `scaleX(${clamp(p)})`;
-            if (day !== lastDay) {
-                [...rail.children].forEach((li, i) => li.classList.toggle('is-on', i === day));
-                screenTitle.textContent = ['Call board', 'Rehearse', 'Call board', 'Wardrobe', 'Door'][day];
-                caption.textContent = DAYS[day][2];
-                lastDay = day;
-            }
-            screens.forEach((g, i) => g.style.opacity = i === day ? clamp(t / 0.08) : 0);
+        // ---- render: a function of the day and how far into it we are
+        sh.start((day, t) => {
             waves.style.opacity = 0;
 
             // defaults, then each day overrides
@@ -492,23 +520,205 @@
                 curtain.textContent = kind === 'curtain' ? 'Curtain up' : '';
                 if (kind === 'curtain') seals.forEach(sl => sl.ring.style.opacity = ease(u));
             }
-        }
-
-        // ---- scroll wiring (same pattern as Fig. 01)
-        let queued = false, near = false;
-        const update = () => {
-            queued = false;
-            const travel = section.offsetHeight - window.innerHeight;
-            render(travel > 0 ? -section.getBoundingClientRect().top / travel : 0);
-        };
-        const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
-        new IntersectionObserver(([e]) => { near = e.isIntersecting; if (near) schedule(); }, { rootMargin: '100% 0px' }).observe(section);
-        window.addEventListener('scroll', () => { if (near) schedule(); }, { passive: true });
-        window.addEventListener('resize', schedule);
-        render(0);
+        });
     }
 
-    const DEMOS = { normalise: normaliseDemo, eta: etaDemo, week: weekDemo };
+    // ======================================================================
+    // Cinna — a commuter's week (scroll-driven)
+    // The phone is the app; on the right, a schematic of one route through
+    // Nicosia. Every beat is a shipped feature: live arrivals, the
+    // timetable fallback when the feed goes quiet, the trip planner,
+    // boarding with a scanned ticket and Ride mode, and the journey summary.
+    // Illustrative — the times and figures are examples, not real data.
+    // ======================================================================
+    function cinnaWeekDemo(root) {
+        const DAYS = [
+            ['Mon', 'At the stop', 'Bus 30 is coming in live, refreshed from the national feed every 15 seconds. Bus 22 is marked as scheduled, because that’s all it is.'],
+            ['Tue', 'The feed goes quiet', 'Bus 30 stops reporting its position. Instead of a stale countdown, Cinna falls back to the timetable and says why.'],
+            ['Wed', 'Plan a trip', 'Home to the university: the planner offers the direct bus or a walk and a change, and draws the route.'],
+            ['Thu', 'Board and ride', 'Board with the ticket in your wallet; the driver’s app scans it. Then Ride mode shows one thing at a time: the next stop.'],
+            ['Fri', 'Journey complete', 'The trip summary: time on board and CO₂ saved compared with driving, added to your week.'],
+        ];
+        const sh = weekShell(root, { days: DAYS, kicker: 'CINNA · ΛΕΥΚΩΣΙΑ', titles: ['Makariou Ave', 'Makariou Ave', 'Plan a trip', 'Ride', 'Journey'],
+            label: 'Illustration: the Cinna app on a phone beside a schematic bus route through Nicosia' });
+        if (!sh) return false;
+        const { art, screens, S, T } = sh;
+
+        // ---- the map
+        const map = S('g', {}, sh.back);
+        [[250, 120, 640, 70], [250, 300, 640, 250], [300, 20, 260, 440], [450, 20, 420, 440], [570, 20, 600, 440]]
+            .forEach(([x1, y1, x2, y2]) => S('line', { x1, y1, x2, y2, class: 'wk-street' }, map));
+        S('path', { d: 'M262,196 L370,190 L480,232 L612,316', class: 'wk-route22' }, map);
+        T(map, 270, 186, '22', 'wk-route-tag');
+        const D = 'M250,384 L330,330 L395,262 L480,232 L548,160 L632,102';
+        S('path', { d: D, class: 'wk-road' }, map);
+        const hi = S('path', { d: D, class: 'wk-route-hi' }, map);
+        const total = hi.getTotalLength();
+        hi.style.strokeDasharray = `0 ${total}`;
+        const STOPS = [['Makariou Ave', 330, 330, 'end'], ['Agios Antonios', 395, 262, 'end'], ['Eleftheria Sq.', 480, 232, 'start'], ['University', 548, 160, 'end']];
+        // where along the route each stop sits
+        const lenAt = (x, y) => { let best = 0, bd = 1e9; for (let l = 0; l <= total; l += 2) { const q = hi.getPointAtLength(l); const d = (q.x - x) ** 2 + (q.y - y) ** 2; if (d < bd) { bd = d; best = l; } } return best; };
+        const stopLen = STOPS.map(([, x, y]) => lenAt(x, y));
+        const stopEls = STOPS.map(([name, x, y, anchor]) => {
+            const c = S('circle', { cx: x, cy: y, r: 6, class: 'wk-stop' }, map);
+            T(map, x + (anchor === 'end' ? -12 : 12), y + 4, name, 'wk-stop-label', { 'text-anchor': anchor });
+            return c;
+        });
+        const pin = S('path', { d: 'M548,148 c-9,0 -14,-7 -14,-13 a14,14 0 0 1 28,0 c0,6 -5,13 -14,13 z', class: 'wk-pin' }, map);
+
+        const rider = S('g', {}, art);
+        const riderRing = S('circle', { r: 13, class: 'week-ring' }, rider);
+        S('circle', { r: 6.5, class: 'wk-rider' }, rider);
+        T(rider, 0, -18, 'You', 'wk-you', { 'text-anchor': 'middle' });
+
+        const bus = S('g', {}, art);
+        const busWaves = S('g', { class: 'wk-waves' }, bus);
+        [9, 15].forEach(r => S('path', { d: `M${-r},-14 A${r},${r} 0 0 1 ${r},-14`, class: 'week-wave' }, busWaves));
+        const busBody = S('rect', { x: -18, y: -10, width: 36, height: 20, rx: 5, class: 'wk-bus' }, bus);
+        const busText = T(bus, 0, 4, '30', 'wk-bus-text', { 'text-anchor': 'middle' });
+        const busRing = S('circle', { r: 24, class: 'week-ring' }, bus);
+        const placeBus = len => { const q = hi.getPointAtLength(clamp(len, 0, total)); bus.setAttribute('transform', `translate(${q.x},${q.y})`); return q; };
+        const placeRider = (x, y) => rider.setAttribute('transform', `translate(${x},${y})`);
+
+        // ---- phone screens
+        const row = (g, y, route, dest, big, small, live) => {
+            S('rect', { x: 42, y, width: 168, height: 52, rx: 8, class: 'week-card' }, g);
+            S('rect', { x: 52, y: y + 15, width: 26, height: 22, rx: 4, class: 'wk-badge' }, g);
+            T(g, 65, y + 30, route, 'wk-badge-text', { 'text-anchor': 'middle' });
+            T(g, 86, y + 24, dest, 'week-text week-strong');
+            const sm = T(g, 86, y + 39, small, 'week-small');
+            const bg = T(g, 202, y + 33, big, 'wk-big', { 'text-anchor': 'end' });
+            const dot = S('circle', { cx: 86 + 3, cy: y + 36, r: 0, class: 'wk-live' }, g);
+            if (live) { dot.setAttribute('r', 3); sm.setAttribute('x', 95); }
+            return { bg, sm, dot };
+        };
+        // MON
+        const mon = screens[0];
+        const m30 = row(mon, 108, '30', 'University', '6 min', 'live', true);
+        row(mon, 170, '22', 'Strovolos', '12 min', 'scheduled', false);
+        // TUE
+        const tue = screens[1];
+        const t30 = row(tue, 108, '30', 'University', '5 min', 'live', true);
+        row(tue, 170, '22', 'Strovolos', '11 min', 'scheduled', false);
+        const tueNote = T(tue, 42, 248, '', 'week-small');
+        const tueNote2 = T(tue, 42, 262, '', 'week-small');
+        // WED
+        const wed = screens[2];
+        S('rect', { x: 42, y: 104, width: 168, height: 56, rx: 8, class: 'week-card' }, wed);
+        T(wed, 52, 126, 'From  Home', 'week-text'); T(wed, 52, 146, 'To      University', 'week-text week-strong');
+        const optA = S('rect', { x: 42, y: 172, width: 168, height: 50, rx: 8, class: 'week-card' }, wed);
+        T(wed, 52, 192, '30 · direct · 3 stops', 'week-text week-strong'); T(wed, 52, 209, 'arrive 08:51', 'week-small');
+        const optB = S('g', {}, wed);
+        S('rect', { x: 42, y: 230, width: 168, height: 50, rx: 8, class: 'week-card' }, optB);
+        T(optB, 52, 250, 'Walk 6 min + 22', 'week-text'); T(optB, 52, 267, 'arrive 08:58', 'week-small');
+        // THU
+        const thu = screens[3];
+        const ticket = S('g', {}, thu);
+        S('rect', { x: 42, y: 104, width: 168, height: 170, rx: 10, class: 'wk-pass' }, ticket);
+        T(ticket, 54, 126, 'CINNA', 'wk-pass-kicker'); T(ticket, 54, 146, 'Single · Route 30', 'wk-pass-title');
+        let seed = 11;
+        for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+            seed = (seed * 9301 + 49297) % 233280;
+            if ((r < 2 && c < 2) || (r < 2 && c > 5) || (r > 5 && c < 2) || seed / 233280 > 0.5) S('rect', { x: 86 + c * 10, y: 160 + r * 10, width: 9, height: 9, class: 'wk-pass-qr' }, ticket);
+        }
+        const tap = S('g', {}, thu);
+        S('circle', { cx: 126, cy: 170, r: 40, class: 'wk-tap' }, tap);
+        S('path', { d: 'M108,170 l12,12 l24,-26', class: 'wk-tap-check' }, tap);
+        T(tap, 126, 238, 'Tap confirmed', 'wk-tap-text', { 'text-anchor': 'middle' });
+        const ride = S('g', {}, thu);
+        T(ride, 42, 132, 'NEXT STOP', 'week-small');
+        const rideStop = T(ride, 42, 166, '', 'wk-ride-stop');
+        const rideLeft = T(ride, 42, 190, '', 'week-small');
+        const banner = S('g', {}, thu);
+        S('rect', { x: 36, y: 300, width: 180, height: 40, rx: 10, class: 'wk-banner' }, banner);
+        T(banner, 126, 325, 'Your stop is next', 'wk-banner-text', { 'text-anchor': 'middle' });
+        // FRI
+        const fri = screens[4];
+        S('circle', { cx: 126, cy: 140, r: 26, class: 'wk-tap' }, fri);
+        S('path', { d: 'M114,140 l8,8 l16,-17', class: 'wk-tap-check' }, fri);
+        T(fri, 126, 196, 'Journey complete', 'wk-tap-text', { 'text-anchor': 'middle' });
+        const friMin = T(fri, 60, 240, '', 'wk-big');
+        T(fri, 60, 256, 'minutes on board', 'week-small');
+        const friCo2 = T(fri, 140, 240, '', 'wk-big');
+        T(fri, 140, 256, 'kg CO₂ saved', 'week-small');
+        T(fri, 42, 296, 'vs driving the same trip', 'week-small');
+        const friWeek = T(fri, 42, 330, '', 'week-text week-strong');
+
+        sh.start((day, t) => {
+            const L0 = stopLen[0], L3 = stopLen[3];
+            bus.style.opacity = 1; busRing.style.opacity = 0; riderRing.style.opacity = 0;
+            busBody.setAttribute('class', 'wk-bus'); busText.textContent = '30';
+            busWaves.style.opacity = 0; pin.style.opacity = 0;
+            stopEls.forEach(c => c.classList.remove('is-on'));
+            placeRider(STOPS[0][1], STOPS[0][2]);
+            hi.style.strokeDasharray = `0 ${total}`;
+            const drawRoute = (from, to) => { hi.style.strokeDasharray = `0 ${from} ${Math.max(0, to - from)} ${total}`; };
+            const pulse = (k = 3) => 0.35 + 0.65 * Math.abs(Math.sin(t * Math.PI * k * 4));
+
+            if (day === 0) {
+                const len = L0 * ease(clamp(t / 0.85));
+                placeBus(len);
+                const mins = Math.ceil(((L0 - len) / L0) * 6);
+                m30.bg.textContent = mins <= 0 ? 'Due' : `${mins} min`;
+                busWaves.style.opacity = t < 0.85 ? pulse() : 0;
+                stopEls[0].classList.add('is-on');
+                if (t >= 0.85) riderRing.style.opacity = pulse(2);
+            }
+            if (day === 1) {
+                const lost = t > 0.35;
+                const len = L0 * 0.6 * ease(clamp(t / 0.35));
+                placeBus(len);
+                busWaves.style.opacity = lost ? 0 : pulse();
+                busBody.setAttribute('class', 'wk-bus' + (lost ? ' is-lost' : ''));
+                busText.textContent = lost ? '30?' : '30';
+                t30.bg.textContent = lost ? '07:52' : `${Math.ceil(((L0 - len) / L0) * 6)} min`;
+                t30.sm.textContent = lost ? 'scheduled' : 'live';
+                t30.dot.setAttribute('class', 'wk-live' + (lost ? ' is-off' : ''));
+                tueNote.textContent = lost ? 'Live position lost.' : '';
+                tueNote2.textContent = lost ? 'Showing the timetable instead.' : '';
+                stopEls[0].classList.add('is-on');
+            }
+            if (day === 2) {
+                bus.style.opacity = 0;
+                const k = clamp((t - 0.15) / 0.55);
+                drawRoute(L0, L0 + (L3 - L0) * ease(k));
+                stopEls.forEach((c, i) => c.classList.toggle('is-on', stopLen[i] <= L0 + (L3 - L0) * ease(k) + 1));
+                pin.style.opacity = clamp((t - 0.6) / 0.15);
+                optB.style.opacity = clamp((t - 0.1) / 0.15);
+                optA.setAttribute('class', 'week-card' + (t > 0.7 ? ' wk-selected' : ''));
+            }
+            if (day === 3) {
+                const ph1 = t < 0.25, ph2 = t >= 0.25 && t < 0.4;
+                const len = ph1 ? L0 * (0.5 + 0.5 * ease(t / 0.25)) : ph2 ? L0 : L0 + (L3 - L0) * ease(clamp((t - 0.4) / 0.55));
+                const q = placeBus(len);
+                busWaves.style.opacity = pulse() * 0.8;
+                ticket.style.opacity = ph1 ? 1 : 0;
+                tap.style.opacity = ph2 ? clamp((t - 0.25) / 0.05) : 0;
+                ride.style.opacity = t >= 0.4 ? 1 : 0;
+                if (ph2) busRing.style.opacity = 1;
+                if (t >= 0.25) { placeRider(q.x, q.y - 26); drawRoute(L0, len); }
+                const next = stopLen.findIndex(l => l > len + 4);
+                rideStop.textContent = next < 0 ? 'University' : STOPS[next][0];
+                rideLeft.textContent = next < 0 ? 'Arriving' : `${STOPS.length - next} stop${STOPS.length - next > 1 ? 's' : ''} to go`;
+                banner.style.opacity = t >= 0.4 && len > stopLen[2] - 2 ? 1 : 0;
+                stopEls.forEach((c, i) => c.classList.toggle('is-on', t >= 0.25 && stopLen[i] <= len + 1));
+            }
+            if (day === 4) {
+                drawRoute(L0, L3);
+                stopEls.forEach(c => c.classList.add('is-on'));
+                placeBus(L3 + (total - L3) * ease(t));
+                bus.style.opacity = 1 - clamp(t / 0.6);
+                placeRider(STOPS[3][1], STOPS[3][2]);
+                riderRing.style.opacity = 1;
+                const k = ease(clamp(t / 0.6));
+                friMin.textContent = String(Math.round(24 * k));
+                friCo2.textContent = (1.8 * k).toFixed(1);
+                friWeek.textContent = t > 0.6 ? 'This week: 5 trips' : '';
+            }
+        });
+    }
+
+    const DEMOS = { normalise: normaliseDemo, eta: etaDemo, week: weekDemo, 'week-cinna': cinnaWeekDemo };
     document.querySelectorAll('[data-demo]').forEach(el => {
         const fn = DEMOS[el.dataset.demo];
         // a demo can decline (return false), e.g. under reduced motion, and keep its static fallback
