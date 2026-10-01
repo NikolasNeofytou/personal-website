@@ -48,7 +48,7 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css?v=20261002a">
+    <link rel="stylesheet" href="css/styles.css?v=20261002b">
     <link rel="preload" href="assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/hero/hero-loop-poster.jpg" as="image" fetchpriority="high">
@@ -209,31 +209,34 @@
                 <!-- Cinna -->
                 <div class="case" role="group" aria-roledescription="slide" aria-label="Project 1 of 3">
                     <div class="case-cover" aria-hidden="true">
-                        <img src="assets/covers/cinna-1344.webp"
+                        <a href="work/cinna.html" class="case-cover-link" tabindex="-1">
+                        <img src="assets/covers/cinna-1344.webp" style="view-transition-name: cover-cinna"
                              srcset="assets/covers/cinna-672.webp 672w, assets/covers/cinna-1344.webp 1344w"
                              sizes="(max-width: 1023px) 86vw, 700px"
                              width="1344" height="752" alt="" loading="lazy" decoding="async">
+                        </a>
                     </div>
                     <div class="case-rule" aria-hidden="true"><span>01</span></div>
                     <div class="case-body">
                         <header class="case-head">
-                            <h3 class="case-title">Cinna</h3>
+                            <h3 class="case-title" style="view-transition-name: title-cinna">Cinna</h3>
                             <span class="case-flag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private</span>
                         </header>
-                        <p class="case-role">Solo · Flutter client + Django backend · 2024–2025</p>
+                        <p class="case-role">Solo · Flutter + Django/PostGIS · Dec 2025 – Sep 2026</p>
                         <p class="case-line"><span class="case-k">Problem</span> Public-transit riders are stuck with schedules that drift from reality and clunky paper-or-card ticketing — no single place to see where the bus actually is and pay for the ride.</p>
-                        <p class="case-line"><span class="case-k">Approach</span> A real-time transit companion: a Flutter/Riverpod client over a Django REST API that ingests live GTFS-RT feeds, answers geospatial queries with PostGIS, and caches hot data in Redis — plus an in-app wallet for ticketing.</p>
+                        <p class="case-line"><span class="case-k">Approach</span> A real-time transit companion: a Flutter/Riverpod app for iOS and Android over a Django REST + PostGIS backend that ingests the national GTFS-RT feed every 15 seconds — plus Stripe tickets delivered as Apple/Google Wallet passes.</p>
                         <ul class="case-decisions">
-                            <li>GTFS-RT ingestion behind a Redis cache so live vehicle positions are served without hammering Postgres.</li>
+                            <li>A dedicated fetcher writes live positions straight into PostGIS — current state and history in separate tables.</li>
                             <li>PostGIS for spatial work — nearest-stop, route geometry, &ldquo;arriving near me&rdquo;.</li>
-                            <li>Riverpod to keep UI state predictable across real-time streams.</li>
-                            <li>A wallet abstraction that keeps ticketing logic independent of the payment provider.</li>
+                            <li>Arrival estimates designed to say &ldquo;unknown&rdquo; rather than be confidently wrong.</li>
+                            <li>Every significant call written down — 14 architecture decision records.</li>
                         </ul>
-                        <p class="case-line"><span class="case-k">Outcome</span> A working end-to-end system (live tracking → trip planning → ticket) running on a geospatial backend. Private repo — walkthrough/demo available on request.</p>
+                        <p class="case-line"><span class="case-k">Outcome</span> Backend in production, iOS pilot on TestFlight, 1,400+ automated tests. Private repo — walkthrough on request.</p>
                         <div class="case-tech">
-                            <span class="tech-tag">Flutter</span><span class="tech-tag">Riverpod</span><span class="tech-tag">Django REST</span><span class="tech-tag">PostGIS</span><span class="tech-tag">Redis</span><span class="tech-tag">GTFS-RT</span>
+                            <span class="tech-tag">Flutter</span><span class="tech-tag">Riverpod</span><span class="tech-tag">Django REST</span><span class="tech-tag">PostGIS</span><span class="tech-tag">Celery</span><span class="tech-tag">GTFS-RT</span>
                         </div>
                         <div class="case-links">
+                            <a class="case-badge case-badge--read" href="work/cinna.html">Read the case study <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
                             <span class="case-badge"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private · demo on request</span>
                         </div>
                     </div>
@@ -242,30 +245,33 @@
                 <!-- Aristophanes -->
                 <div class="case" role="group" aria-roledescription="slide" aria-label="Project 2 of 3">
                     <div class="case-cover" aria-hidden="true">
-                        <img src="assets/covers/aristophanes-1344.webp"
+                        <a href="work/aristophanes.html" class="case-cover-link" tabindex="-1">
+                        <img src="assets/covers/aristophanes-1344.webp" style="view-transition-name: cover-aristophanes"
                              srcset="assets/covers/aristophanes-672.webp 672w, assets/covers/aristophanes-1344.webp 1344w"
                              sizes="(max-width: 1023px) 86vw, 700px"
                              width="1344" height="752" alt="" loading="lazy" decoding="async">
+                        </a>
                     </div>
                     <div class="case-rule" aria-hidden="true"><span>02</span></div>
                     <div class="case-body">
                         <header class="case-head">
-                            <h3 class="case-title">Aristophanes</h3>
+                            <h3 class="case-title" style="view-transition-name: title-aristophanes">Aristophanes</h3>
                             <span class="case-flag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private</span>
                         </header>
-                        <p class="case-role">Solo · Native iOS (Flutter) · architecture-first</p>
-                        <p class="case-line"><span class="case-k">Problem</span> Mobile apps rot when business logic is welded to the framework. I wanted a codebase whose core could outlive any SDK churn and stay genuinely testable.</p>
-                        <p class="case-line"><span class="case-k">Approach</span> A native iOS app built to a strict Ports-and-Adapters (hexagonal) architecture: the domain sits in the centre, frameworks and I/O are adapters at the edges, and every significant decision is written down as an Architecture Decision Record.</p>
+                        <p class="case-role">Solo · Flutter (iOS + Android) + Supabase · May – Sep 2026</p>
+                        <p class="case-line"><span class="case-k">Problem</span> Actors learn their parts alone, from paper scripts, with nobody to read the other lines — and then a director wanted the whole company on the app.</p>
+                        <p class="case-line"><span class="case-k">Approach</span> A rehearsal partner that grew into a production platform, built on ports and adapters: a pure Dart core behind 28 ports, with speech, audio, storage and Supabase as swappable adapters — and every significant call written down as an ADR.</p>
                         <ul class="case-decisions">
                             <li>Domain logic depends on nothing — UI, storage and platform are plug-in adapters.</li>
-                            <li>ADRs capture the &ldquo;why&rdquo; behind each call, so the reasoning is reviewable, not folklore.</li>
+                            <li>61 ADRs capture the &ldquo;why&rdquo; behind each call, so the reasoning is reviewable, not folklore.</li>
                             <li>A pure core that can be unit-tested without a simulator.</li>
                         </ul>
-                        <p class="case-line"><span class="case-k">Outcome</span> A framework-independent, test-first core with a documented decision log. Private repo — code walkthrough on request.</p>
+                        <p class="case-line"><span class="case-k">Outcome</span> In use by a 12-person cast; 24 versions shipped, 779 automated tests. Private repo — code walkthrough on request.</p>
                         <div class="case-tech">
-                            <span class="tech-tag">Flutter</span><span class="tech-tag">iOS</span><span class="tech-tag">Ports &amp; Adapters</span><span class="tech-tag">ADRs</span>
+                            <span class="tech-tag">Flutter</span><span class="tech-tag">Supabase</span><span class="tech-tag">Ports &amp; Adapters</span><span class="tech-tag">ADRs</span><span class="tech-tag">Stripe</span>
                         </div>
                         <div class="case-links">
+                            <a class="case-badge case-badge--read" href="work/aristophanes.html">Read the case study <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
                             <span class="case-badge"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private · demo on request</span>
                         </div>
                     </div>
@@ -274,30 +280,33 @@
                 <!-- Plutarch -->
                 <div class="case" role="group" aria-roledescription="slide" aria-label="Project 3 of 3">
                     <div class="case-cover" aria-hidden="true">
-                        <img src="assets/covers/plutarch-1344.webp"
+                        <a href="work/plutarch.html" class="case-cover-link" tabindex="-1">
+                        <img src="assets/covers/plutarch-1344.webp" style="view-transition-name: cover-plutarch"
                              srcset="assets/covers/plutarch-672.webp 672w, assets/covers/plutarch-1344.webp 1344w"
                              sizes="(max-width: 1023px) 86vw, 700px"
                              width="1344" height="752" alt="" loading="lazy" decoding="async">
+                        </a>
                     </div>
                     <div class="case-rule" aria-hidden="true"><span>03</span></div>
                     <div class="case-body">
                         <header class="case-head">
-                            <h3 class="case-title">Plutarch</h3>
-                            <span class="case-flag case-flag--open"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-unlock"></use></svg> Public</span>
+                            <h3 class="case-title" style="view-transition-name: title-plutarch">Plutarch</h3>
+                            <span class="case-flag case-flag--open"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-unlock"></use></svg> Live</span>
                         </header>
-                        <p class="case-role">Solo · Next.js + PostgreSQL · open source</p>
+                        <p class="case-role">Solo · Next.js + Postgres · Aug 2026</p>
                         <p class="case-line"><span class="case-k">Problem</span> Greek dictionaries online are slow and shallow — hard to scan, weak on cross-references, painful to explore a word's neighbourhood.</p>
-                        <p class="case-line"><span class="case-k">Approach</span> A modern Greek dictionary &amp; language-exploration web app — fast lookup, structured entries, and cross-references — built on Next.js + TypeScript over a PostgreSQL data layer.</p>
+                        <p class="case-line"><span class="case-k">Approach</span> Ρίζα, an open Modern Greek dictionary: 95,774 entries from Greek Wiktionary, with accent-insensitive search that resolves any inflected form to its entry — Next.js + TypeScript over Postgres.</p>
                         <ul class="case-decisions">
                             <li>Structured, normalised entries so meanings and relations are first-class, not free text.</li>
                             <li>Server-rendered Next.js for fast, shareable, search-friendly pages.</li>
                         </ul>
-                        <p class="case-line"><span class="case-k">Outcome</span> Public, open-source, and still growing. Source on GitHub.</p>
+                        <p class="case-line"><span class="case-k">Outcome</span> Live, built in four days, 98 tests. Source private for now.</p>
                         <div class="case-tech">
-                            <span class="tech-tag">Next.js</span><span class="tech-tag">TypeScript</span><span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Next.js</span><span class="tech-tag">TypeScript</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">pg_trgm</span>
                         </div>
                         <div class="case-links">
-                            <a class="case-badge case-badge--link" href="https://github.com/NikolasNeofytou/Plutarch" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-github"></use></svg> View source</a>
+                            <a class="case-badge case-badge--read" href="work/plutarch.html">Read the case study <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
+                            <a class="case-badge case-badge--link" href="https://plutarch-five.vercel.app" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg> Live site</a>
                         </div>
                     </div>
                 </div>
@@ -483,6 +492,6 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up"></use></svg></button>
 
-    <script src="js/script.js?v=20261002a"></script>
+    <script src="js/script.js?v=20261002b"></script>
 </body>
 </html>

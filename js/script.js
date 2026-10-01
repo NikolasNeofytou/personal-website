@@ -179,7 +179,7 @@
         const list = [];
         const loop = document.getElementById('heroLoop');
         if (loop && !loop.hidden) list.push(loop.querySelector('.hero-loop-frame'));
-        main.querySelectorAll('.section-head, .scrub-frame').forEach(n => list.push(n));
+        main.querySelectorAll('.section-head, .scrub-frame, .cs-hero').forEach(n => list.push(n));
         return list.filter(n => n && n.getClientRects().length)
             .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
     }

@@ -1,0 +1,150 @@
+                <section class="section" aria-labelledby="ar-problem">
+                    <h2 class="section-head" id="ar-problem"><span class="section-num">01</span> Problem</h2>
+                    <div class="cs-prose">
+                        <p>An amateur actor learning a part usually rehearses alone, from a paper script, with nobody to read the other characters' lines. The app began as the missing scene partner. It reads everyone else's lines aloud and waits for you, and every feature is judged against one question: <em>would a good scene partner do this?</em></p>
+                        <p>Then a director saw it and asked for the whole company. A single-user offline app had to become a multi-user production tool, without throwing away the core that already worked.</p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="ar-method">
+                    <h2 class="section-head" id="ar-method"><span class="section-num">02</span> How it was built</h2>
+                    <div class="cs-prose">
+                        <p>Every version follows the same planning ritual before any code is written: <strong>requirements → data model → a pass/fail spike on the riskiest assumption → architecture and ADRs → a "future" list with explicit triggers → a development plan with a pre-committed cut list</strong>. Each version then gets its own branch, its own docs folder and an on-device gate before it merges.</p>
+                        <p>That discipline is what let the app absorb a pivot. It shipped 24 versions, eight of them in eight days, while the domain code stayed free of framework imports.</p>
+                    </div>
+                    <div class="cs-stats" role="list">
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">61</span><span class="cs-stat-label">Written ADRs</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">24</span><span class="cs-stat-label">Versions shipped</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">779</span><span class="cs-stat-label">Automated tests</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">0</span><span class="cs-stat-label">Package imports in the domain</span></div>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="ar-arch">
+                    <h2 class="section-head" id="ar-arch"><span class="section-num">03</span> Architecture</h2>
+                    <div class="cs-prose">
+                        <p>Ports and adapters. The rehearsal engine, the line aligner and the casting, calendar and ticket rules live in a pure Dart core that imports nothing but its own interfaces. Speech, audio, storage, sign-in and push are adapters behind 28 ports. The core's tests run on the host machine, with no simulator.</p>
+                    </div>
+                    <figure class="cs-diagram">
+                        <svg viewBox="0 0 680 340" role="img" aria-labelledby="ar-dg-title">
+                            <title id="ar-dg-title">Hexagonal architecture: a pure domain core surrounded by a ring of 28 ports; the Flutter UI connects through a composition root on the left; adapters for on-device storage, text-to-speech and audio, speech recognition, Supabase and push notifications plug in on the right; server-side Supabase Edge Functions and a Next.js ticket site handle payments.</title>
+                            <defs>
+                                <marker id="ar-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="rgba(26,26,23,0.55)"/></marker>
+                            </defs>
+                            <polygon class="dg-box" points="460,165 400,269 280,269 220,165 280,61 400,61"/>
+                            <polygon class="dg-box dg-box--accent" points="404,165 372,220 308,220 276,165 308,110 372,110"/>
+                            <text class="dg-tag" x="340" y="84" text-anchor="middle">PORTS · 28 INTERFACES</text>
+                            <text class="dg-label" x="340" y="152" text-anchor="middle">DOMAIN</text>
+                            <text class="dg-sub" x="340" y="168" text-anchor="middle">practice engine</text>
+                            <text class="dg-sub" x="340" y="181" text-anchor="middle">line aligner · roles</text>
+                            <text class="dg-sub" x="340" y="194" text-anchor="middle">calendar · tickets</text>
+                            <text class="dg-sub" x="340" y="246" text-anchor="middle">TtsPort · AuthPort · …</text>
+
+                            <rect class="dg-box" x="0" y="130" width="168" height="70"/>
+                            <text class="dg-label" x="10" y="152">Flutter UI</text>
+                            <text class="dg-sub" x="10" y="168">screens + widgets</text>
+                            <text class="dg-sub" x="10" y="181">providers.dart =</text>
+                            <text class="dg-sub" x="10" y="194">composition root</text>
+                            <path class="dg-edge" d="M168,165 H218" marker-end="url(#ar-arrow)"/>
+
+                            <text class="dg-tag" x="510" y="14">ADAPTERS</text>
+                            <rect class="dg-box" x="510" y="24" width="170" height="40"/>
+                            <text class="dg-label" x="520" y="42">Drift / SQLite</text>
+                            <text class="dg-sub" x="520" y="56">offline sessions, takes</text>
+                            <rect class="dg-box" x="510" y="78" width="170" height="40"/>
+                            <text class="dg-label" x="520" y="96">TTS + audio</text>
+                            <text class="dg-sub" x="520" y="110">flutter_tts · flutter_sound</text>
+                            <rect class="dg-box" x="510" y="132" width="170" height="40"/>
+                            <text class="dg-label" x="520" y="150">Speech + VAD</text>
+                            <text class="dg-sub" x="520" y="164">on-device recognition</text>
+                            <rect class="dg-box" x="510" y="186" width="170" height="40"/>
+                            <text class="dg-label" x="520" y="204">Supabase</text>
+                            <text class="dg-sub" x="520" y="218">auth · Postgres RLS · storage</text>
+                            <rect class="dg-box" x="510" y="240" width="170" height="40"/>
+                            <text class="dg-label" x="520" y="258">Push + Live Activity</text>
+                            <text class="dg-sub" x="520" y="272">FCM · ActivityKit</text>
+                            <path class="dg-edge" d="M508,44 L432,104"/>
+                            <path class="dg-edge" d="M508,98 L446,140"/>
+                            <path class="dg-edge" d="M508,152 H462"/>
+                            <path class="dg-edge" d="M508,206 L446,190"/>
+                            <path class="dg-edge" d="M508,260 L428,228"/>
+
+                            <rect class="dg-box" x="0" y="262" width="250" height="58"/>
+                            <text class="dg-label" x="10" y="284">Server side</text>
+                            <text class="dg-sub" x="10" y="300">4 Edge Functions: checkout, webhook,</text>
+                            <text class="dg-sub" x="10" y="313">wallet pass, push · Next.js ticket site</text>
+                            <path class="dg-edge" d="M250,291 H490 V262 H508" stroke-dasharray="3 3" marker-end="url(#ar-arrow)"/>
+                        </svg>
+                        <figcaption>Fig. 1 · Pure core, 28 ports, swappable adapters</figcaption>
+                    </figure>
+                </section>
+
+                <section class="section" aria-labelledby="ar-decisions">
+                    <h2 class="section-head" id="ar-decisions"><span class="section-num">04</span> Key decisions</h2>
+                    <div class="cs-decisions">
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">ADR-055</p>
+                            <h3>Locate the speaker, don't transcribe them</h3>
+                            <dl>
+                                <dt>Context</dt><dd>Speech-to-text output is noisy, especially for verse and for a theatre company's own adaptation of the text. But the app already knows exactly which line the actor is meant to be saying.</dd>
+                                <dt>Decision</dt><dd>Use recognition only to find <em>where in the known line</em> the speaker is. A pure aligner in the domain does the matching, and the speech port is opt-in.</dd>
+                                <dt>Trade-off</dt><dd>It can't catch ad-libs. In return it's far more robust, testable without a device, and degrades to plain recording.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">ADR-058 / 059</p>
+                            <h3>Sell tickets on the web, run the door in the app</h3>
+                            <dl>
+                                <dt>Context</dt><dd>The company wanted to sell show tickets. App-store rules treat real-world event tickets differently from digital goods.</dd>
+                                <dt>Decision</dt><dd>Buyers purchase on a public web page through Stripe Checkout, and the app holds only the organiser's box office: scanning and admission.</dd>
+                                <dt>Trade-off</dt><dd>A second surface to maintain, the web app, in exchange for a clean payment flow outside in-app purchase.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">ADR-062</p>
+                            <h3>The server decides who gets in</h3>
+                            <dl>
+                                <dt>Context</dt><dd>A ticket QR code can be copied, and two door phones can scan the same ticket at the same moment.</dd>
+                                <dt>Decision</dt><dd>The QR holds a 32-byte opaque token and nothing else. Admission is a server-side function that locks the row and admits each ticket exactly once. The client only renders the verdict, and the same token powers the wallet pass.</dd>
+                                <dt>Trade-off</dt><dd>The door needs a connection. Correctness at the door is non-negotiable.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">ADR-063</p>
+                            <h3>Retiring a founding principle</h3>
+                            <dl>
+                                <dt>Context</dt><dd>The app was founded on "don't grade the actor". It existed to help, not to judge. An adult cast later asked for word-for-word checks.</dd>
+                                <dt>Decision</dt><dd>Reverse it explicitly in a new ADR: add a line verdict biased toward false negatives, framed as progress rather than a score, and scoped to production use.</dd>
+                                <dt>Trade-off</dt><dd>A principle is gone. Writing down why keeps it from coming back by accident.</dd>
+                            </dl>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="ar-hard">
+                    <h2 class="section-head" id="ar-hard"><span class="section-num">05</span> Hard problems</h2>
+                    <div class="cs-story">
+                        <h3>A font that silently wasn't there</h3>
+                        <p>The scripts include polytonic Greek. A spike on day two found that the hosted copy of the chosen typeface quietly fell back to a different font. Only a deliberate side-by-side test, with the font on and with it off, caught it. Downloading the font directly fixed it, and table-level checks on the font file then unlocked real small caps.</p>
+                    </div>
+                    <div class="cs-story">
+                        <h3>Silence detection that never fired</h3>
+                        <p>The voice-activity detector worked in offline tests and never triggered on a phone. The audio library reported levels on a 0–120 scale, not the dBFS the threshold assumed, and the level stream was null until the recorder opened. I recalibrated with an on-screen meter. The lesson went into the journal: offline spikes can't validate adapter integration.</p>
+                    </div>
+                    <div class="cs-story">
+                        <h3>A metric that scored a correct line zero</h3>
+                        <p>The first line-accuracy measure, a longest-common-subsequence score, gave a correctly spoken line 0.00 because of a single mis-heard word. Reusing the aligner's own walk through the line gave 0.57 on the same input, and a threshold that matches what a listener hears.</p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="ar-outcome">
+                    <h2 class="section-head" id="ar-outcome"><span class="section-num">06</span> Outcome &amp; what I'd do differently</h2>
+                    <div class="cs-prose">
+                        <p>Aristophanes is in use by a 12-person adult cast, distributed through TestFlight on iOS and Firebase App Distribution on Android, with ticketing running in Stripe test mode. The repo is private, and I'm happy to do a code walkthrough.</p>
+                        <ul>
+                            <li><strong>Never skip the device gate.</strong> A visual rework merged before its on-device check looked fine in screenshots and failed in actors' hands. It took a follow-up version to fix.</li>
+                            <li><strong>Watch the user, don't help them.</strong> The first user test turned collaborative, and half the questions on the watch list went unanswered.</li>
+                            <li><strong>Keep the scaffolding tidy.</strong> Per-version branches are powerful, but stale branches and a duplicated version number cost real time. Archive as you go.</li>
+                        </ul>
+                    </div>
+                </section>

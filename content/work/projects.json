@@ -1,0 +1,51 @@
+[
+  {
+    "slug": "cinna",
+    "num": "01",
+    "title": "Cinna",
+    "public": false,
+    "tagline": "Real-time bus tracking for Cyprus public transit.",
+    "description": "Case study: Cinna — real-time bus tracking for all seven Cyprus bus operators. Flutter on iOS and Android over Django, PostGIS and a dedicated GTFS-RT fetcher; 14 ADRs, 1,400+ tests.",
+    "lede": "A live map of every bus in Cyprus, arrival estimates you can trust, and a trip planner that would rather say “I don’t know” than guess. Flutter on iOS and Android, over a Django and PostGIS backend fed by the national real-time feed.",
+    "alt": "A folded transit map on a dark desk with one route traced in cobalt thread, a brass token beside it.",
+    "meta": {
+      "Role": "Solo",
+      "Timeline": "Dec 2025 – Sep 2026",
+      "Stack": "Flutter · Riverpod · Django REST · PostGIS · Celery · Redis",
+      "Status": "Backend in production · iOS pilot on TestFlight"
+    }
+  },
+  {
+    "slug": "aristophanes",
+    "num": "02",
+    "title": "Aristophanes",
+    "public": false,
+    "tagline": "A rehearsal partner that grew into a production platform.",
+    "description": "Case study: Aristophanes — a theatre rehearsal app that grew into a production platform for a 12-person cast. Flutter (iOS + Android), Supabase and a Next.js ticket site, built with ports and adapters and 61 ADRs.",
+    "lede": "It began as a scene partner for one actor rehearsing <em>Lysistrata</em> alone — reading the other parts aloud and listening for hers. It grew into a production platform for a whole cast: roles, a shared calendar, a call board, wardrobe, push, and tickets.",
+    "alt": "A graphite hexagonal block with aluminium adapter plugs around it, one seated and ringed in cobalt light.",
+    "meta": {
+      "Role": "Solo",
+      "Timeline": "May – Sep 2026",
+      "Stack": "Flutter (iOS + Android) · Riverpod · Drift · Supabase · Next.js · Stripe",
+      "Status": "In use by a 12-person cast (TestFlight + Firebase)"
+    }
+  },
+  {
+    "slug": "plutarch",
+    "num": "03",
+    "title": "Plutarch",
+    "public": false,
+    "tagline": "Ρίζα — an open dictionary of Modern Greek where every definition cites its source.",
+    "description": "Case study: Plutarch (Ρίζα), an open Modern Greek dictionary — 95,774 entries from Greek Wiktionary, accent-insensitive search over 650k inflected forms, built in four days on Next.js and Postgres.",
+    "lede": "Ρίζα is an open dictionary of Modern Greek where every definition carries a citation you can click through to. Type any form of a word — accented or not, monotonic or polytonic — and land on its entry, with declension and conjugation tables, cross-references and real usage examples.",
+    "alt": "An open antique lexicon on a dark desk with a brass loupe resting on the page and a cobalt ribbon bookmark.",
+    "meta": {
+      "Role": "Solo",
+      "Timeline": "Aug 2026 · 4-day build",
+      "Stack": "Next.js 16 · TypeScript · Postgres (Neon) · Vercel",
+      "Status": "Live at <a href=\"https://plutarch-five.vercel.app\" target=\"_blank\" rel=\"noopener noreferrer\">plutarch-five.vercel.app</a>"
+    },
+    "flag": "Live"
+  }
+]
