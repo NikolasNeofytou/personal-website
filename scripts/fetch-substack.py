@@ -2,11 +2,14 @@
 """Snapshot the latest Substack posts into assets/substack.json.
 
 The Writing section reads this same-origin file instead of calling a
-third-party RSS-to-JSON proxy at runtime. Run by
-.github/workflows/substack-feed.yml on a schedule; safe to run locally.
+third-party RSS-to-JSON proxy at runtime. Run it after publishing a post,
+then commit the JSON:
 
-Only rewrites the file when the posts themselves change, so scheduled runs
-don't produce empty commits. Stdlib only.
+    python3 scripts/fetch-substack.py
+
+It can't run from GitHub Actions: Substack's CDN answers 403 to GitHub's
+runner IPs (tested 2026-10-01), and api.rss2json.com is blocked the same
+way. Only rewrites the file when the posts change. Stdlib only.
 """
 import email.utils
 import html
@@ -18,6 +21,11 @@ import urllib.request
 import xml.etree.ElementTree as ET
 
 FEED = "https://nikolasneofytou.substack.com/feed"
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/130.0 Safari/537.36",
+    "Accept": "application/rss+xml, application/xml;q=0.9, */*;q=0.8",
+}
 OUT = pathlib.Path(__file__).resolve().parent.parent / "assets" / "substack.json"
 LIMIT = 5
 EXCERPT = 140
@@ -29,15 +37,13 @@ def excerpt(markup: str) -> str:
     return text if len(text) <= EXCERPT else text[:EXCERPT].rstrip() + "…"
 
 
-def main() -> int:
-    try:
-        req = urllib.request.Request(FEED, headers={"User-Agent": "personal-website feed snapshot"})
-        with urllib.request.urlopen(req, timeout=30) as res:
-            root = ET.fromstring(res.read())
-    except Exception as exc:  # keep the last good snapshot
-        print(f"::warning::could not fetch {FEED}: {exc}")
-        return 0
+def get(url: str) -> bytes:
+    with urllib.request.urlopen(urllib.request.Request(url, headers=HEADERS), timeout=30) as res:
+        return res.read()
 
+
+def from_feed() -> list:
+    root = ET.fromstring(get(FEED))
     posts = []
     for item in root.findall("./channel/item")[:LIMIT]:
         published = email.utils.parsedate_to_datetime(item.findtext("pubDate", ""))
@@ -47,6 +53,16 @@ def main() -> int:
             "date": published.date().isoformat(),
             "excerpt": excerpt(item.findtext("description", "")),
         })
+    return posts
+
+
+def main() -> int:
+    try:
+        posts = from_feed()
+    except Exception as exc:  # keep the last good snapshot
+        print(f"::warning::could not fetch {FEED}: {exc}")
+        return 0
+
     if not posts:
         print("::warning::feed had no posts; keeping the last snapshot")
         return 0
