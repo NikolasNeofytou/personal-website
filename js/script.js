@@ -154,6 +154,152 @@
 })();
 
 // ==========================================
+// Signal trace — a PCB-style trace down the left gutter that connects the
+// sections like pads on a board. Routed from live element positions (so
+// it follows layout changes), drawn up to ~55% of the viewport as you
+// scroll; each section's via lights as the signal reaches it, and the
+// route terminates in a ground symbol at the footer.
+// ==========================================
+(function () {
+    const main = document.querySelector('.main');
+    const sidebar = document.querySelector('.sidebar');
+    if (!main || !sidebar || !('ResizeObserver' in window)) return;
+
+    const NS = 'http://www.w3.org/2000/svg';
+    const el = (tag, attrs, parent) => {
+        const n = document.createElementNS(NS, tag);
+        for (const k in attrs) n.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(n);
+        return n;
+    };
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const desktop = window.matchMedia('(min-width: 1024px)');
+
+    const svg = el('svg', { class: 'trace', 'aria-hidden': 'true', focusable: 'false' });
+    main.prepend(svg);
+
+    let total = 0, samples = [], nodes = [], gnd = null, tip = null, glow = null, live = null;
+    let queued = false, building = false;
+
+    // things the trace connects to, top to bottom; the footer is the ground
+    function anchors() {
+        const list = [];
+        const loop = document.getElementById('heroLoop');
+        if (loop && !loop.hidden) list.push(loop.querySelector('.hero-loop-frame'));
+        main.querySelectorAll('.section-head, .scrub-frame').forEach(n => list.push(n));
+        return list.filter(n => n && n.getClientRects().length)
+            .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+    }
+
+    function build() {
+        building = false;
+        const m = main.getBoundingClientRect();
+        // gutter = gap to the sidebar on desktop, the page padding on phones
+        const gutter = desktop.matches ? m.left - sidebar.getBoundingClientRect().right : m.left;
+        if (gutter < 16) { svg.style.display = 'none'; return; }
+        svg.style.display = '';
+
+        const x = Math.round(gutter / 2) + 0.5;
+        const jog = Math.max(4, Math.round(gutter / 8));
+        const ys = anchors().map(a => {
+            const r = a.getBoundingClientRect();
+            // headings: their middle; the pinned stage: just inside its top
+            return Math.round((a.classList.contains('section-head') ? r.top + r.height / 2 : r.top + 24) - m.top) + 0.5;
+        });
+        const footer = main.querySelector('.site-footer');
+        const yEnd = Math.round((footer ? footer.getBoundingClientRect().top : m.bottom - 40) - m.top) + 0.5;
+        if (!ys.length) return;
+
+        svg.setAttribute('width', gutter);
+        svg.setAttribute('height', m.height);
+        svg.style.left = `${-gutter}px`;
+        svg.replaceChildren();
+
+        // route: straight down between pads, with a 45° jog in each run
+        let d = `M${x},${ys[0]}`;
+        const stops = [...ys, yEnd];
+        for (let i = 1; i < stops.length; i++) {
+            const y0 = stops[i - 1], y1 = stops[i], gap = y1 - y0;
+            const j = (i % 2 ? jog : -jog);
+            if (gap > jog * 8) {
+                const a = y0 + gap * 0.3, b = y0 + gap * 0.7;
+                d += ` L${x},${a} L${x + j},${a + Math.abs(j)} L${x + j},${b} L${x},${b + Math.abs(j)}`;
+            }
+            d += ` L${x},${y1}`;
+        }
+        el('path', { class: 'trace-base', d }, svg);
+        live = el('path', { class: 'trace-live', d }, svg);
+        total = live.getTotalLength();
+        live.style.strokeDasharray = `${total} ${total}`;
+
+        // length ↔ y lookup (the route only ever moves down)
+        samples = [];
+        for (let len = 0; len <= total; len += 6) samples.push([len, live.getPointAtLength(len).y]);
+        samples.push([total, live.getPointAtLength(total).y]);
+
+        nodes = ys.map(y => {
+            const g = el('g', { class: 'trace-node' }, svg);
+            el('path', { class: 'trace-stub', d: `M${x},${y} H${gutter - 10}` }, g);
+            el('rect', { class: 'trace-pad', x: gutter - 10, y: y - 3, width: 6, height: 6 }, g);
+            el('circle', { class: 'trace-ring', cx: x, cy: y, r: 4 }, g);
+            el('circle', { class: 'trace-via', cx: x, cy: y, r: 4 }, g);
+            return { g, len: lengthAt(y) };
+        });
+
+        gnd = el('path', { class: 'trace-gnd',
+            d: `M${x - 8},${yEnd} H${x + 8} M${x - 5},${yEnd + 4} H${x + 5} M${x - 2},${yEnd + 8} H${x + 2}` }, svg);
+        glow = el('circle', { class: 'trace-glow', r: 7 }, svg);
+        tip = el('circle', { class: 'trace-tip', r: 2.5 }, svg);
+
+        if (reduceMotion) {
+            svg.classList.add('is-static', 'is-done');
+            live.style.strokeDashoffset = 0;
+            nodes.forEach(n => n.g.classList.add('is-lit'));
+            return;
+        }
+        update();
+    }
+
+    function lengthAt(y) {
+        let lo = 0, hi = samples.length - 1;
+        if (y <= samples[0][1]) return 0;
+        if (y >= samples[hi][1]) return total;
+        while (hi - lo > 1) {
+            const mid = (lo + hi) >> 1;
+            if (samples[mid][1] < y) lo = mid; else hi = mid;
+        }
+        const [l0, y0] = samples[lo], [l1, y1] = samples[hi];
+        return y1 === y0 ? l1 : l0 + (l1 - l0) * (y - y0) / (y1 - y0);
+    }
+
+    function update() {
+        queued = false;
+        if (!live || reduceMotion) return;
+        const top = main.getBoundingClientRect().top;
+        const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+        const drawn = atBottom ? total : lengthAt(window.innerHeight * 0.55 - top);
+
+        live.style.strokeDashoffset = total - drawn;
+        const p = live.getPointAtLength(drawn);
+        tip.setAttribute('cx', p.x); tip.setAttribute('cy', p.y);
+        glow.setAttribute('cx', p.x); glow.setAttribute('cy', p.y);
+        const showTip = drawn > 0 && drawn < total;
+        tip.style.opacity = glow.style.opacity = showTip ? '' : 0;
+        nodes.forEach(n => n.g.classList.toggle('is-lit', drawn >= n.len - 1));
+        svg.classList.toggle('is-done', drawn >= total - 1);
+    }
+
+    const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+    const rebuild = () => { if (!building) { building = true; requestAnimationFrame(build); } };
+
+    new ResizeObserver(rebuild).observe(main);
+    window.addEventListener('resize', rebuild);
+    window.addEventListener('scroll', schedule, { passive: true });
+    if (document.fonts) document.fonts.ready.then(rebuild);
+    rebuild();
+})();
+
+// ==========================================
 // Back to top
 // ==========================================
 (function () {
