@@ -17,7 +17,7 @@
     <meta property="og:image" content="https://nikolasneofytou.github.io/personal-website/assets/og-image.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-    <link rel="stylesheet" href="../css/styles.css?v=20261002b">
+    <link rel="stylesheet" href="../css/styles.css?v=20261002d">
     <link rel="preload" href="../assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/covers/cinna-1344.webp" as="image" fetchpriority="high">
@@ -199,8 +199,19 @@
                     </figure>
                 </section>
 
+                <section class="section" aria-labelledby="ci-try">
+                    <h2 class="section-head" id="ci-try"><span class="section-num">04</span> Try it</h2>
+                    <div class="cs-prose">
+                        <p>The live feed says where a bus is, not which trip it's running. Below, the same road is read two ways. A naive estimator picks the nearest bus, whatever direction it's heading. Cinna only trusts buses heading toward your stop, and falls back to the timetable when it can't vouch for one. Watch the confident-wrong counters.</p>
+                    </div>
+                    <div class="demo" data-demo="eta">
+                        <p class="demo-head"><b>Interactive</b> · naive vs tiered arrival estimates</p>
+                        <div class="demo-body"><p class="demo-fallback">A simulation comparing a naive nearest-bus ETA with Cinna's bearing-aware, tiered estimate. (This demo needs JavaScript.)</p></div>
+                    </div>
+                </section>
+
                 <section class="section" aria-labelledby="ci-decisions">
-                    <h2 class="section-head" id="ci-decisions"><span class="section-num">04</span> Key decisions</h2>
+                    <h2 class="section-head" id="ci-decisions"><span class="section-num">05</span> Key decisions</h2>
                     <div class="cs-prose">
                         <p>Every significant call is written down as an architecture decision record, 14 so far. Each one includes what would make me revisit it. Four of them:</p>
                     </div>
@@ -245,7 +256,7 @@
                 </section>
 
                 <section class="section" aria-labelledby="ci-hard">
-                    <h2 class="section-head" id="ci-hard"><span class="section-num">05</span> Hard problems</h2>
+                    <h2 class="section-head" id="ci-hard"><span class="section-num">06</span> Hard problems</h2>
                     <div class="cs-story">
                         <h3>The timetable that froze in production</h3>
                         <p>The production worker was started without its queue list, so the timetable-import queue was never consumed. Nobody noticed until the published calendar expired and every route went inactive. The health check had been counting rows, not services running today. The fix went beyond the flag: the health check now grades freshness, tests assert that production and local configs subscribe to the same queues, and a calendar bug found along the way was fixed too.</p>
@@ -261,7 +272,7 @@
                 </section>
 
                 <section class="section" aria-labelledby="ci-outcome">
-                    <h2 class="section-head" id="ci-outcome"><span class="section-num">06</span> Outcome &amp; what I'd do differently</h2>
+                    <h2 class="section-head" id="ci-outcome"><span class="section-num">07</span> Outcome &amp; what I'd do differently</h2>
                     <div class="cs-prose">
                         <p>The backend runs in production. The iOS app is in a TestFlight pilot, and an Android release build is ready. Payments and wallet passes are built and waiting on ticketing approval. The code is private, and I'm happy to walk through it on a call.</p>
                         <ul>
@@ -289,6 +300,7 @@
     </div>
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up"></use></svg></button>
-    <script src="../js/script.js?v=20261002b"></script>
+    <script src="../js/script.js?v=20261002d"></script>
+    <script src="../js/explainers.js?v=20261002d" defer></script>
 </body>
 </html>
