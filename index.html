@@ -48,7 +48,7 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css?v=20261001">
+    <link rel="stylesheet" href="css/styles.css?v=20261001d">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -151,6 +151,30 @@
                 </div>
 
                 <p class="bench"><span class="bench-label">Home lab</span> STM32 Nucleo · ESP32 · Raspberry Pi 4 · Jetson Orin Nano · oscilloscope · function generator · logic analyzer · soldering station · CAN / RS-485 / Ethernet modules</p>
+            </section>
+
+            <!-- FIG. 01 — scroll-scrubbed push-in, bench → board → silicon.
+                 Static (poster + list) by default; js/script.js upgrades it to a
+                 pinned canvas when motion and data are welcome. Frames: assets/scrub/ -->
+            <section class="scrub" id="signal" aria-label="Fig. 01 — from the bench to the silicon"
+                     data-frames="96" data-src="assets/scrub/d" data-src-small="assets/scrub/m">
+                <div class="scrub-sticky">
+                    <div class="scrub-frame">
+                        <img class="scrub-poster" src="assets/scrub/poster.webp" width="1280" height="720" loading="lazy" decoding="async"
+                             alt="Extreme macro of a silicon die: dense circuitry with one cobalt-blue signal path lit up.">
+                        <canvas class="scrub-canvas" aria-hidden="true"></canvas>
+                        <ol class="scrub-steps">
+                            <li class="scrub-step" data-from="0" data-to="0.3"><span class="scrub-ch">CH1 · Bench</span> Prototype, probe, measure — ideas start as wires on a breadboard.</li>
+                            <li class="scrub-step" data-from="0.34" data-to="0.74"><span class="scrub-ch">CH2 · Board</span> Firmware and drivers — the layer where code meets copper.</li>
+                            <li class="scrub-step" data-from="0.78" data-to="1.01"><span class="scrub-ch">CH3 · Silicon</span> Down to the signal itself — and back up to the apps people use.</li>
+                        </ol>
+                    </div>
+                    <div class="scrub-meta" aria-hidden="true">
+                        <span class="scrub-fig">Fig. 01</span>
+                        <span>Bench → Board → Silicon</span>
+                        <span class="scrub-rule"><span class="scrub-fill"></span></span>
+                    </div>
+                </div>
             </section>
 
             <!-- SELECTED WORK -->
@@ -438,6 +462,6 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
-    <script src="js/script.js?v=20261001"></script>
+    <script src="js/script.js?v=20261001d"></script>
 </body>
 </html>

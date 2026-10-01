@@ -242,6 +242,129 @@ img { max-width: 100%; display: block; }
 }
 .hero-loop-fig { color: var(--accent); }
 
+/* ---------- Fig. 01 scrub (bench → board → silicon) ----------
+   Static by default; .is-live (added by JS) makes the section tall and pins
+   the frame so scroll progress can drive the canvas. */
+.scrub { padding: 1.5rem 0 0; }
+.scrub-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #0E0F12;
+    border: 1px solid var(--line-strong);
+}
+.scrub-poster,
+.scrub-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.scrub-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.scrub-step {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-dim);
+}
+.scrub-ch {
+    display: block;
+    margin-bottom: 0.2rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+.scrub-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding-top: 0.7rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+}
+.scrub-fig { color: var(--accent); }
+.scrub-rule { display: none; }
+
+/* static: steps sit under the frame as a short list */
+.scrub:not(.is-live) .scrub-steps {
+    position: relative;
+    display: grid;
+    gap: 0.9rem;
+}
+.scrub:not(.is-live) .scrub-sticky { display: flex; flex-direction: column; }
+.scrub:not(.is-live) .scrub-frame { display: flex; flex-direction: column; aspect-ratio: auto; overflow: visible; background: none; border: 0; }
+.scrub:not(.is-live) .scrub-poster { position: static; aspect-ratio: 16 / 9; border: 1px solid var(--line-strong); background: #0E0F12; }
+.scrub:not(.is-live) .scrub-canvas { display: none; }
+.scrub:not(.is-live) .scrub-steps { margin-top: 1.25rem; }
+
+/* live: tall track, pinned frame, steps overlaid like scope annotations */
+.scrub.is-live { height: 300vh; height: 300svh; }
+.scrub.is-live .scrub-sticky {
+    position: sticky;
+    top: calc(13svh - 1rem);
+}
+/* the stage grows to most of the viewport and bleeds past the column
+   (to the window's right edge on desktop, both edges on phones) */
+.scrub.is-live .scrub-frame {
+    --gutter: clamp(1.5rem, 5vw, 4rem);
+    aspect-ratio: auto;
+    height: 72vh;
+    height: 72svh;
+    margin-inline: calc(-1 * var(--gutter));
+    border-inline: 0;
+}
+@media (min-width: 1024px) {
+    .scrub.is-live .scrub-frame {
+        margin-left: 0;
+        margin-right: calc(-1 * (max((100vw - var(--maxw)) / 2, 0px) + var(--gutter)));
+        border-left: 1px solid var(--line-strong);
+    }
+}
+.scrub.is-live .scrub-poster { opacity: 0; transition: opacity 0.3s; }
+.scrub.is-live.is-waiting .scrub-poster { opacity: 1; }
+.scrub.is-live .scrub-steps {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 3.5rem 1.5rem 1.25rem;
+    background: linear-gradient(to top, rgba(8, 9, 12, 0.82), rgba(8, 9, 12, 0));
+    pointer-events: none;
+}
+.scrub.is-live .scrub-step {
+    position: absolute;
+    left: 1.5rem; right: 1.5rem; bottom: 1.25rem;
+    max-width: 32rem;
+    color: rgba(245, 244, 239, 0.9);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.scrub.is-live .scrub-step.is-on { opacity: 1; transform: none; }
+.scrub.is-live .scrub-ch { color: #8C9BFF; }
+.scrub.is-live .scrub-rule {
+    display: block;
+    flex: 1;
+    height: 1px;
+    background: var(--line-strong);
+    overflow: hidden;
+}
+.scrub-fill {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
 .section { padding: 3rem 0; scroll-margin-top: 2rem; }
 .section:first-child { padding-top: 0; }
 
