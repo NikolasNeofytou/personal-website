@@ -214,6 +214,34 @@ img { max-width: 100%; display: block; }
 /* ---------- Main ---------- */
 .main { padding: clamp(3rem, 9vh, 6rem) 0 4rem; min-width: 0; }
 
+/* ---------- Hero loop (Fig. 00) ---------- */
+.hero-loop[hidden] { display: none; }
+.hero-loop[hidden] + .section { padding-top: 0; }
+.hero-loop-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #0E0F12;
+    border: 1px solid var(--line-strong);
+}
+.hero-loop-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.hero-loop-caption {
+    display: flex;
+    gap: 0.8rem;
+    padding-top: 0.7rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+}
+.hero-loop-fig { color: var(--accent); }
+
 .section { padding: 3rem 0; scroll-margin-top: 2rem; }
 .section:first-child { padding-top: 0; }
 
@@ -340,6 +368,21 @@ img { max-width: 100%; display: block; }
     transition: opacity 0.25s;
 }
 .case.is-active::after { opacity: 1; }
+
+/* cover still, bleeding to the card edges */
+.case-cover {
+    margin: -1.75rem -1.75rem 1.4rem;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #0E0F12;
+    border-bottom: 1px solid var(--line);
+}
+.case-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
 .case-rule { margin-bottom: 1.1rem; }
 .case-rule span {
@@ -804,6 +847,7 @@ img { max-width: 100%; display: block; }
     .main { padding-top: 1rem; }
     .case-gallery { --bleed-left: var(--gutter); --case-w: 86%; --case-gap: 1rem; }
     .case { padding: 1.4rem 1.25rem 1.25rem; }
+    .case-cover { margin: -1.4rem -1.25rem 1.25rem; }
     .case-progress-rule { max-width: 120px; }
     .xp-item { grid-template-columns: 1fr; gap: 0.4rem; }
     .photo-lightbox-inner { flex-direction: column; max-height: 90vh; overflow-y: auto; }
