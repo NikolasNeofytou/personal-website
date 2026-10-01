@@ -59,6 +59,8 @@ def main() -> None:
         meta = "\n".join(
             f'                        <div><dt>{html.escape(k)}</dt><dd>{v}</dd></div>' for k, v in p["meta"].items())
         url = f"{SITE}/work/{p['slug']}.html"
+        demo_js = (f'\n    <script src="../js/explainers.js?v={version}" defer></script>'
+                   if "data-demo=" in body else "")
         # badge: "Public"/"Private" by default; a project can override it (e.g. "Live")
         open_ = p["public"] or "flag" in p
         flag = html.escape(p.get("flag", "Public" if p["public"] else "Private"))
@@ -127,7 +129,7 @@ def main() -> None:
     </div>
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up"></use></svg></button>
-    <script src="../js/script.js?v={version}"></script>
+    <script src="../js/script.js?v={version}"></script>{demo_js}
 </body>
 </html>
 """

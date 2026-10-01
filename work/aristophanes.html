@@ -17,7 +17,7 @@
     <meta property="og:image" content="https://nikolasneofytou.github.io/personal-website/assets/og-image.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-    <link rel="stylesheet" href="../css/styles.css?v=20261002b">
+    <link rel="stylesheet" href="../css/styles.css?v=20261002d">
     <link rel="preload" href="../assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/covers/aristophanes-1344.webp" as="image" fetchpriority="high">
@@ -181,8 +181,19 @@
                     </figure>
                 </section>
 
+                <section class="section" aria-labelledby="ar-try">
+                    <h2 class="section-head" id="ar-try"><span class="section-num">04</span> Try it</h2>
+                    <div class="cs-prose">
+                        <p>This is a miniature of the app's architecture, running in your browser. The rehearsal engine only knows two ports. Plug in a real voice or the silent fake the tests use, and persistent or in-memory storage, then run a short scene. The domain function on the right is printed from the code that's actually running, and it doesn't change whichever adapters you choose.</p>
+                    </div>
+                    <div class="demo" data-demo="adapters">
+                        <p class="demo-head"><b>Interactive</b> · swap the adapters</p>
+                        <div class="demo-body"><p class="demo-fallback">A small rehearsal engine with swappable text-to-speech and storage adapters. (This demo needs JavaScript.)</p></div>
+                    </div>
+                </section>
+
                 <section class="section" aria-labelledby="ar-decisions">
-                    <h2 class="section-head" id="ar-decisions"><span class="section-num">04</span> Key decisions</h2>
+                    <h2 class="section-head" id="ar-decisions"><span class="section-num">05</span> Key decisions</h2>
                     <div class="cs-decisions">
                         <article class="cs-adr">
                             <p class="cs-adr-id">ADR-055</p>
@@ -224,7 +235,7 @@
                 </section>
 
                 <section class="section" aria-labelledby="ar-hard">
-                    <h2 class="section-head" id="ar-hard"><span class="section-num">05</span> Hard problems</h2>
+                    <h2 class="section-head" id="ar-hard"><span class="section-num">06</span> Hard problems</h2>
                     <div class="cs-story">
                         <h3>A font that silently wasn't there</h3>
                         <p>The scripts include polytonic Greek. A spike on day two found that the hosted copy of the chosen typeface quietly fell back to a different font. Only a deliberate side-by-side test, with the font on and with it off, caught it. Downloading the font directly fixed it, and table-level checks on the font file then unlocked real small caps.</p>
@@ -240,7 +251,7 @@
                 </section>
 
                 <section class="section" aria-labelledby="ar-outcome">
-                    <h2 class="section-head" id="ar-outcome"><span class="section-num">06</span> Outcome &amp; what I'd do differently</h2>
+                    <h2 class="section-head" id="ar-outcome"><span class="section-num">07</span> Outcome &amp; what I'd do differently</h2>
                     <div class="cs-prose">
                         <p>Aristophanes is in use by a 12-person adult cast, distributed through TestFlight on iOS and Firebase App Distribution on Android, with ticketing running in Stripe test mode. The repo is private, and I'm happy to do a code walkthrough.</p>
                         <ul>
@@ -268,6 +279,7 @@
     </div>
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up"></use></svg></button>
-    <script src="../js/script.js?v=20261002b"></script>
+    <script src="../js/script.js?v=20261002d"></script>
+    <script src="../js/explainers.js?v=20261002d" defer></script>
 </body>
 </html>
