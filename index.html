@@ -14,16 +14,16 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://nikolasneofytou.github.io/personal-website/">
     <meta property="og:site_name" content="Nikolas Neofytou">
-    <meta property="og:image" content="https://nikolasneofytou.github.io/personal-website/assets/og-image.png">
+    <meta property="og:image" content="https://nikolasneofytou.github.io/personal-website/assets/og-image.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Nikolas Neofytou — Electrical & Computer Engineer, NTUA">
+    <meta property="og:image:alt" content="Nikolas Neofytou — Electrical & Computer Engineer. I build at the seam between hardware and software. A breadboard with a blue LED in front of an oscilloscope showing a square wave.">
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Nikolas Neofytou — Electrical & Computer Engineer">
     <meta name="twitter:description" content="I build at the seam between hardware and software — embedded systems and the full-stack apps around them.">
-    <meta name="twitter:image" content="https://nikolasneofytou.github.io/personal-website/assets/og-image.png">
+    <meta name="twitter:image" content="https://nikolasneofytou.github.io/personal-website/assets/og-image.jpg">
 
     <title>Nikolas Neofytou — Electrical & Computer Engineer</title>
 
@@ -48,7 +48,7 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css?v=20260911">
+    <link rel="stylesheet" href="css/styles.css?v=20261001">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -96,6 +96,21 @@
              MAIN — scrolling content
              ============================================================ -->
         <main class="main" id="top">
+
+            <!-- HERO LOOP — decorative; stays hidden until the poster loads (see js/script.js) -->
+            <figure class="hero-loop" id="heroLoop" hidden>
+                <div class="hero-loop-frame">
+                    <video class="hero-loop-video" muted loop playsinline preload="none"
+                           data-poster="assets/hero/hero-loop-poster.jpg" aria-hidden="true" tabindex="-1">
+                        <source src="assets/hero/hero-loop.webm" type="video/webm">
+                        <source src="assets/hero/hero-loop.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <figcaption class="hero-loop-caption">
+                    <span class="hero-loop-fig">Fig. 00</span>
+                    <span>Signal on the bench</span>
+                </figcaption>
+            </figure>
 
             <!-- ABOUT -->
             <section id="about" class="section" aria-labelledby="about-h">
@@ -148,6 +163,12 @@
 
                 <!-- Cinna -->
                 <article class="case" role="group" aria-roledescription="slide" aria-label="Project 1 of 3">
+                    <div class="case-cover" aria-hidden="true">
+                        <img src="assets/covers/cinna-1344.webp"
+                             srcset="assets/covers/cinna-672.webp 672w, assets/covers/cinna-1344.webp 1344w"
+                             sizes="(max-width: 1023px) 86vw, 700px"
+                             width="1344" height="752" alt="" loading="lazy" decoding="async">
+                    </div>
                     <div class="case-rule" aria-hidden="true"><span>01</span></div>
                     <div class="case-body">
                         <header class="case-head">
@@ -175,6 +196,12 @@
 
                 <!-- Aristophanes -->
                 <article class="case" role="group" aria-roledescription="slide" aria-label="Project 2 of 3">
+                    <div class="case-cover" aria-hidden="true">
+                        <img src="assets/covers/aristophanes-1344.webp"
+                             srcset="assets/covers/aristophanes-672.webp 672w, assets/covers/aristophanes-1344.webp 1344w"
+                             sizes="(max-width: 1023px) 86vw, 700px"
+                             width="1344" height="752" alt="" loading="lazy" decoding="async">
+                    </div>
                     <div class="case-rule" aria-hidden="true"><span>02</span></div>
                     <div class="case-body">
                         <header class="case-head">
@@ -201,6 +228,12 @@
 
                 <!-- Plutarch -->
                 <article class="case" role="group" aria-roledescription="slide" aria-label="Project 3 of 3">
+                    <div class="case-cover" aria-hidden="true">
+                        <img src="assets/covers/plutarch-1344.webp"
+                             srcset="assets/covers/plutarch-672.webp 672w, assets/covers/plutarch-1344.webp 1344w"
+                             sizes="(max-width: 1023px) 86vw, 700px"
+                             width="1344" height="752" alt="" loading="lazy" decoding="async">
+                    </div>
                     <div class="case-rule" aria-hidden="true"><span>03</span></div>
                     <div class="case-body">
                         <header class="case-head">
@@ -405,6 +438,6 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
-    <script src="js/script.js?v=20260911"></script>
+    <script src="js/script.js?v=20261001"></script>
 </body>
 </html>

@@ -28,6 +28,35 @@
 })();
 
 // ==========================================
+// Hero loop — reveal once the poster exists; only play when motion
+// and data are welcome, and only while on screen
+// ==========================================
+(function () {
+    const fig = document.getElementById('heroLoop');
+    const video = fig && fig.querySelector('video');
+    if (!video) return;
+
+    const poster = new Image();
+    poster.onload = () => {
+        video.poster = poster.src;
+        fig.hidden = false;
+
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const saveData = navigator.connection && navigator.connection.saveData;
+        if (reduceMotion || saveData || !('IntersectionObserver' in window)) return;
+
+        video.preload = 'auto';
+        new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) video.play().catch(() => {});
+                else video.pause();
+            });
+        }, { threshold: 0.25 }).observe(video);
+    };
+    poster.src = video.dataset.poster;
+})();
+
+// ==========================================
 // Back to top
 // ==========================================
 (function () {
