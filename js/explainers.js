@@ -718,7 +718,192 @@
         });
     }
 
-    const DEMOS = { normalise: normaliseDemo, eta: etaDemo, week: weekDemo, 'week-cinna': cinnaWeekDemo };
+    // ======================================================================
+    // Plutarch (Ρίζα) — a reader's week (scroll-driven)
+    // The phone is the dictionary; on the right, the data behind the page:
+    // the search key, a lemma with its inflected forms, cited senses, the
+    // cross-reference graph and the reports queue. Phone copy is the app's
+    // own Greek UI; the glosses are short paraphrases, not quoted entries.
+    // ======================================================================
+    function plutarchWeekDemo(root) {
+        const DAYS = [
+            ['Mon', 'Any form', 'A reader types εκανες, no accents. The search key strips them, finds the inflected form, and lands on its verb: κάνω.'],
+            ['Tue', 'Cited senses', 'Every sense carries a link to where it came from: Greek Wiktionary, CC BY-SA.'],
+            ['Wed', 'The table', 'The conjugation table shows the form they typed, in context.'],
+            ['Thu', 'Word of the day', 'Ρίζα, “root”, the dictionary’s own name. Cross-references lead to the words around it.'],
+            ['Fri', 'Report a mistake', 'A reader flags an example. It’s sent anonymously (only a salted hash is kept, for rate limiting) to the reports queue.'],
+        ];
+        const sh = weekShell(root, { days: DAYS, kicker: 'ΡΙΖΑ · ΛΕΞΙΚΟ', titles: ['Αναζήτηση', 'κάνω', 'κάνω · κλίση', 'Λέξη της ημέρας', 'Αναφορά λάθους'],
+            label: 'Illustration: the Ρίζα dictionary on a phone beside the data behind an entry' });
+        if (!sh) return false;
+        const { art, screens, S, T } = sh;
+        const CX = 450, CY = 214;
+
+        // ---- right: the data
+        const data = S('g', {}, sh.back);
+        T(data, 262, 428, '1 of 95,774 entries · Greek Wiktionary, CC BY-SA', 'week-small');
+        // search-key strip
+        const strip = S('g', {}, data);
+        T(strip, 262, 34, 'SEARCH KEY', 'week-small');
+        const chipIn = S('rect', { x: 262, y: 42, width: 78, height: 24, rx: 5, class: 'pl-chip' }, strip);
+        const chipInT = T(strip, 301, 58, '', 'pl-chip-text', { 'text-anchor': 'middle' });
+        S('path', { d: 'M346,54 h22', class: 'pl-arrow' }, strip);
+        S('rect', { x: 372, y: 42, width: 78, height: 24, rx: 5, class: 'pl-chip pl-chip--key' }, strip);
+        const chipKeyT = T(strip, 411, 58, '', 'pl-chip-text pl-chip-text--key', { 'text-anchor': 'middle' });
+        T(strip, 458, 58, 'accents off, ς → σ', 'week-small');
+        // lemma κάνω + its forms
+        const verb = S('g', {}, data);
+        const FORMS = ['κάνω', 'κάνεις', 'κάνει', 'έκανα', 'έκανες', 'έκανε', 'κάναμε', 'κάνατε'];
+        const formEls = FORMS.map((f, i) => {
+            const a = (i / FORMS.length) * Math.PI * 2 - Math.PI / 2;
+            const x = CX + Math.cos(a) * 138, y = CY + Math.sin(a) * 92;
+            const line = S('line', { x1: CX, y1: CY, x2: x, y2: y, class: 'pl-edge' }, verb);
+            const g = S('g', { transform: `translate(${x},${y})` }, verb);
+            S('rect', { x: -31, y: -11, width: 62, height: 22, rx: 11, class: 'pl-form' }, g);
+            T(g, 0, 4, f, 'pl-form-text', { 'text-anchor': 'middle', lang: 'el' });
+            return { g, line, f };
+        });
+        S('circle', { cx: CX, cy: CY, r: 36, class: 'pl-lemma' }, verb);
+        T(verb, CX, CY + 6, 'κάνω', 'pl-lemma-text', { 'text-anchor': 'middle', lang: 'el' });
+        T(verb, CX, CY + 52, 'ρήμα · 8 of its forms', 'week-small', { 'text-anchor': 'middle' });
+        // senses with their source
+        const senses = S('g', {}, data);
+        [['1', 'φτιάχνω, δημιουργώ'], ['2', 'εκτελώ, πραγματοποιώ']].forEach(([n, txt], i) => {
+            const x = 270 + i * 186, y = 344;
+            S('line', { x1: CX, y1: CY + 36, x2: x + 86, y2: y, class: 'pl-edge pl-edge--hot' }, senses);
+            S('rect', { x, y, width: 172, height: 46, rx: 6, class: 'week-card' }, senses);
+            T(senses, x + 10, y + 19, `${n}. ${txt}`, 'week-text week-strong', { lang: 'el' });
+            S('rect', { x: x + 10, y: y + 26, width: 64, height: 14, rx: 7, class: 'pl-source' }, senses);
+            T(senses, x + 42, y + 36, 'Βικιλεξικό', 'pl-source-text', { 'text-anchor': 'middle', lang: 'el' });
+        });
+        // ρίζα + cross-references
+        const root2 = S('g', {}, data);
+        const RELS = [['ριζικός', -150], ['ριζώνω', -30], ['ριζοσπάστης', 90]];
+        const relEls = RELS.map(([w, deg]) => {
+            const a = (deg * Math.PI) / 180, x = CX + Math.cos(a) * 128, y = CY + Math.sin(a) * 96;
+            const line = S('line', { x1: CX, y1: CY, x2: x, y2: y, class: 'pl-edge' }, root2);
+            const g = S('g', { transform: `translate(${x},${y})` }, root2);
+            S('rect', { x: -44, y: -12, width: 88, height: 24, rx: 12, class: 'pl-form' }, g);
+            T(g, 0, 4, w, 'pl-form-text', { 'text-anchor': 'middle', lang: 'el' });
+            return { g, line };
+        });
+        S('circle', { cx: CX, cy: CY, r: 36, class: 'pl-lemma' }, root2);
+        T(root2, CX, CY + 6, 'ρίζα', 'pl-lemma-text', { 'text-anchor': 'middle', lang: 'el' });
+        T(root2, CX, CY + 52, 'ουσιαστικό · cross-references', 'week-small', { 'text-anchor': 'middle' });
+        // reports queue
+        const queue = S('g', {}, data);
+        S('rect', { x: 470, y: 330, width: 158, height: 64, rx: 8, class: 'week-card' }, queue);
+        T(queue, 482, 350, 'REPORTS', 'week-small');
+        const qItem = S('g', {}, queue);
+        S('rect', { x: 482, y: 358, width: 134, height: 26, rx: 5, class: 'pl-chip' }, qItem);
+        T(qItem, 490, 375, 'example · κάνω', 'pl-chip-text');
+        T(qItem, 608, 375, '#a91f…', 'pl-hash', { 'text-anchor': 'end' });
+        const env = S('rect', { width: 14, height: 10, rx: 2, class: 'pl-env' }, art);
+
+        // ---- phone screens
+        // MON: search
+        const mon = screens[0];
+        S('rect', { x: 42, y: 106, width: 168, height: 34, rx: 17, class: 'week-card' }, mon);
+        const typed = T(mon, 58, 128, '', 'pl-typed', { lang: 'el' });
+        const caret = S('rect', { x: 58, y: 116, width: 1.5, height: 16, class: 'pl-caret' }, mon);
+        const result = S('g', {}, mon);
+        S('rect', { x: 42, y: 150, width: 168, height: 56, rx: 8, class: 'week-card wk-selected' }, result);
+        T(result, 54, 174, 'κάνω', 'pl-res-lemma', { lang: 'el' });
+        T(result, 112, 174, 'ρήμα', 'week-small', { lang: 'el' });
+        T(result, 54, 194, 'από τον τύπο «έκανες»', 'week-small', { lang: 'el' });
+        // TUE: entry
+        const tue = screens[1];
+        [['1.', 'φτιάχνω, δημιουργώ', 'κάνω ένα τραπέζι'], ['2.', 'εκτελώ, πραγματοποιώ', 'κάνω μια δουλειά']].forEach(([n, s1, ex], i) => {
+            const y = 112 + i * 92;
+            T(tue, 42, y, n, 'week-small');
+            T(tue, 58, y, s1, 'week-text week-strong', { lang: 'el' });
+            S('rect', { x: 58, y: y + 10, width: 68, height: 16, rx: 8, class: 'pl-source' }, tue);
+            T(tue, 92, y + 22, 'Βικιλεξικό', 'pl-source-text', { 'text-anchor': 'middle', lang: 'el' });
+            S('rect', { x: 58, y: y + 36, width: 2, height: 18, class: 'week-eyeline' }, tue);
+            T(tue, 66, y + 49, ex, 'pl-example', { lang: 'el' });
+        });
+        // WED: conjugation (aorist column)
+        const wed = screens[2];
+        T(wed, 42, 112, 'ΑΟΡΙΣΤΟΣ', 'week-small');
+        const AOR = [['α΄', 'έκανα'], ['β΄', 'έκανες'], ['γ΄', 'έκανε'], ['α΄ πλ.', 'κάναμε'], ['β΄ πλ.', 'κάνατε'], ['γ΄ πλ.', 'έκαναν']];
+        const aorRows = AOR.map(([p, f], i) => {
+            const y = 122 + i * 30;
+            const bg = S('rect', { x: 42, y, width: 168, height: 26, rx: 4, class: 'pl-row' }, wed);
+            T(wed, 52, y + 17, p, 'week-small', { lang: 'el' });
+            T(wed, 104, y + 17, f, 'week-text', { lang: 'el' });
+            return bg;
+        });
+        // THU: word of the day
+        const thu = screens[3];
+        T(thu, 42, 140, 'ρίζα', 'pl-wotd', { lang: 'el' });
+        T(thu, 42, 162, 'ουσιαστικό', 'week-small', { lang: 'el' });
+        T(thu, 42, 190, 'το μέρος του φυτού', 'week-text', { lang: 'el' });
+        T(thu, 42, 206, 'κάτω από το έδαφος', 'week-text', { lang: 'el' });
+        T(thu, 42, 240, 'ΣΧΕΤΙΚΕΣ', 'week-small');
+        const thuRel = ['ριζικός', 'ριζώνω', 'ριζοσπάστης'].map((w, i) => T(thu, 42, 262 + i * 20, w, 'pl-rel', { lang: 'el' }));
+        // FRI: report
+        const fri = screens[4];
+        const CATS = ['Λάθος ορισμός', 'Λείπει σημασία ή λέξη', 'Λάθος ετυμολογία', 'Πρόβλημα σε παράδειγμα', 'Ορθογραφικό ή τονισμός', 'Κάτι άλλο'];
+        const radios = CATS.map((c, i) => {
+            const y = 112 + i * 26;
+            const dot = S('circle', { cx: 50, cy: y - 4, r: 5, class: 'pl-radio' }, fri);
+            T(fri, 62, y, c, 'week-text', { lang: 'el' });
+            return dot;
+        });
+        const send = S('rect', { x: 42, y: 280, width: 168, height: 32, rx: 8, class: 'week-btn' }, fri);
+        const sendT = T(fri, 126, 301, 'Αποστολή', 'week-btn-label', { 'text-anchor': 'middle', lang: 'el' });
+
+        sh.start((day, t) => {
+            const word = 'εκανες';
+            strip.style.opacity = day === 0 ? 1 : 0.25;
+            verb.style.opacity = day === 3 ? 0 : day === 4 ? 0.35 : 1;
+            root2.style.opacity = day === 3 ? 1 : 0;
+            senses.style.opacity = day === 1 ? clamp(t / 0.3) : 0;
+            queue.style.opacity = day === 4 ? 1 : 0;
+            env.style.opacity = 0;
+            formEls.forEach(fe => { fe.g.classList.remove('is-hot', 'is-dim'); fe.line.classList.remove('pl-edge--hot'); });
+
+            if (day === 0) {
+                const n = Math.round(word.length * clamp(t / 0.4));
+                typed.textContent = word.slice(0, n);
+                caret.setAttribute('x', 58 + typed.getComputedTextLength() + 1);
+                caret.style.opacity = t < 0.45 ? (Math.floor(t * 20) % 2 ? 0 : 1) : 0;
+                chipInT.textContent = word.slice(0, n) || ' ';
+                chipKeyT.textContent = t > 0.45 ? 'εκανεσ' : '';
+                result.style.opacity = clamp((t - 0.55) / 0.12);
+                const hit = formEls.find(fe => fe.f === 'έκανες');
+                if (t > 0.5) { hit.g.classList.add('is-hot'); hit.line.classList.add('pl-edge--hot'); }
+                formEls.forEach(fe => { if (fe !== hit && t > 0.5) fe.g.classList.add('is-dim'); });
+            }
+            if (day === 1) formEls.forEach(fe => fe.g.classList.add('is-dim'));
+            if (day === 2) {
+                formEls.forEach((fe, i) => { if (t > 0.1 + i * 0.06) fe.g.classList.add('is-hot'); });
+                aorRows.forEach((bg, i) => bg.setAttribute('class', 'pl-row' + (i === 1 && t > 0.35 ? ' is-hot' : '')));
+            }
+            if (day === 3) {
+                relEls.forEach((r, i) => {
+                    const on = t > 0.2 + i * 0.18;
+                    r.g.classList.toggle('is-hot', on); r.line.classList.toggle('pl-edge--hot', on);
+                    thuRel[i].classList.toggle('is-hot', on);
+                });
+            }
+            if (day === 4) {
+                radios.forEach((r, i) => r.setAttribute('class', 'pl-radio' + (i === 3 && t > 0.2 ? ' is-on' : '')));
+                const sent = t > 0.45;
+                send.classList.toggle('is-pressed', sent);
+                sendT.textContent = sent ? 'Στάλθηκε · ευχαριστούμε' : 'Αποστολή';
+                const u = clamp((t - 0.45) / 0.3);
+                if (u > 0 && u < 1) {
+                    env.style.opacity = 1;
+                    env.setAttribute('x', 226 + (482 - 226) * ease(u));
+                    env.setAttribute('y', 290 + (366 - 290) * ease(u));
+                }
+                qItem.style.opacity = clamp((t - 0.75) / 0.08);
+            }
+        });
+    }
+
+    const DEMOS = { normalise: normaliseDemo, eta: etaDemo, week: weekDemo, 'week-cinna': cinnaWeekDemo, 'week-plutarch': plutarchWeekDemo };
     document.querySelectorAll('[data-demo]').forEach(el => {
         const fn = DEMOS[el.dataset.demo];
         // a demo can decline (return false), e.g. under reduced motion, and keep its static fallback
