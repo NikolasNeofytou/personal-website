@@ -1102,11 +1102,11 @@ img { max-width: 100%; display: block; }
 .week.is-live .demo-body { position: sticky; top: max(1rem, 6svh); }
 .week-head { position: relative; }
 .week-rail { list-style: none; margin: 0; padding: 0 0 0.7rem; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
-.week-rail li { display: flex; flex-direction: column; gap: 0.15rem; opacity: 0.45; transition: opacity 0.3s; }
-.week-rail li.is-on { opacity: 1; }
+.week-rail li { display: flex; flex-direction: column; gap: 0.15rem; padding-bottom: 0.15rem; }
 .week-day { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
 .week-rail li.is-on .week-day { color: var(--accent); }
-.week-title { font-family: var(--serif); font-size: 1.05rem; line-height: 1.15; color: var(--text); }
+.week-title { font-family: var(--serif); font-size: 1.05rem; line-height: 1.15; color: var(--text-faint); transition: color 0.3s; }
+.week-rail li.is-on .week-title { color: var(--text); }
 .week-rail-track { display: block; height: 1px; background: var(--line); overflow: hidden; }
 .week-rail-fill { display: block; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
 .week-svg { display: block; width: 100%; height: auto; max-height: 60svh; margin: 0.6rem auto 0; }
