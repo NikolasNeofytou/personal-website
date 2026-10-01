@@ -48,15 +48,30 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css?v=20261001f">
+    <link rel="stylesheet" href="css/styles.css?v=20261002a">
     <link rel="preload" href="assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/hero/hero-loop-poster.jpg" as="image" fetchpriority="high">
-    <!-- icons are decorative: load them without blocking first paint (widths are reserved in styles.css) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
 <body>
+    <!-- Icon sprite — Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+        <symbol id="i-github" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></symbol>
+        <symbol id="i-linkedin" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></symbol>
+        <symbol id="i-newspaper" viewBox="0 0 512 512"><path d="M96 96c0-35.3 28.7-64 64-64H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H80c-44.2 0-80-35.8-80-80V128c0-17.7 14.3-32 32-32s32 14.3 32 32V400c0 8.8 7.2 16 16 16s16-7.2 16-16V96zm64 24v80c0 13.3 10.7 24 24 24H296c13.3 0 24-10.7 24-24V120c0-13.3-10.7-24-24-24H184c-13.3 0-24 10.7-24 24zm208-8c0 8.8 7.2 16 16 16h48c8.8 0 16-7.2 16-16s-7.2-16-16-16H384c-8.8 0-16 7.2-16 16zm0 96c0 8.8 7.2 16 16 16h48c8.8 0 16-7.2 16-16s-7.2-16-16-16H384c-8.8 0-16 7.2-16 16zM160 304c0 8.8 7.2 16 16 16H432c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16zm0 96c0 8.8 7.2 16 16 16H432c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16z"/></symbol>
+        <symbol id="i-camera" viewBox="0 0 512 512"><path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></symbol>
+        <symbol id="i-arrow-down" viewBox="0 0 384 512"><path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/></symbol>
+        <symbol id="i-lock" viewBox="0 0 448 512"><path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/></symbol>
+        <symbol id="i-unlock" viewBox="0 0 448 512"><path d="M144 144c0-44.2 35.8-80 80-80c31.9 0 59.4 18.6 72.3 45.7c7.6 16 26.7 22.8 42.6 15.2s22.8-26.7 15.2-42.6C331 33.7 281.5 0 224 0C144.5 0 80 64.5 80 144v48H64c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V256c0-35.3-28.7-64-64-64H144V144z"/></symbol>
+        <symbol id="i-chevron-left" viewBox="0 0 320 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></symbol>
+        <symbol id="i-chevron-right" viewBox="0 0 320 512"><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></symbol>
+        <symbol id="i-arrow-right" viewBox="0 0 448 512"><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></symbol>
+        <symbol id="i-arrow-up" viewBox="0 0 384 512"><path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"/></symbol>
+        <symbol id="i-spinner" viewBox="0 0 512 512"><path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"/></symbol>
+        <symbol id="i-expand" viewBox="0 0 448 512"><path d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H64V352zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32H320zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32v64H320c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32V352z"/></symbol>
+        <symbol id="i-envelope" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></symbol>
+        <symbol id="i-times" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></symbol>
+    </svg>
     <a class="skip-link" href="#work">Skip to content</a>
 
     <div class="layout">
@@ -87,12 +102,12 @@
 
                 <div class="sidebar-bottom">
                     <div class="side-socials">
-                        <a href="https://github.com/NikolasNeofytou" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/nikolas-n-17078a201" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://substack.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer" aria-label="Substack"><i class="fas fa-newspaper"></i></a>
-                        <a href="https://unsplash.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer" aria-label="Unsplash"><i class="fas fa-camera"></i></a>
+                        <a href="https://github.com/NikolasNeofytou" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-github"></use></svg></a>
+                        <a href="https://www.linkedin.com/in/nikolas-n-17078a201" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-linkedin"></use></svg></a>
+                        <a href="https://substack.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer" aria-label="Substack"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-newspaper"></use></svg></a>
+                        <a href="https://unsplash.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer" aria-label="Unsplash"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-camera"></use></svg></a>
                     </div>
-                    <a href="assets/cv.pdf" download="Nikolas_Neofytou_CV.pdf" class="side-cv"><i class="fas fa-arrow-down"></i> Résumé</a>
+                    <a href="assets/cv.pdf" download="Nikolas_Neofytou_CV.pdf" class="side-cv"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-down"></use></svg> Résumé</a>
                 </div>
             </div>
         </header>
@@ -203,7 +218,7 @@
                     <div class="case-body">
                         <header class="case-head">
                             <h3 class="case-title">Cinna</h3>
-                            <span class="case-flag"><i class="fas fa-lock"></i> Private</span>
+                            <span class="case-flag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private</span>
                         </header>
                         <p class="case-role">Solo · Flutter client + Django backend · 2024–2025</p>
                         <p class="case-line"><span class="case-k">Problem</span> Public-transit riders are stuck with schedules that drift from reality and clunky paper-or-card ticketing — no single place to see where the bus actually is and pay for the ride.</p>
@@ -219,7 +234,7 @@
                             <span class="tech-tag">Flutter</span><span class="tech-tag">Riverpod</span><span class="tech-tag">Django REST</span><span class="tech-tag">PostGIS</span><span class="tech-tag">Redis</span><span class="tech-tag">GTFS-RT</span>
                         </div>
                         <div class="case-links">
-                            <span class="case-badge"><i class="fas fa-lock"></i> Private · demo on request</span>
+                            <span class="case-badge"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private · demo on request</span>
                         </div>
                     </div>
                 </div>
@@ -236,7 +251,7 @@
                     <div class="case-body">
                         <header class="case-head">
                             <h3 class="case-title">Aristophanes</h3>
-                            <span class="case-flag"><i class="fas fa-lock"></i> Private</span>
+                            <span class="case-flag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private</span>
                         </header>
                         <p class="case-role">Solo · Native iOS (Flutter) · architecture-first</p>
                         <p class="case-line"><span class="case-k">Problem</span> Mobile apps rot when business logic is welded to the framework. I wanted a codebase whose core could outlive any SDK churn and stay genuinely testable.</p>
@@ -251,7 +266,7 @@
                             <span class="tech-tag">Flutter</span><span class="tech-tag">iOS</span><span class="tech-tag">Ports &amp; Adapters</span><span class="tech-tag">ADRs</span>
                         </div>
                         <div class="case-links">
-                            <span class="case-badge"><i class="fas fa-lock"></i> Private · demo on request</span>
+                            <span class="case-badge"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private · demo on request</span>
                         </div>
                     </div>
                 </div>
@@ -268,7 +283,7 @@
                     <div class="case-body">
                         <header class="case-head">
                             <h3 class="case-title">Plutarch</h3>
-                            <span class="case-flag case-flag--open"><i class="fas fa-unlock"></i> Public</span>
+                            <span class="case-flag case-flag--open"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-unlock"></use></svg> Public</span>
                         </header>
                         <p class="case-role">Solo · Next.js + PostgreSQL · open source</p>
                         <p class="case-line"><span class="case-k">Problem</span> Greek dictionaries online are slow and shallow — hard to scan, weak on cross-references, painful to explore a word's neighbourhood.</p>
@@ -282,7 +297,7 @@
                             <span class="tech-tag">Next.js</span><span class="tech-tag">TypeScript</span><span class="tech-tag">PostgreSQL</span>
                         </div>
                         <div class="case-links">
-                            <a class="case-badge case-badge--link" href="https://github.com/NikolasNeofytou/Plutarch" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> View source</a>
+                            <a class="case-badge case-badge--link" href="https://github.com/NikolasNeofytou/Plutarch" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-github"></use></svg> View source</a>
                         </div>
                     </div>
                 </div>
@@ -295,13 +310,13 @@
                             <span class="case-progress-rule" aria-hidden="true"><span class="case-progress-fill" id="caseProgressFill"></span></span>
                         </div>
                         <div class="paddlenav">
-                            <button class="paddle paddle-prev" id="casePrev" type="button" aria-label="Previous project" aria-disabled="true"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
-                            <button class="paddle paddle-next" id="caseNext" type="button" aria-label="Next project"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+                            <button class="paddle paddle-prev" id="casePrev" type="button" aria-label="Previous project" aria-disabled="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-left"></use></svg></button>
+                            <button class="paddle paddle-next" id="caseNext" type="button" aria-label="Next project"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"></use></svg></button>
                         </div>
                     </div>
                 </div><!-- /.case-gallery -->
 
-                <a class="more-link" href="https://github.com/NikolasNeofytou?tab=repositories" target="_blank" rel="noopener noreferrer">All projects on GitHub <i class="fas fa-arrow-right"></i></a>
+                <a class="more-link" href="https://github.com/NikolasNeofytou?tab=repositories" target="_blank" rel="noopener noreferrer">All projects on GitHub <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
             </section>
 
             <!-- EXPERIENCE -->
@@ -344,7 +359,7 @@
                         </div>
                     </li>
                 </ol>
-                <a class="more-link" href="assets/cv.pdf" download="Nikolas_Neofytou_CV.pdf">Download full résumé <i class="fas fa-arrow-down"></i></a>
+                <a class="more-link" href="assets/cv.pdf" download="Nikolas_Neofytou_CV.pdf">Download full résumé <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-down"></use></svg></a>
             </section>
 
             <!-- BEYOND ENGINEERING -->
@@ -353,9 +368,9 @@
 
                 <h3 class="sub-head">Writing <span class="sub-note">— philosophy &amp; history, on Substack</span></h3>
                 <div class="writing-list" id="substackPosts">
-                    <div class="writing-placeholder"><i class="fas fa-spinner fa-spin"></i> Loading latest posts…</div>
+                    <div class="writing-placeholder"><svg class="icon icon-spin" aria-hidden="true" focusable="false"><use href="#i-spinner"></use></svg> Loading latest posts…</div>
                 </div>
-                <a class="more-link" href="https://substack.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer">Read on Substack <i class="fas fa-arrow-right"></i></a>
+                <a class="more-link" href="https://substack.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer">Read on Substack <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
 
                 <h3 class="sub-head sub-head--gap">Bookshelf <span class="sub-note">— what's shaping how I think · drag to browse</span></h3>
                 <!-- Swappable: to change a book, replace its JPG in assets/books/ (keep the filename) or edit the src + title/author. Covers auto-sourced; some are non-Penguin editions until you drop in the Penguin scans. -->
@@ -393,22 +408,22 @@
                         data-full="assets/photography/web/DSC01033-lg.jpg" data-title="Capture 01"
                         data-camera="Sony A7 III" data-lens="FE 28–70mm F3.5–5.6 OSS" data-focal="41 mm" data-aperture="ƒ/4.5" data-shutter="1/40 s" data-iso="12800" data-date="13 Sep 2025">
                         <img src="assets/photography/web/DSC01033-thumb.jpg" alt="Photograph by Nikolas Neofytou" loading="lazy" width="1000" height="563">
-                        <span class="photo-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                        <span class="photo-zoom" aria-hidden="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-expand"></use></svg></span>
                     </button>
                     <button class="photo-item" type="button"
                         data-full="assets/photography/web/DSC01034-lg.jpg" data-title="Capture 02"
                         data-camera="Sony A7 III" data-lens="FE 28–70mm F3.5–5.6 OSS" data-focal="40 mm" data-aperture="ƒ/4.0" data-shutter="1/40 s" data-iso="12800" data-date="13 Sep 2025">
                         <img src="assets/photography/web/DSC01034-thumb.jpg" alt="Photograph by Nikolas Neofytou" loading="lazy" width="1000" height="563">
-                        <span class="photo-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                        <span class="photo-zoom" aria-hidden="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-expand"></use></svg></span>
                     </button>
                     <button class="photo-item" type="button"
                         data-full="assets/photography/web/DSC01035-lg.jpg" data-title="Capture 03"
                         data-camera="Sony A7 III" data-lens="FE 28–70mm F3.5–5.6 OSS" data-focal="70 mm" data-aperture="ƒ/5.6" data-shutter="1/20 s" data-iso="12800" data-date="13 Sep 2025">
                         <img src="assets/photography/web/DSC01035-thumb.jpg" alt="Photograph by Nikolas Neofytou" loading="lazy" width="1000" height="563">
-                        <span class="photo-zoom" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                        <span class="photo-zoom" aria-hidden="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-expand"></use></svg></span>
                     </button>
                 </div>
-                <a class="more-link" href="https://unsplash.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer">View on Unsplash <i class="fas fa-arrow-right"></i></a>
+                <a class="more-link" href="https://unsplash.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer">View on Unsplash <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
 
                 <h3 class="sub-head sub-head--gap">Off the bench <span class="sub-note">— mind &amp; body in the same room</span></h3>
                 <div class="prose">
@@ -430,7 +445,7 @@
                         in between. The fastest way to reach me is email; I read everything.
                     </p>
                 </div>
-                <a class="contact-cta" href="mailto:nikiforialicht@gmail.com"><i class="fas fa-envelope"></i> Say hello</a>
+                <a class="contact-cta" href="mailto:nikiforialicht@gmail.com"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-envelope"></use></svg> Say hello</a>
                 <ul class="contact-list">
                     <li><span class="contact-k">Email</span> <a href="mailto:nikiforialicht@gmail.com">nikiforialicht@gmail.com</a></li>
                     <li><span class="contact-k">Phone</span> <a href="tel:+35796666897">+357 96 666 897</a></li>
@@ -447,8 +462,8 @@
 
     <!-- Photography lightbox -->
     <div class="photo-lightbox" id="photoLightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
-        <button class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close viewer"><i class="fas fa-times"></i></button>
-        <button class="photo-nav photo-prev" id="photoPrev" aria-label="Previous photo"><i class="fas fa-chevron-left"></i></button>
+        <button class="photo-lightbox-close" id="photoLightboxClose" aria-label="Close viewer"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-times"></use></svg></button>
+        <button class="photo-nav photo-prev" id="photoPrev" aria-label="Previous photo"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-left"></use></svg></button>
         <div class="photo-lightbox-inner">
             <div class="photo-lightbox-image"><img id="photoLightboxImg" src="" alt=""></div>
             <aside class="photo-lightbox-meta">
@@ -460,14 +475,14 @@
                 <div class="photo-exif-row"><span class="exif-key">shutter</span><span class="exif-val" id="exifShutter"></span></div>
                 <div class="photo-exif-row"><span class="exif-key">iso</span><span class="exif-val" id="exifIso"></span></div>
                 <div class="photo-exif-row"><span class="exif-key">date</span><span class="exif-val" id="exifDate"></span></div>
-                <a class="photo-exif-link" href="https://unsplash.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer">View on Unsplash <i class="fas fa-arrow-right"></i></a>
+                <a class="photo-exif-link" href="https://unsplash.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer">View on Unsplash <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
             </aside>
         </div>
-        <button class="photo-nav photo-next" id="photoNext" aria-label="Next photo"><i class="fas fa-chevron-right"></i></button>
+        <button class="photo-nav photo-next" id="photoNext" aria-label="Next photo"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"></use></svg></button>
     </div>
 
-    <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up"></use></svg></button>
 
-    <script src="js/script.js?v=20261001f"></script>
+    <script src="js/script.js?v=20261002a"></script>
 </body>
 </html>
