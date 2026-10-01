@@ -28,32 +28,23 @@
 })();
 
 // ==========================================
-// Hero loop — reveal once the poster exists; only play when motion
-// and data are welcome, and only while on screen
+// Hero loop — the poster is in the markup (space reserved, no layout
+// shift); only play when motion and data are welcome, and only on screen
 // ==========================================
 (function () {
-    const fig = document.getElementById('heroLoop');
-    const video = fig && fig.querySelector('video');
+    const video = document.querySelector('#heroLoop video');
     if (!video) return;
 
-    const poster = new Image();
-    poster.onload = () => {
-        video.poster = poster.src;
-        fig.hidden = false;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const saveData = navigator.connection && navigator.connection.saveData;
+    if (reduceMotion || saveData || !('IntersectionObserver' in window)) return;
 
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const saveData = navigator.connection && navigator.connection.saveData;
-        if (reduceMotion || saveData || !('IntersectionObserver' in window)) return;
-
-        video.preload = 'auto';
-        new IntersectionObserver((entries) => {
-            entries.forEach(e => {
-                if (e.isIntersecting) video.play().catch(() => {});
-                else video.pause();
-            });
-        }, { threshold: 0.25 }).observe(video);
-    };
-    poster.src = video.dataset.poster;
+    new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) video.play().catch(() => {});
+            else video.pause();
+        });
+    }, { threshold: 0.25 }).observe(video);
 })();
 
 // ==========================================
@@ -142,11 +133,14 @@
         if (!queued) { queued = true; requestAnimationFrame(update); }
     }
 
-    let near = false;
+    // frames wait for the page's own load so they never compete with first paint
+    let near = false, loaded = document.readyState === 'complete';
     new IntersectionObserver((entries) => {
         near = entries[0].isIntersecting;
-        if (near) { loadAll(); schedule(); }
-    }, { rootMargin: '200% 0px' }).observe(sec);
+        if (near && loaded) loadAll();
+        if (near) schedule();
+    }, { rootMargin: '150% 0px' }).observe(sec);
+    if (!loaded) window.addEventListener('load', () => { loaded = true; if (near) loadAll(); }, { once: true });
 
     window.addEventListener('scroll', () => { if (near) schedule(); }, { passive: true });
     window.addEventListener('resize', () => { size(); schedule(); });

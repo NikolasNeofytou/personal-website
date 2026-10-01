@@ -48,8 +48,13 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css?v=20261001e">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css?v=20261001f">
+    <link rel="preload" href="assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/hero/hero-loop-poster.jpg" as="image" fetchpriority="high">
+    <!-- icons are decorative: load them without blocking first paint (widths are reserved in styles.css) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
 <body>
     <a class="skip-link" href="#work">Skip to content</a>
@@ -97,11 +102,12 @@
              ============================================================ -->
         <main class="main" id="top">
 
-            <!-- HERO LOOP — decorative; stays hidden until the poster loads (see js/script.js) -->
-            <figure class="hero-loop" id="heroLoop" hidden>
+            <!-- HERO LOOP — decorative; space is reserved up front (no layout shift), the
+                 poster paints immediately, playback is gated in js/script.js -->
+            <figure class="hero-loop" id="heroLoop">
                 <div class="hero-loop-frame">
                     <video class="hero-loop-video" muted loop playsinline preload="none"
-                           data-poster="assets/hero/hero-loop-poster.jpg" aria-hidden="true" tabindex="-1">
+                           poster="assets/hero/hero-loop-poster.jpg" width="1280" height="720" aria-hidden="true" tabindex="-1">
                         <source src="assets/hero/hero-loop.webm" type="video/webm">
                         <source src="assets/hero/hero-loop.mp4" type="video/mp4">
                     </video>
@@ -186,7 +192,7 @@
                     <div class="case-track" id="caseTrack" role="group" aria-roledescription="carousel" aria-label="Selected work — scroll horizontally" tabindex="0">
 
                 <!-- Cinna -->
-                <article class="case" role="group" aria-roledescription="slide" aria-label="Project 1 of 3">
+                <div class="case" role="group" aria-roledescription="slide" aria-label="Project 1 of 3">
                     <div class="case-cover" aria-hidden="true">
                         <img src="assets/covers/cinna-1344.webp"
                              srcset="assets/covers/cinna-672.webp 672w, assets/covers/cinna-1344.webp 1344w"
@@ -216,10 +222,10 @@
                             <span class="case-badge"><i class="fas fa-lock"></i> Private · demo on request</span>
                         </div>
                     </div>
-                </article>
+                </div>
 
                 <!-- Aristophanes -->
-                <article class="case" role="group" aria-roledescription="slide" aria-label="Project 2 of 3">
+                <div class="case" role="group" aria-roledescription="slide" aria-label="Project 2 of 3">
                     <div class="case-cover" aria-hidden="true">
                         <img src="assets/covers/aristophanes-1344.webp"
                              srcset="assets/covers/aristophanes-672.webp 672w, assets/covers/aristophanes-1344.webp 1344w"
@@ -248,10 +254,10 @@
                             <span class="case-badge"><i class="fas fa-lock"></i> Private · demo on request</span>
                         </div>
                     </div>
-                </article>
+                </div>
 
                 <!-- Plutarch -->
-                <article class="case" role="group" aria-roledescription="slide" aria-label="Project 3 of 3">
+                <div class="case" role="group" aria-roledescription="slide" aria-label="Project 3 of 3">
                     <div class="case-cover" aria-hidden="true">
                         <img src="assets/covers/plutarch-1344.webp"
                              srcset="assets/covers/plutarch-672.webp 672w, assets/covers/plutarch-1344.webp 1344w"
@@ -279,7 +285,7 @@
                             <a class="case-badge case-badge--link" href="https://github.com/NikolasNeofytou/Plutarch" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> View source</a>
                         </div>
                     </div>
-                </article>
+                </div>
 
                     </div><!-- /.case-track -->
 
@@ -354,30 +360,30 @@
                 <h3 class="sub-head sub-head--gap">Bookshelf <span class="sub-note">— what's shaping how I think · drag to browse</span></h3>
                 <!-- Swappable: to change a book, replace its JPG in assets/books/ (keep the filename) or edit the src + title/author. Covers auto-sourced; some are non-Penguin editions until you drop in the Penguin scans. -->
                 <div class="shelf" role="list" aria-label="Books on my shelf">
-                    <figure class="book" role="listitem">
+                    <div class="book" role="listitem">
                         <div class="book-cover"><img src="assets/books/nietzsche-bge.jpg" alt="Beyond Good and Evil by Friedrich Nietzsche" loading="lazy" width="150" height="225"></div>
-                        <figcaption class="book-meta"><span class="book-title">Beyond Good and Evil</span><span class="book-author">Friedrich Nietzsche</span></figcaption>
-                    </figure>
-                    <figure class="book" role="listitem">
+                        <div class="book-meta"><span class="book-title">Beyond Good and Evil</span><span class="book-author">Friedrich Nietzsche</span></div>
+                    </div>
+                    <div class="book" role="listitem">
                         <div class="book-cover"><img src="assets/books/schopenhauer-ea.jpg" alt="Essays and Aphorisms by Arthur Schopenhauer" loading="lazy" width="150" height="225"></div>
-                        <figcaption class="book-meta"><span class="book-title">Essays and Aphorisms</span><span class="book-author">Arthur Schopenhauer</span></figcaption>
-                    </figure>
-                    <figure class="book" role="listitem">
+                        <div class="book-meta"><span class="book-title">Essays and Aphorisms</span><span class="book-author">Arthur Schopenhauer</span></div>
+                    </div>
+                    <div class="book" role="listitem">
                         <div class="book-cover"><img src="assets/books/plato-republic.jpg" alt="Republic by Plato" loading="lazy" width="150" height="225"></div>
-                        <figcaption class="book-meta"><span class="book-title">Republic</span><span class="book-author">Plato</span></figcaption>
-                    </figure>
-                    <figure class="book" role="listitem">
+                        <div class="book-meta"><span class="book-title">Republic</span><span class="book-author">Plato</span></div>
+                    </div>
+                    <div class="book" role="listitem">
                         <div class="book-cover"><img src="assets/books/aristotle-ethics.jpg" alt="The Nicomachean Ethics by Aristotle" loading="lazy" width="150" height="225"></div>
-                        <figcaption class="book-meta"><span class="book-title">The Nicomachean Ethics</span><span class="book-author">Aristotle</span></figcaption>
-                    </figure>
-                    <figure class="book" role="listitem">
+                        <div class="book-meta"><span class="book-title">The Nicomachean Ethics</span><span class="book-author">Aristotle</span></div>
+                    </div>
+                    <div class="book" role="listitem">
                         <div class="book-cover"><img src="assets/books/sophocles-theban.jpg" alt="The Three Theban Plays by Sophocles" loading="lazy" width="150" height="225"></div>
-                        <figcaption class="book-meta"><span class="book-title">The Three Theban Plays</span><span class="book-author">Sophocles</span></figcaption>
-                    </figure>
-                    <figure class="book" role="listitem">
+                        <div class="book-meta"><span class="book-title">The Three Theban Plays</span><span class="book-author">Sophocles</span></div>
+                    </div>
+                    <div class="book" role="listitem">
                         <div class="book-cover"><img src="assets/books/gibbon-decline.jpg" alt="The Decline and Fall of the Roman Empire by Edward Gibbon" loading="lazy" width="150" height="225"></div>
-                        <figcaption class="book-meta"><span class="book-title">The Decline and Fall of the Roman Empire</span><span class="book-author">Edward Gibbon</span></figcaption>
-                    </figure>
+                        <div class="book-meta"><span class="book-title">The Decline and Fall of the Roman Empire</span><span class="book-author">Edward Gibbon</span></div>
+                    </div>
                 </div>
 
                 <h3 class="sub-head sub-head--gap">Photography <span class="sub-note">— Sony A7 III, click a frame for the capture data</span></h3>
@@ -462,6 +468,6 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
-    <script src="js/script.js?v=20261001e"></script>
+    <script src="js/script.js?v=20261001f"></script>
 </body>
 </html>
