@@ -79,6 +79,44 @@
     }
   },
   {
+    "slug": "augur",
+    "num": "00",
+    "title": "Augur",
+    "public": false,
+    "tagline": "A relay module that knows where it is.",
+    "description": "Case study: Augur. GNSS decoded on a Devantech dS3484 relay module from an Xsens MTi-680G: a headless flasher, an on-module NMEA decoder and geofence, and a declared data feed.",
+    "lede": "Bring up a Devantech dS3484 Ethernet relay module with an Xsens GNSS/INS sensor. A headless build-and-flash tool, an NMEA decoder that runs on the module itself, and a declared data feed, so the board knows its own position, heading and tilt and switches a relay from a geofence with no computer in the chain.",
+    "alt": "An unbranded aluminium inertial sensor and a small embedded controller board joined by a ribbon cable, beside a GNSS patch antenna, one cobalt LED lit.",
+    "meta": {
+      "Role": "Solo",
+      "Timeline": "Jul – Aug 2026",
+      "Stack": "dScript (on-module) · Java · Python · vanilla JS",
+      "Status": "Working end to end on the bench"
+    },
+    "card": {
+      "flag_html": "<span class=\"case-flag\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private</span>",
+      "role": "Solo · embedded · Jul – Aug 2026",
+      "problem": "A relay module that runs vendor-language programs, a GNSS/INS sensor speaking NMEA, and the goal of a board that decides from its own position.",
+      "approach": "A headless flasher driving the vendor’s own compiler, an NMEA decoder and geofence that run on the module in fixed-point, and a declared, audited data feed.",
+      "bullets": [
+        "Decoded on the module, so the geofence needs no computer.",
+        "A lock only on a checksum-verified sentence; noise can’t fake one.",
+        "A data feed declared as a contract and audited against the firmware."
+      ],
+      "outcome": "Working end to end on the bench, packaged for another engineer’s laptop.",
+      "tags": [
+        "Embedded",
+        "GNSS",
+        "NMEA",
+        "Python",
+        "Java"
+      ],
+      "links": [
+        "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · walkthrough on request</span>"
+      ]
+    }
+  },
+  {
     "slug": "aristophanes",
     "num": "02",
     "title": "Aristophanes",

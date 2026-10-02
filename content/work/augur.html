@@ -1,0 +1,157 @@
+                <section class="section" aria-labelledby="au-problem">
+                    <h2 class="section-head" id="au-problem"><span class="section-num">01</span> Problem</h2>
+                    <div class="cs-prose">
+                        <p>The Devantech dS3484 is an Ethernet relay and I/O module that runs small programs written in the vendor's own language, dScript, built and flashed through a desktop IDE. The Xsens MTi-680G is a GNSS/INS sensor that reports position, heading and tilt as NMEA sentences over RS232.</p>
+                        <p>The goal was to make the board <strong>decide for itself</strong>: decode the sensor on the module, compute where it is, switch a relay from a geofence with no computer or gateway in the chain, and hand the data back out cleanly. The tooling also had to be something another engineer could run from their own laptop.</p>
+                        <p>The project is named for the Roman augur, who marked out a region of the sky, declared in advance what he was watching for, and reported only what appeared inside it. That became the working rule: <em>declare the region first, report what was observed, claim nothing further.</em></p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="au-built">
+                    <h2 class="section-head" id="au-built"><span class="section-num">02</span> What I built</h2>
+                    <div class="cs-prose">
+                        <ul>
+                            <li><strong>A headless flasher.</strong> It calls the vendor's own compiler and bootloader classes directly, writing exactly the bytes the IDE would, with a power pre-flight check and clear exit codes.</li>
+                            <li><strong>An NMEA decoder that runs on the module.</strong> It hunts across six baud rates and three serial headers, and only declares a lock on a sentence whose checksum verifies. All of it is fixed-point, because dScript has no floats.</li>
+                            <li><strong>A declared data feed.</strong> An XML endpoint with a written contract, audited against the firmware in both directions: declared but not delivered, and computed but not declared.</li>
+                            <li><strong>A local control panel.</strong> A ten-step self-test that reports each link of the chain separately, a satellite view drawn on a 2D canvas so it works offline, a QR code to open the module on a phone, and a CSV logger.</li>
+                        </ul>
+                    </div>
+                    <div class="cs-stats" role="list">
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">4</span><span class="cs-stat-label">Sentence types decoded</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">97</span><span class="cs-stat-label">Feed fields</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">10</span><span class="cs-stat-label">Self-test steps</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">0.1 s</span><span class="cs-stat-label">Port check (vs ~45 s scan)</span></div>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="au-arch">
+                    <h2 class="section-head" id="au-arch"><span class="section-num">03</span> Architecture</h2>
+                    <div class="cs-prose">
+                        <p>Three paths. Build and flash runs from the laptop over USB. The sensor feeds the module over RS232, where the decoder and geofence run. The data comes back out over Ethernet to the panel, a phone, or a logger.</p>
+                    </div>
+                    <figure class="cs-diagram">
+                        <svg viewBox="0 0 680 330" role="img" aria-labelledby="au-dg-title">
+                            <title id="au-dg-title">The laptop control panel builds firmware with the vendor compiler and flashes it over USB to the dS3484 module. The Xsens sensor sends NMEA over RS232 to a decoder thread on the module, which drives a geofence and a relay. The module serves a page and an XML feed over Ethernet back to the panel, a phone and a CSV logger.</title>
+                            <defs>
+                                <marker id="au-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="rgba(26,26,23,0.55)"/></marker>
+                                <marker id="au-arrow-a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="#1F3BFF"/></marker>
+                            </defs>
+                            <text class="dg-tag" x="0" y="14">LAPTOP</text>
+                            <rect class="dg-box" x="0" y="26" width="170" height="58"/>
+                            <text class="dg-label" x="10" y="48">Control panel</text>
+                            <text class="dg-sub" x="10" y="64">local only · self-test</text>
+                            <text class="dg-sub" x="10" y="77">satellite view · QR</text>
+                            <rect class="dg-box" x="0" y="104" width="170" height="58"/>
+                            <text class="dg-label" x="10" y="126">dsflash</text>
+                            <text class="dg-sub" x="10" y="142">vendor compiler +</text>
+                            <text class="dg-sub" x="10" y="155">bootloader, headless</text>
+                            <path class="dg-edge" d="M85,84 V102" marker-end="url(#au-arrow)"/>
+
+                            <text class="dg-tag" x="250" y="14">dS3484 MODULE</text>
+                            <rect class="dg-box dg-box--accent" x="250" y="26" width="200" height="230"/>
+                            <rect class="dg-box" x="264" y="44" width="172" height="40"/>
+                            <text class="dg-label" x="274" y="62">Program flash</text>
+                            <text class="dg-sub" x="274" y="76">dScript, 93% full</text>
+                            <rect class="dg-box" x="264" y="96" width="172" height="40"/>
+                            <text class="dg-label" x="274" y="114">NMEA decoder</text>
+                            <text class="dg-sub" x="274" y="128">checksum-gated lock</text>
+                            <rect class="dg-box" x="264" y="148" width="172" height="40"/>
+                            <text class="dg-label" x="274" y="166">Geofence → relay</text>
+                            <text class="dg-sub" x="274" y="180">fixed-point box</text>
+                            <rect class="dg-box" x="264" y="200" width="172" height="40"/>
+                            <text class="dg-label" x="274" y="218">Web + XML feed</text>
+                            <text class="dg-sub" x="274" y="232">97 declared fields</text>
+                            <path class="dg-edge" d="M170,133 H220 V64 H262" marker-end="url(#au-arrow)"/>
+                            <text class="dg-sub" x="178" y="126">USB</text>
+                            <path class="dg-edge" d="M350,136 V146" marker-end="url(#au-arrow)"/>
+
+                            <text class="dg-tag" x="520" y="14">SENSOR</text>
+                            <rect class="dg-box" x="520" y="88" width="160" height="58"/>
+                            <text class="dg-label" x="530" y="110">Xsens MTi-680G</text>
+                            <text class="dg-sub" x="530" y="126">GNSS/INS · NMEA</text>
+                            <text class="dg-sub" x="530" y="139">GGA · ZDA · HDT · PRDID</text>
+                            <path class="dg-edge dg-edge--accent" d="M520,116 H438" marker-end="url(#au-arrow-a)"/>
+                            <text class="dg-sub" x="452" y="108">RS232</text>
+
+                            <rect class="dg-box" x="520" y="196" width="160" height="58"/>
+                            <text class="dg-label" x="530" y="218">Out over Ethernet</text>
+                            <text class="dg-sub" x="530" y="234">panel · phone (QR)</text>
+                            <text class="dg-sub" x="530" y="247">CSV logger</text>
+                            <path class="dg-edge dg-edge--accent" d="M436,220 H518" marker-end="url(#au-arrow-a)"/>
+                            <path class="dg-edge" d="M600,254 V290 H85 V164" stroke-dasharray="3 3" marker-end="url(#au-arrow)"/>
+                            <text class="dg-sub" x="0" y="318">"Declare the region first, report what was observed, claim nothing further."</text>
+                        </svg>
+                        <figcaption>Fig. 1 · Build and flash in, sensor in, data out</figcaption>
+                    </figure>
+                </section>
+
+                <section class="section" aria-labelledby="au-decisions">
+                    <h2 class="section-head" id="au-decisions"><span class="section-num">04</span> Key decisions</h2>
+                    <div class="cs-decisions">
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">Decision 1</p>
+                            <h3>Drive the vendor's own compiler, not its GUI</h3>
+                            <dl>
+                                <dt>Context</dt><dd>The module is normally built and flashed by clicking through a desktop IDE, which can't be scripted or handed to someone else reliably.</dd>
+                                <dt>Decision</dt><dd>Link directly against the IDE's compiler and firmware-updater classes and reproduce its compile-and-upload step headlessly, so the bytes written are exactly the bytes the IDE would write.</dd>
+                                <dt>Trade-off</dt><dd>It's coupled to one version of the vendor's toolchain. Screen-scraping a GUI would have been worse.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">Decision 2</p>
+                            <h3>Decode on the module, not on a host</h3>
+                            <dl>
+                                <dt>Context</dt><dd>Parsing on a laptop is easy, but then the geofence needs the laptop. The point was a board that acts on its own position.</dd>
+                                <dt>Decision</dt><dd>Run the NMEA decoder as a thread on the module itself, in fixed-point micro-degrees, because the language has no floating point.</dd>
+                                <dt>Trade-off</dt><dd>No floats, no operator precedence, and program flash at 93%. The board now works with nothing else attached.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">Decision 3</p>
+                            <h3>A geofence box, not a circle</h3>
+                            <dl>
+                                <dt>Context</dt><dd>A radius check means squaring distances, and squared micro-degrees overflow a 32-bit integer.</dd>
+                                <dt>Decision</dt><dd>Fence with a latitude/longitude box instead, which needs only comparisons and stays exact.</dd>
+                                <dt>Trade-off</dt><dd>A rectangle (about 45 × 55 m at Cyprus's latitude) instead of a circle. It's correct, and it fits.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">Decision 4</p>
+                            <h3>The data feed is a contract</h3>
+                            <dl>
+                                <dt>Context</dt><dd>At first the feed was whatever the web page happened to show, which hid two diagnostic fields nobody knew existed.</dd>
+                                <dt>Decision</dt><dd>Write the feed down as a declared contract, generate it, and audit it against the firmware in both directions. The README states "81 of 97 declared" and lists the rest, instead of claiming them.</dd>
+                                <dt>Trade-off</dt><dd>About 5 KB more website on a nearly full module, for an interface someone can integrate against.</dd>
+                            </dl>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="au-hard">
+                    <h2 class="section-head" id="au-hard"><span class="section-num">05</span> Hard problems</h2>
+                    <div class="cs-story">
+                        <h3>A silent sensor with four causes</h3>
+                        <p>Nothing came through, and the cause turned out to be four separate faults: an unconnected supply wire, CTS flow control holding every byte, the sensor on the second serial header rather than the first, and left-to-right arithmetic in dScript. That last one put the first fix in the middle of nowhere, at latitude −42.6, longitude −272.8. Each was found and fixed in turn, one variable at a time.</p>
+                    </div>
+                    <div class="cs-story">
+                        <h3>A lock on a single dollar sign</h3>
+                        <p>The baud-rate hunt declared a lock as soon as it saw a <code>$</code>, the first byte of every NMEA sentence. Line noise contains plenty of those, so it once "locked" at the wrong speed and served 84 lines of garbage. Now only a sentence whose checksum verifies can declare a lock, and the lock drops after a few seconds without one.</p>
+                    </div>
+                    <div class="cs-story">
+                        <h3>A website that silently disappeared</h3>
+                        <p>Twice, the build said success, the upload said OK, and the module served nothing. The first time, a stray zero-byte file was quietly breaking the image, found with three controlled one-variable flashes. The second time, any website above about 470 KB reverted on reboot. The flasher now refuses to write anything over that limit, instead of "succeeding".</p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="au-outcome">
+                    <h2 class="section-head" id="au-outcome"><span class="section-num">06</span> Outcome &amp; what I'd do differently</h2>
+                    <div class="cs-prose">
+                        <p>Augur works end to end on the bench, with 20–30 satellites in view and a fix accurate to a few metres. It's packaged so another engineer can run it from their own laptop. Still open: validating the logger on hardware, a history view, a geofence that survives a reboot, and RTK, which is waiting on hardware.</p>
+                        <ul>
+                            <li><strong>Declare the contract on day one.</strong> The page-coupled feed hid real fields for weeks.</li>
+                            <li><strong>Numbers in the docs come from measurement, not from reading the code.</strong> The bench disproved two documented claims, and both corrections are written down.</li>
+                            <li><strong>Watch the headroom.</strong> At 93% program flash, every feature has a cost you only see when it stops fitting.</li>
+                        </ul>
+                    </div>
+                </section>
