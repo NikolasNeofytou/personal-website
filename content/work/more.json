@@ -1,0 +1,8 @@
+[
+  {"name": "Aedile Table B", "line": "Works out each owner’s share of communal fees in Cypriot apartment buildings, using the legal Table B formula.", "stack": "Next.js · Prisma · Postgres", "status": "Live", "url": "https://aedile-table-b.vercel.app"},
+  {"name": "Practice scheduling", "line": "Booking and intake for a solo psychologist in Cyprus. Double-booking is impossible at the database level, and bookings mirror to Google Calendar.", "stack": "Next.js · Postgres · Google Calendar API", "status": "In use"},
+  {"name": "Fons", "line": "Prices a business’s leftover stock to sell before a deadline, such as tonight’s dishes, and shows it to people nearby. Starting with restaurants in Athens.", "stack": "Expo · Next.js · TypeScript pricing engine", "status": "Prototype · TestFlight"},
+  {"name": "Virgil", "line": "Score-keeping for a regular card night: Estimation, Pilotta, Tichu, Biriba and Tavli, synced across phones, with a history of past games.", "stack": "Flutter · Supabase Realtime", "status": "TestFlight"},
+  {"name": "Γράκχοι", "line": "An offline practice companion for a beginner bouzouki player: songs, slowed-down loops, a metronome, setlists and gig recordings.", "stack": "Expo · SQLite · Drizzle", "status": "TestFlight"},
+  {"name": "Gorgias", "line": "The Sunday Divine Liturgy in large, legible polytonic Greek, advanced by hand. Built for my father.", "stack": "Flutter · Dart engine · Python text pipeline", "status": "In progress"}
+]

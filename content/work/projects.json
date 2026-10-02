@@ -13,6 +13,107 @@
       "Timeline": "Dec 2025 – Sep 2026",
       "Stack": "Flutter · Riverpod · Django REST · PostGIS · Celery · Redis",
       "Status": "Backend in production · iOS pilot on TestFlight"
+    },
+    "card": {
+      "role": "Solo · Flutter + Django/PostGIS · Dec 2025 – Sep 2026",
+      "problem": "Public-transit riders are stuck with schedules that drift from reality and clunky paper-or-card ticketing — no single place to see where the bus actually is and pay for the ride.",
+      "approach": "A real-time transit companion: a Flutter/Riverpod app for iOS and Android over a Django REST + PostGIS backend that ingests the national GTFS-RT feed every 15 seconds — plus Stripe tickets delivered as Apple/Google Wallet passes.",
+      "bullets": [
+        "A dedicated fetcher writes live positions straight into PostGIS — current state and history in separate tables.",
+        "PostGIS for spatial work — nearest-stop, route geometry, &ldquo;arriving near me&rdquo;.",
+        "Arrival estimates designed to say &ldquo;unknown&rdquo; rather than be confidently wrong.",
+        "Every significant call written down — 14 architecture decision records."
+      ],
+      "outcome": "Backend in production, iOS pilot on TestFlight, 1,400+ automated tests. Private repo — walkthrough on request.",
+      "tags": [
+        "Flutter",
+        "Riverpod",
+        "Django REST",
+        "PostGIS",
+        "Celery",
+        "GTFS-RT"
+      ],
+      "links": [
+        "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · demo on request</span>"
+      ],
+      "flag_html": "<span class=\"case-flag\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private</span>"
+    }
+  },
+  {
+    "slug": "ludi",
+    "num": "00",
+    "title": "Ludi",
+    "public": false,
+    "flag": "Live",
+    "tagline": "Football pitch booking and matchmaking for Cyprus.",
+    "description": "Case study: Ludi, a two-sided marketplace for five-a-side football in Cyprus. A player app, a Greek owner dashboard and a lobby TV on one Postgres database, where double-booking is impossible by construction.",
+    "lede": "Book a five-a-side pitch in a few taps, fill the team with an open match, and give venue owners a calendar instead of a WhatsApp thread. A player app, an owner dashboard in Greek and a lobby TV, all on one Postgres database.",
+    "alt": "A worn leather football on a dark desk beside a referee’s whistle and a booking card with one slot stamped in cobalt.",
+    "meta": {
+      "Role": "Solo",
+      "Timeline": "Apr – Oct 2026",
+      "Stack": "Expo / React Native · Next.js · Supabase (Postgres, PostGIS, RLS) · Stripe Connect",
+      "Status": "Launched · iOS app approved · payments in test mode"
+    },
+    "card": {
+      "flag_html": "<span class=\"case-flag case-flag--open\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-unlock\"></use></svg> Live</span>",
+      "role": "Solo · Expo + Next.js + Supabase · Apr – Oct 2026",
+      "problem": "Five-a-side in Cyprus runs on WhatsApp: players chase pitches and people through group chats, and owners keep the calendar in their heads.",
+      "approach": "A two-sided marketplace. A player app to find a pitch, book, pay and fill the team; a Greek owner dashboard to run the week; and a lobby TV. All three sit on one Postgres database.",
+      "bullets": [
+        "Double-booking is impossible by database constraint: of 100 simultaneous bookings, exactly one wins.",
+        "Row-level security on every table, covered by 249 pgTAP tests.",
+        "Card payments and venue payouts through Stripe Connect, built end to end."
+      ],
+      "outcome": "Launched in August, with the iOS app approved by Apple and early partner venues on the dashboard. Payments are in test mode until going live.",
+      "tags": [
+        "Expo",
+        "Next.js",
+        "Supabase",
+        "PostGIS",
+        "Stripe Connect"
+      ],
+      "links": [
+        "<a class=\"case-badge case-badge--link\" href=\"https://ludi.football\" target=\"_blank\" rel=\"noopener noreferrer\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-arrow-right\"></use></svg> Live site</a>"
+      ]
+    }
+  },
+  {
+    "slug": "augur",
+    "num": "00",
+    "title": "Augur",
+    "public": false,
+    "tagline": "A relay module that knows where it is.",
+    "description": "Case study: Augur. GNSS decoded on a Devantech dS3484 relay module from an Xsens MTi-680G: a headless flasher, an on-module NMEA decoder and geofence, and a declared data feed.",
+    "lede": "Bring up a Devantech dS3484 Ethernet relay module with an Xsens GNSS/INS sensor. A headless build-and-flash tool, an NMEA decoder that runs on the module itself, and a declared data feed, so the board knows its own position, heading and tilt and switches a relay from a geofence with no computer in the chain.",
+    "alt": "An unbranded aluminium inertial sensor and a small embedded controller board joined by a ribbon cable, beside a GNSS patch antenna, one cobalt LED lit.",
+    "meta": {
+      "Role": "Solo",
+      "Timeline": "Jul – Aug 2026",
+      "Stack": "dScript (on-module) · Java · Python · vanilla JS",
+      "Status": "Working end to end on the bench"
+    },
+    "card": {
+      "flag_html": "<span class=\"case-flag\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private</span>",
+      "role": "Solo · embedded · Jul – Aug 2026",
+      "problem": "A relay module that runs vendor-language programs, a GNSS/INS sensor speaking NMEA, and the goal of a board that decides from its own position.",
+      "approach": "A headless flasher driving the vendor’s own compiler, an NMEA decoder and geofence that run on the module in fixed-point, and a declared, audited data feed.",
+      "bullets": [
+        "Decoded on the module, so the geofence needs no computer.",
+        "A lock only on a checksum-verified sentence; noise can’t fake one.",
+        "A data feed declared as a contract and audited against the firmware."
+      ],
+      "outcome": "Working end to end on the bench, packaged for another engineer’s laptop.",
+      "tags": [
+        "Embedded",
+        "GNSS",
+        "NMEA",
+        "Python",
+        "Java"
+      ],
+      "links": [
+        "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · walkthrough on request</span>"
+      ]
     }
   },
   {
@@ -29,6 +130,65 @@
       "Timeline": "May – Sep 2026",
       "Stack": "Flutter (iOS + Android) · Supabase + RLS · Riverpod · Drift · Next.js · Stripe",
       "Status": "In use by a 12-person cast · Lampblack redesign in testing"
+    },
+    "card": {
+      "role": "Solo · Flutter (iOS + Android) + Supabase · May – Sep 2026",
+      "problem": "Amateur theatre runs on paper scripts and group chats: actors rehearse alone, and directors juggle schedules, costumes and casting across a dozen threads.",
+      "approach": "An end-to-end platform for theatre: each production is its own space, with roles that mirror the org chart, a call board, calendar, shared wardrobe and box office, plus a scene partner for every actor. It began as a rehearsal app for one actor.",
+      "bullets": [
+        "Seven production roles: the app shows the right buttons, and row-level security is the only server boundary.",
+        "Eight versions in eight days took it from one actor to a whole company, with security tested live.",
+        "62 ADRs, and a full design-system pass (Lampblack) before restyling any screen."
+      ],
+      "outcome": "In use by a 12-person cast; 829 automated tests. Private repo, walkthrough on request.",
+      "tags": [
+        "Flutter",
+        "Supabase",
+        "Postgres RLS",
+        "Ports &amp; Adapters",
+        "Stripe"
+      ],
+      "links": [
+        "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · demo on request</span>"
+      ],
+      "flag_html": "<span class=\"case-flag\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private</span>"
+    }
+  },
+  {
+    "slug": "wiseprint",
+    "num": "00",
+    "title": "Wiseprint",
+    "public": false,
+    "tagline": "A cost-plus pricing engine that became a print shop’s working tool.",
+    "description": "Case study: Wiseprint, pricing and job management for a one-store print shop in Cyprus. A pure cost-plus engine, immutable quotes and a self-updating install on the shop’s Mac. 45 versions, 2,518 tests.",
+    "lede": "A print shop priced every job in the owner’s head. Wiseprint prices it the way he already does (paper, printing, finishing, margin), keeps every quote as a frozen record, and grew into the shop’s job board, intake and press queue. It’s in Greek, at the counter and on his phone.",
+    "alt": "A stack of business cards with one cobalt-painted edge, a paper swatch fan, a calculator and a brass ruler on a dark desk.",
+    "meta": {
+      "Role": "Solo, for a print shop",
+      "Timeline": "Sep – Oct 2026",
+      "Stack": "Python · Django · HTMX · SQLite",
+      "Status": "In daily use at the shop"
+    },
+    "card": {
+      "flag_html": "<span class=\"case-flag\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private</span>",
+      "role": "Solo · for a print shop · Django + HTMX · Sep 2026",
+      "problem": "A print shop priced every job in the owner’s head and kept enquiries on paper, so no job could ever be rebuilt from a record.",
+      "approach": "A cost-plus pricing engine that prices the way the owner already does, grown into the shop’s job board, intake and press queue. It’s in Greek, on the counter PC and his phone.",
+      "bullets": [
+        "A pure engine with no framework imports, its answers worked out by hand in 26 cases before the code existed.",
+        "Saved quotes are frozen with a fingerprint of the rates they used, so a price change never rewrites history.",
+        "It updates itself from a release branch on the shop’s own Mac, with nightly off-site backups."
+      ],
+      "outcome": "In daily use at the shop, across 45 owner-approved versions and 2,518 tests. Private repo, walkthrough on request.",
+      "tags": [
+        "Python",
+        "Django",
+        "HTMX",
+        "SQLite"
+      ],
+      "links": [
+        "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · walkthrough on request</span>"
+      ]
     }
   },
   {
@@ -46,6 +206,26 @@
       "Stack": "Next.js 16 · TypeScript · Postgres (Neon) · Vercel",
       "Status": "Live at <a href=\"https://plutarch-five.vercel.app\" target=\"_blank\" rel=\"noopener noreferrer\">plutarch-five.vercel.app</a>"
     },
-    "flag": "Live"
+    "flag": "Live",
+    "card": {
+      "role": "Solo · Next.js + Postgres · Aug 2026",
+      "problem": "Greek dictionaries online are slow and shallow — hard to scan, weak on cross-references, painful to explore a word's neighbourhood.",
+      "approach": "Ρίζα, an open Modern Greek dictionary: 95,774 entries from Greek Wiktionary, with accent-insensitive search that resolves any inflected form to its entry — Next.js + TypeScript over Postgres.",
+      "bullets": [
+        "Structured, normalised entries so meanings and relations are first-class, not free text.",
+        "Server-rendered Next.js for fast, shareable, search-friendly pages."
+      ],
+      "outcome": "Live, built in four days, 98 tests. Source private for now.",
+      "tags": [
+        "Next.js",
+        "TypeScript",
+        "PostgreSQL",
+        "pg_trgm"
+      ],
+      "links": [
+        "<a class=\"case-badge case-badge--link\" href=\"https://plutarch-five.vercel.app\" target=\"_blank\" rel=\"noopener noreferrer\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-arrow-right\"></use></svg> Live site</a>"
+      ],
+      "flag_html": "<span class=\"case-flag case-flag--open\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-unlock\"></use></svg> Live</span>"
+    }
   }
 ]
