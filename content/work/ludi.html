@@ -1,0 +1,153 @@
+                <section class="section" aria-labelledby="lu-problem">
+                    <h2 class="section-head" id="lu-problem"><span class="section-num">01</span> Problem</h2>
+                    <div class="cs-prose">
+                        <p>Five-a-side football in Cyprus runs on WhatsApp. Players chase a pitch, a time and enough people through group chats and Facebook events. Venue owners take bookings by phone and message, keep the calendar in their heads, and watch mid-week slots go empty.</p>
+                        <p>Ludi ("games" in Latin) is a two-sided marketplace for that: an app where players find a pitch, book and pay, and fill the team, and a dashboard where owners run their week. It started in Larnaca, with five-a-side, in English and Greek from day one.</p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="lu-built">
+                    <h2 class="section-head" id="lu-built"><span class="section-num">02</span> What I built</h2>
+                    <div class="cs-prose">
+                        <ul>
+                            <li><strong>The player app</strong> (iOS and Android): discover pitches on a map, book and pay, share a fixture with an invite link that also works for friends without the app, open a game to the community board, and keep a record and player card with an Apple Wallet pass.</li>
+                            <li><strong>The owner dashboard</strong>, in Greek or English and built for a phone: a week grid and printable day sheet, walk-ins logged from a free cell, standing bookings, earnings and payouts, venue enrolment, and staff access.</li>
+                            <li><strong>The lobby TV</strong>: a public screen at the venue showing today's kick-offs and pitches in use, with a QR code to the app.</li>
+                            <li><strong>The money</strong>: card payments and venue payouts through Stripe Connect, built end to end and running in test mode until the switch to live payments.</li>
+                        </ul>
+                    </div>
+                    <div class="cs-stats" role="list">
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">249</span><span class="cs-stat-label">Row-level security tests</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">59</span><span class="cs-stat-label">Database migrations</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">32</span><span class="cs-stat-label">Written ADRs</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">1 / 100</span><span class="cs-stat-label">Concurrent bookings that win</span></div>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="lu-arch">
+                    <h2 class="section-head" id="lu-arch"><span class="section-num">03</span> Architecture</h2>
+                    <div class="cs-prose">
+                        <p>A "fat database". Postgres does most of the work: availability, permissions, and the rule that a pitch can't be booked twice. Small edge functions handle the parts that move money or must happen atomically. Three surfaces sit on top, one per side of the market.</p>
+                    </div>
+                    <figure class="cs-diagram">
+                        <svg viewBox="0 0 680 320" role="img" aria-labelledby="lu-dg-title">
+                            <title id="lu-dg-title">The player app, the owner dashboard and the lobby TV all sit on Supabase: Postgres with PostGIS and row-level security, plus edge functions for bookings, cancellations, venue onboarding and wallet passes. Edge functions talk to Stripe Connect, which sends payouts to venues and webhooks back into Postgres.</title>
+                            <defs>
+                                <marker id="lu-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="rgba(26,26,23,0.55)"/></marker>
+                                <marker id="lu-arrow-a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="#1F3BFF"/></marker>
+                            </defs>
+                            <text class="dg-tag" x="0" y="14">SURFACES</text>
+                            <rect class="dg-box" x="0" y="26" width="160" height="58"/>
+                            <text class="dg-label" x="10" y="48">Player app</text>
+                            <text class="dg-sub" x="10" y="64">Expo · iOS + Android</text>
+                            <text class="dg-sub" x="10" y="77">book · invite · community</text>
+                            <rect class="dg-box" x="0" y="104" width="160" height="58"/>
+                            <text class="dg-label" x="10" y="126">Owner dashboard</text>
+                            <text class="dg-sub" x="10" y="142">Next.js · Greek / English</text>
+                            <text class="dg-sub" x="10" y="155">week grid · walk-ins</text>
+                            <rect class="dg-box" x="0" y="182" width="160" height="58"/>
+                            <text class="dg-label" x="10" y="204">Lobby TV</text>
+                            <text class="dg-sub" x="10" y="220">today's kick-offs</text>
+                            <text class="dg-sub" x="10" y="233">QR to the app</text>
+
+                            <text class="dg-tag" x="220" y="14">SUPABASE</text>
+                            <rect class="dg-box dg-box--accent" x="220" y="26" width="230" height="134"/>
+                            <text class="dg-label" x="232" y="48">Postgres + PostGIS</text>
+                            <text class="dg-sub" x="232" y="66">row-level security on every table</text>
+                            <text class="dg-sub" x="232" y="82">EXCLUDE USING gist</text>
+                            <text class="dg-sub" x="232" y="96">(pitch, time range) → no double booking</text>
+                            <text class="dg-sub" x="232" y="114">availability RPCs · pg_cron jobs</text>
+                            <text class="dg-sub" x="232" y="130">auth: phone OTP · Apple · Google</text>
+                            <rect class="dg-box" x="220" y="182" width="230" height="58"/>
+                            <text class="dg-label" x="232" y="204">14 edge functions</text>
+                            <text class="dg-sub" x="232" y="220">create / cancel booking · invites</text>
+                            <text class="dg-sub" x="232" y="233">venue onboarding · wallet pass</text>
+
+                            <text class="dg-tag" x="510" y="14">MONEY</text>
+                            <rect class="dg-box" x="510" y="104" width="170" height="58"/>
+                            <text class="dg-label" x="520" y="126">Stripe Connect</text>
+                            <text class="dg-sub" x="520" y="142">card payments</text>
+                            <text class="dg-sub" x="520" y="155">payouts to venues</text>
+
+                            <path class="dg-edge dg-edge--accent" d="M160,55 H218" marker-end="url(#lu-arrow-a)"/>
+                            <path class="dg-edge dg-edge--accent" d="M160,133 H218" marker-end="url(#lu-arrow-a)"/>
+                            <path class="dg-edge" d="M218,211 H160" marker-end="url(#lu-arrow)"/>
+                            <path class="dg-edge" d="M335,160 V180" marker-end="url(#lu-arrow)"/>
+                            <path class="dg-edge dg-edge--accent" d="M450,211 H595 V164" marker-end="url(#lu-arrow-a)"/>
+                            <path class="dg-edge" d="M595,102 V76 H452" stroke-dasharray="3 3" marker-end="url(#lu-arrow)"/>
+                            <text class="dg-sub" x="470" y="70">webhook</text>
+                            <text class="dg-sub" x="0" y="290">Monorepo (pnpm + Turborepo) · CI on GitHub Actions · weekly encrypted backup · hosted in Frankfurt</text>
+                        </svg>
+                        <figcaption>Fig. 1 · Three surfaces on one database</figcaption>
+                    </figure>
+                </section>
+
+                <section class="section" aria-labelledby="lu-decisions">
+                    <h2 class="section-head" id="lu-decisions"><span class="section-num">04</span> Key decisions</h2>
+                    <div class="cs-decisions">
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">The invariant</p>
+                            <h3>Double-booking is impossible, not unlikely</h3>
+                            <dl>
+                                <dt>Context</dt><dd>Two players tapping "book" on the same slot at the same moment is the one failure a booking app can't have.</dd>
+                                <dt>Decision</dt><dd>Enforce it in Postgres with an exclusion constraint over pitch and time range, not in application code. A load test fires 100 simultaneous bookings at one slot: exactly one wins.</dd>
+                                <dt>Trade-off</dt><dd>Every booking path must handle the database's refusal gracefully. That's far cheaper than a refund conversation.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">ADR-0003</p>
+                            <h3>A fat database with row-level security</h3>
+                            <dl>
+                                <dt>Context</dt><dd>One person building three surfaces can't afford a hand-written API layer for every read.</dd>
+                                <dt>Decision</dt><dd>Let row-level security cover about 80% of operations directly, and keep edge functions for anything that moves money or must be atomic.</dd>
+                                <dt>Trade-off</dt><dd>RLS has sharp edges, and one bit (see below). It's covered by 249 pgTAP tests.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">ADR-0028</p>
+                            <h3>An open match is just a booking</h3>
+                            <dl>
+                                <dt>Context</dt><dd>Players wanted to post "we need three more" and let strangers join.</dd>
+                                <dt>Decision</dt><dd>No new tables: an open match is the booking row with one flag, surfaced through a view. Turning it off is a flag flip.</dd>
+                                <dt>Trade-off</dt><dd>Match-only data such as results has nowhere to live yet. That's deliberate until results are built.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">ADR-0033</p>
+                            <h3>Standing bookings without a scheduling engine</h3>
+                            <dl>
+                                <dt>Context</dt><dd>Academies book the same pitch every week, and owners needed that on their calendar.</dd>
+                                <dt>Decision</dt><dd>Materialise each standing booking as ordinary walk-in rows eight weeks ahead. The calendar, the invariant and the TV just work, and skipping a week is deleting a row.</dd>
+                                <dt>Trade-off</dt><dd>A rolling horizon to regenerate, instead of a recurrence engine everything would have to understand.</dd>
+                            </dl>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="lu-hard">
+                    <h2 class="section-head" id="lu-hard"><span class="section-num">05</span> Hard problems</h2>
+                    <div class="cs-story">
+                        <h3>A refund that would have cost money</h3>
+                        <p>Two Stripe refund flags were set the wrong way round. On a typical booking, the venue would have kept its payout while the platform refunded its own fee and more. It was caught before a single real refund, fixed, and verified with a test-mode script that walks the money through every account.</p>
+                    </div>
+                    <div class="cs-story">
+                        <h3>A view that ignored the rules</h3>
+                        <p>A reporting view ran with its owner's permissions, so row-level security didn't apply and any signed-in user could read daily revenue. The fix was one setting. The lesson became a pgTAP regression test, and a rule: test the claim "views inherit RLS" instead of trusting it.</p>
+                    </div>
+                    <div class="cs-story">
+                        <h3>A pre-launch audit</h3>
+                        <p>Before launch, a full audit pass found an anonymous key that could touch an internal sequence and trigger cleanup jobs, magic links that always failed, and paid extras pre-selected at checkout, which EU consumer law forbids. All were fixed before real money. The audit itself became the launch gate.</p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="lu-outcome">
+                    <h2 class="section-head" id="lu-outcome"><span class="section-num">06</span> Outcome &amp; what I'd do differently</h2>
+                    <div class="cs-prose">
+                        <p>Ludi launched at the end of August. The site is live, the iOS app has been approved by Apple, and early partner venues are on the owner dashboard. Payments are fully built and still in test mode until the switch to live payments. The repo is private, and I'm happy to do a walkthrough.</p>
+                        <ul>
+                            <li><strong>Test the claims, not just the code.</strong> "Views inherit RLS" and a payment library's flag semantics were both trusted until they were tested.</li>
+                            <li><strong>Migrations meet production data CI never sees.</strong> Constraint lists are now derived from the live definition.</li>
+                            <li><strong>Close the gaps the audit named.</strong> The next step is a mobile test runner and an end-to-end payment test.</li>
+                        </ul>
+                    </div>
+                </section>

@@ -1249,6 +1249,24 @@ g.is-dim { opacity: 0.35; }
 }
 
 /* more-link */
+/* "More projects": a compact list under the carousel (generated from content/work/more.json) */
+.more-projects {
+    list-style: none;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0 2rem;
+}
+.more-item { padding: 1rem 0; border-top: 1px solid var(--line); }
+.more-name { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; line-height: 1.2; color: var(--text); }
+.more-name a { display: inline-flex; align-items: center; gap: 0.4rem; color: inherit; transition: color 0.2s; }
+.more-name a .icon { font-size: 0.7em; color: var(--accent); }
+.more-name a:hover { color: var(--accent); }
+.more-line { margin-top: 0.35rem; font-size: 0.92rem; line-height: 1.55; color: var(--text-dim); }
+.more-meta { margin-top: 0.5rem; font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.06em; color: var(--text-faint); }
+.more-status { margin-left: 0.4rem; padding: 0.1rem 0.4rem; border: 1px solid var(--line-strong); color: var(--text-dim); }
+
 .more-link {
     display: inline-flex;
     align-items: center;

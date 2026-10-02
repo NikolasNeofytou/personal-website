@@ -3,7 +3,9 @@
 
 Each page = the shared shell (head, icon sprite, sidebar, footer — taken
 from index.html so there is one source of truth) + an article from
-content/work/<slug>.html, described by content/work/projects.json.
+content/work/<slug>.html, described by content/work/projects.json. It also
+regenerates the Selected Work cards in index.html (between the CASES markers)
+from the same file, so a project's facts live in one place.
 
     python3 scripts/build-case-studies.py
 
@@ -41,6 +43,87 @@ def relink(fragment: str) -> str:
     return re.sub(r'\b(href|src)="([^"]*)"', fix, fragment)
 
 
+ICON = '<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-{}"></use></svg>'
+
+
+def render_card(p: dict, i: int, total: int) -> str:
+    """One Selected Work card for index.html, from projects.json."""
+    c, slug, title = p["card"], p["slug"], html.escape(p["title"])
+    bullets = "\n".join(f"                            <li>{b}</li>" for b in c["bullets"])
+    tags = "".join(f'<span class="tech-tag">{t}</span>' for t in c["tags"])
+    links = "\n".join(f"                            {l}" for l in c["links"])
+    return f"""                <!-- {p['title']} -->
+                <div class="case" role="group" aria-roledescription="slide" aria-label="Project {i} of {total}">
+                    <div class="case-cover" aria-hidden="true">
+                        <a href="work/{slug}.html" class="case-cover-link" tabindex="-1">
+                        <img src="assets/covers/{slug}-1344.webp" style="view-transition-name: cover-{slug}"
+                             srcset="assets/covers/{slug}-672.webp 672w, assets/covers/{slug}-1344.webp 1344w"
+                             sizes="(max-width: 1023px) 86vw, 700px"
+                             width="1344" height="752" alt="" loading="lazy" decoding="async">
+                        </a>
+                    </div>
+                    <div class="case-rule" aria-hidden="true"><span>{p['num']}</span></div>
+                    <div class="case-body">
+                        <header class="case-head">
+                            <h3 class="case-title" style="view-transition-name: title-{slug}">{title}</h3>
+                            {c['flag_html']}
+                        </header>
+                        <p class="case-role">{c['role']}</p>
+                        <p class="case-line"><span class="case-k">Problem</span> {c['problem']}</p>
+                        <p class="case-line"><span class="case-k">Approach</span> {c['approach']}</p>
+                        <ul class="case-decisions">
+{bullets}
+                        </ul>
+                        <p class="case-line"><span class="case-k">Outcome</span> {c['outcome']}</p>
+                        <div class="case-tech">
+                            {tags}
+                        </div>
+                        <div class="case-links">
+                            <a class="case-badge case-badge--read" href="work/{slug}.html">Read the case study {ICON.format('arrow-right')}</a>
+{links}
+                        </div>
+                    </div>
+                </div>
+
+"""
+
+
+def write_cards(projects: list) -> None:
+    """Regenerate the cards between the CASES markers in index.html."""
+    path = ROOT / "index.html"
+    text = path.read_text()
+    start = text.index("<!-- CASES:START")
+    start = text.index("\n", start) + 1
+    end = text.index("                <!-- CASES:END -->")
+    cards = "".join(render_card(p, i + 1, len(projects)) for i, p in enumerate(projects))
+    text = text[:start] + cards + text[end:]
+    text = re.sub(r'(<span id="caseTotal">)\d+(</span>)', rf"\g<1>{len(projects):02d}\g<2>", text)
+    path.write_text(text)
+    print(f"index.html: {len(projects)} cards")
+
+
+def write_more(items: list) -> None:
+    """Regenerate the compact "More projects" list between the MORE markers."""
+    path = ROOT / "index.html"
+    text = path.read_text()
+    start = text.index("\n", text.index("<!-- MORE:START")) + 1
+    end = text.index("                <!-- MORE:END -->")
+    rows = []
+    for m in items:
+        name = html.escape(m["name"])
+        if m.get("url"):
+            name = (f'<a href="{html.escape(m["url"])}" target="_blank" rel="noopener noreferrer">{name} '
+                    f'{ICON.format("arrow-right")}</a>')
+        rows.append(f"""                    <li class="more-item">
+                        <h4 class="more-name">{name}</h4>
+                        <p class="more-line">{html.escape(m["line"])}</p>
+                        <p class="more-meta">{html.escape(m["stack"])} <span class="more-status">{html.escape(m["status"])}</span></p>
+                    </li>""")
+    block = '                <ul class="more-projects">\n' + "\n".join(rows) + "\n                </ul>\n"
+    path.write_text(text[:start] + block + text[end:])
+    print(f"index.html: {len(items)} more projects")
+
+
 def main() -> None:
     index = (ROOT / "index.html").read_text()
     version = re.search(r'css/styles\.css\?v=([\w-]+)', index).group(1)
@@ -50,7 +133,13 @@ def main() -> None:
                               'href="../index.html#work" class="nav-link active" aria-current="page"')
     footer = between(index, '<footer class="site-footer">', "</footer>")
 
-    projects = json.loads((CONTENT / "projects.json").read_text())
+    # hidden projects stay in the manifest unpublished; numbering follows order
+    projects = [p for p in json.loads((CONTENT / "projects.json").read_text()) if not p.get("hidden")]
+    for i, p in enumerate(projects):
+        p["num"] = f"{i + 1:02d}"
+    write_cards(projects)
+    write_more(json.loads((CONTENT / "more.json").read_text()))
+    index = (ROOT / "index.html").read_text()   # re-read: the shell below is lifted from it
     OUT.mkdir(exist_ok=True)
     for i, p in enumerate(projects):
         nxt = projects[(i + 1) % len(projects)]

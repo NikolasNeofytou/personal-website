@@ -1,0 +1,157 @@
+                <section class="section" aria-labelledby="wp-problem">
+                    <h2 class="section-head" id="wp-problem"><span class="section-num">01</span> Problem</h2>
+                    <div class="cs-prose">
+                        <p>A one-store print shop in Cyprus priced every job in the owner's head: paper, plus printing, plus finishing, plus a margin chosen on the spot. Phone enquiries went onto paper, or nowhere. Every job was set up on the press by hand, and reconstructing what a customer had been quoted meant remembering it.</p>
+                        <p>The brief was simple: every job exists as one record, with a price, a cost floor and a status, so the owner <strong>never has to rebuild a job from memory</strong>. It had to be in Greek, at the counter PC and on his phone, and it had to price the way he already prices.</p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="wp-built">
+                    <h2 class="section-head" id="wp-built"><span class="section-num">02</span> What I built</h2>
+                    <div class="cs-prose">
+                        <p>It started as a cost-plus calculator and grew, one owner-approved version at a time, into the shop's working tool:</p>
+                        <ul>
+                            <li><strong>Quotes</strong> for business cards, books, invoice pads and 3D prints. Each shows how many items fit on a sheet, the cost floor, the price with and without VAT, and a quantity-break table.</li>
+                            <li><strong>The job board.</strong> Customers, statuses, payments, stock, and a monthly report with an export the accountant can open.</li>
+                            <li><strong>The counter.</strong> Jobs sent straight to the press (always held, never auto-printed), phone voicemails transcribed on the shop's own Mac, and 3D print sessions tracked one plate at a time.</li>
+                            <li><strong>Operations.</strong> The shop Mac updates itself hourly from a release branch, backs up off-site every evening, and shows a health page with a warning banner.</li>
+                        </ul>
+                    </div>
+                    <div class="cs-stats" role="list">
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">45</span><span class="cs-stat-label">Versions in ten days</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">2,518</span><span class="cs-stat-label">Automated tests</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">26</span><span class="cs-stat-label">Hand-computed pricing cases</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">4</span><span class="cs-stat-label">Runtime dependencies</span></div>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="wp-arch">
+                    <h2 class="section-head" id="wp-arch"><span class="section-num">03</span> Architecture</h2>
+                    <div class="cs-prose">
+                        <p>A pure pricing engine, about a thousand lines with no Django imports (a test enforces that), behind an adapter that reads the owner's rates. Every saved quote freezes its cost breakdown and a fingerprint of the rates it used, so changing a price tomorrow never rewrites what a customer was quoted yesterday. Django, SQLite and HTMX keep it small: no single-page app, and four runtime dependencies.</p>
+                    </div>
+                    <figure class="cs-diagram">
+                        <svg viewBox="0 0 680 300" role="img" aria-labelledby="wp-dg-title">
+                            <title id="wp-dg-title">The owner edits rates and products in a Greek admin. An adapter turns a quote request into plain input for the pure pricing engine, which imposes items on a sheet, costs paper, clicks, finishing and 3D time, then applies margin, design, rounding and VAT. The result is frozen into an immutable quote snapshot with a rates fingerprint, which becomes a job with a customer, payments and a status, and can be sent held to the press.</title>
+                            <defs>
+                                <marker id="wp-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="rgba(26,26,23,0.55)"/></marker>
+                                <marker id="wp-arrow-a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="#1F3BFF"/></marker>
+                            </defs>
+                            <text class="dg-tag" x="0" y="14">DJANGO</text>
+                            <rect class="dg-box" x="0" y="26" width="150" height="58"/>
+                            <text class="dg-label" x="10" y="48">Rates + products</text>
+                            <text class="dg-sub" x="10" y="64">Greek admin</text>
+                            <text class="dg-sub" x="10" y="77">versioned, never deleted</text>
+                            <rect class="dg-box" x="0" y="112" width="150" height="58"/>
+                            <text class="dg-label" x="10" y="134">Adapter</text>
+                            <text class="dg-sub" x="10" y="150">request → plain</text>
+                            <text class="dg-sub" x="10" y="163">engine input</text>
+                            <path class="dg-edge" d="M75,84 V110" marker-end="url(#wp-arrow)"/>
+
+                            <text class="dg-tag" x="190" y="14">PURE ENGINE · NO DJANGO</text>
+                            <rect class="dg-box dg-box--accent" x="190" y="26" width="250" height="144"/>
+                            <rect class="dg-box" x="204" y="40" width="222" height="26"/>
+                            <text class="dg-label" x="214" y="57">impose · how many fit a sheet</text>
+                            <rect class="dg-box" x="204" y="74" width="222" height="26"/>
+                            <text class="dg-label" x="214" y="91">cost · paper, clicks, finish</text>
+                            <rect class="dg-box" x="204" y="108" width="222" height="26"/>
+                            <text class="dg-label" x="214" y="125">price · margin, round, VAT</text>
+                            <rect class="dg-box" x="204" y="142" width="222" height="20"/>
+                            <text class="dg-sub" x="214" y="156">quantity breaks · suggestions only</text>
+                            <path class="dg-edge dg-edge--accent" d="M150,141 H188" marker-end="url(#wp-arrow-a)"/>
+
+                            <text class="dg-tag" x="480" y="14">RECORD</text>
+                            <rect class="dg-box" x="480" y="26" width="200" height="58"/>
+                            <text class="dg-label" x="490" y="48">Quote snapshot</text>
+                            <text class="dg-sub" x="490" y="64">immutable cost breakdown</text>
+                            <text class="dg-sub" x="490" y="77">+ rates fingerprint</text>
+                            <rect class="dg-box" x="480" y="112" width="200" height="58"/>
+                            <text class="dg-label" x="490" y="134">Job</text>
+                            <text class="dg-sub" x="490" y="150">customer · payments</text>
+                            <text class="dg-sub" x="490" y="163">status · stock · report</text>
+                            <path class="dg-edge dg-edge--accent" d="M440,70 H478" marker-end="url(#wp-arrow-a)"/>
+                            <path class="dg-edge" d="M580,84 V110" marker-end="url(#wp-arrow)"/>
+
+                            <rect class="dg-box" x="480" y="196" width="200" height="46"/>
+                            <text class="dg-label" x="490" y="216">To the press</text>
+                            <text class="dg-sub" x="490" y="232">sent held, never auto-printed</text>
+                            <path class="dg-edge" d="M580,170 V194" marker-end="url(#wp-arrow)"/>
+                            <rect class="dg-box" x="0" y="196" width="150" height="46"/>
+                            <text class="dg-label" x="10" y="216">Voicemail intake</text>
+                            <text class="dg-sub" x="10" y="232">transcribed on the Mac</text>
+                            <path class="dg-edge" d="M150,219 H300 V172" stroke-dasharray="3 3" marker-end="url(#wp-arrow)"/>
+                            <text class="dg-sub" x="0" y="282">Runs on the shop's Mac · hourly update from the release branch · nightly off-site backup · health page</text>
+                        </svg>
+                        <figcaption>Fig. 1 · Pure engine in the middle, a frozen record out</figcaption>
+                    </figure>
+                </section>
+
+                <section class="section" aria-labelledby="wp-decisions">
+                    <h2 class="section-head" id="wp-decisions"><span class="section-num">04</span> Key decisions</h2>
+                    <div class="cs-decisions">
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">Decision 1</p>
+                            <h3>A pure engine, tested before it existed</h3>
+                            <dl>
+                                <dt>Context</dt><dd>Pricing is the part the shop can't afford to get wrong, and the hardest to test through a web framework.</dd>
+                                <dt>Decision</dt><dd>The engine takes plain data and returns plain data, with no Django anywhere, and a test enforces that. Its expected answers were worked out by hand in 26 golden cases <em>before</em> the engine was written.</dd>
+                                <dt>Trade-off</dt><dd>An adapter layer to maintain between the database and the engine.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">Decision 2</p>
+                            <h3>A saved quote never changes</h3>
+                            <dl>
+                                <dt>Context</dt><dd>Paper prices go up. A customer who was quoted last week should still see last week's number.</dd>
+                                <dt>Decision</dt><dd>Every saved quote stores its full cost breakdown and a fingerprint of the rates it used, and is never recalculated. "Quote again" reprices at today's rates as a new quote.</dd>
+                                <dt>Trade-off</dt><dd>Every reader must understand every shape a quote has ever had. Those shapes are frozen as test fixtures.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">Decision 3</p>
+                            <h3>Money rounds once, at the end</h3>
+                            <dl>
+                                <dt>Context</dt><dd>Rounding at every step quietly loses or invents cents. VAT on a rounded figure must match what the owner says out loud.</dd>
+                                <dt>Decision</dt><dd>Decimal arithmetic throughout, rounded half-up only at line totals. Multiply first and divide last, and keep VAT as a setting, not a constant.</dd>
+                                <dt>Trade-off</dt><dd>A "price per print" times the number of prints can differ from the total by a cent. That's documented, not hidden.</dd>
+                            </dl>
+                        </article>
+                        <article class="cs-adr">
+                            <p class="cs-adr-id">Decision 4</p>
+                            <h3>The tool warns; the owner decides</h3>
+                            <dl>
+                                <dt>Context</dt><dd>It's the owner's shop and the owner's margin.</dd>
+                                <dt>Decision</dt><dd>The tool never discounts on its own. Quantity breaks are suggestions, and a price below cost gets a clear warning, never a block.</dd>
+                                <dt>Trade-off</dt><dd>It can't stop a bad deal. It makes sure nobody makes one by accident.</dd>
+                            </dl>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="wp-hard">
+                    <h2 class="section-head" id="wp-hard"><span class="section-num">05</span> Hard problems</h2>
+                    <div class="cs-story">
+                        <h3>A price that landed exactly on half a cent</h3>
+                        <p>Dividing before multiplying turned a 10.00 into 9.99 when the true value sat exactly on a rounding tie. The fix was to divide last, plus a golden test case chosen deliberately to sit on a tie, so the bug can't come back quietly.</p>
+                    </div>
+                    <div class="cs-story">
+                        <h3>Printed quotes without the shop's name</h3>
+                        <p>For over twenty versions, the printed customer quote was missing the shop's header: a print-only style rule hid it, and every on-screen test passed. Now a test parses the print stylesheet itself.</p>
+                    </div>
+                    <div class="cs-story">
+                        <h3>Green alone, red together</h3>
+                        <p>Two features built in parallel each passed their own tests, then broke together after merging: buttons lost their styling, and a form swapped a whole page into one panel. The fix was a process one: name who owns shared styles and behaviour, and write the joining test before the parallel work starts.</p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="wp-outcome">
+                    <h2 class="section-head" id="wp-outcome"><span class="section-num">06</span> Outcome &amp; what I'd do differently</h2>
+                    <div class="cs-prose">
+                        <p>Wiseprint runs on the shop's own Mac and is used at the counter. The owner approves each version and asks for the next. The repo is private, and the shop's prices stay the shop's.</p>
+                        <ul>
+                            <li><strong>Validate against real jobs first.</strong> The plan was to reprice five real past jobs within 10% before building further. Forty versions later, that check still hasn't run. It comes next.</li>
+                            <li><strong>"Later" means later.</strong> Some features the owner had parked got pulled forward. Speed is easy; restraint is the skill.</li>
+                            <li><strong>Don't cut review for speed.</strong> A few versions shipped with known findings still open, and each one cost more to fix afterwards than before.</li>
+                        </ul>
+                    </div>
+                </section>
