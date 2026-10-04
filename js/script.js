@@ -372,7 +372,7 @@
     function playCurrent() {
         loops.forEach((v, k) => {
             if (!v) return;
-            if (live && onScreen && k === current) {
+            if (live && onScreen && k === current && !panels[k].querySelector('.is-focused')) {
                 v.preload = 'auto';
                 v.play().catch(() => {});
             } else if (!v.paused) {
@@ -382,10 +382,7 @@
     }
 
     function select(i, focus) {
-        if (i !== current && loops[current]) {
-            loops[current].classList.remove('is-playing');
-            loops[current].currentTime = 0;
-        }
+        const prev = current;
         current = i;
         spines.forEach((s, k) => {
             const on = k === i;
@@ -393,6 +390,14 @@
             s.tabIndex = on ? 0 : -1;
             panels[k].hidden = !on;
         });
+        if (prev !== i) {
+            panels[prev].dispatchEvent(new CustomEvent('book:hide'));
+            if (loops[prev]) {
+                loops[prev].pause();
+                loops[prev].classList.remove('is-playing');
+                loops[prev].currentTime = 0;
+            }
+        }
         if (focus) spines[i].focus();
         playCurrent();
     }
@@ -403,6 +408,8 @@
             playCurrent();
         }, { threshold: 0.25 }).observe(shelf);
     }
+    // A chapter tour back at its whole painting hands motion back to the loop.
+    shelf.addEventListener('tour:overview', playCurrent);
 
     spines.forEach((s, i) => {
         s.addEventListener('click', () => select(i));
@@ -424,6 +431,64 @@
 
     shelf.classList.add('is-ready');
     select(0);
+})();
+
+// ==========================================
+// Chapter tour — a book whose plate is one panorama with a region per
+// chapter (data-focus="x% y% zoom"). Picking a chapter moves the camera
+// there and the full-resolution still carries the close-up; "Whole
+// painting" or Escape glides back. Reduced motion jumps instead.
+// ==========================================
+(function () {
+    document.querySelectorAll('[data-tour]').forEach(plate => {
+        const panel = plate.closest('.book-panel');
+        const view = plate.querySelector('.plate-view');
+        const still = plate.querySelector('.plate-still');
+        const loop = plate.querySelector('.book-loop');
+        const buttons = [...panel.querySelectorAll('.chapter')];
+        const whole = buttons.find(b => !b.dataset.focus);
+        const name = panel.querySelector('.book-fig-name');
+        const note = panel.querySelector('.chapter-note');
+        const overview = name.textContent;
+        const hint = 'Pick a chapter and the painting moves to it.';
+
+        function show(btn) {
+            buttons.forEach(b => b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'));
+            note.classList.toggle('is-hint', btn === whole);
+            if (btn === whole) {
+                view.style.transform = '';
+                // hold the loop back until the camera has settled on the whole painting
+                if (plate.classList.contains('is-focused')) {
+                    plate.classList.add('is-returning');
+                    clearTimeout(plate._returning);
+                    plate._returning = setTimeout(() => plate.classList.remove('is-returning'), 2000);
+                }
+                plate.classList.remove('is-focused');
+                name.textContent = overview;
+                note.textContent = hint;
+                panel.dispatchEvent(new CustomEvent('tour:overview', { bubbles: true }));
+                return;
+            }
+            const [fx, fy, zoom] = btn.dataset.focus.split(' ').map(Number);
+            // Put the chapter's point at the centre, without showing past the edges.
+            const edge = v => Math.min(0, Math.max(100 - 100 * zoom, v));
+            // Ask for a source sharp enough for the close-up before the camera arrives.
+            still.sizes = Math.round(plate.clientWidth * zoom) + 'px';
+            plate.classList.add('is-focused');
+            if (loop) loop.pause();
+            view.style.transform = `translate(${edge(50 - zoom * fx)}%, ${edge(50 - zoom * fy)}%) scale(${zoom})`;
+            name.textContent = btn.lastChild.textContent;
+            note.textContent = btn.dataset.label ? `${btn.dataset.label}. ${btn.dataset.note}` : btn.dataset.note;
+        }
+
+        buttons.forEach(b => b.addEventListener('click', () => show(b)));
+        panel.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && plate.classList.contains('is-focused')) show(whole);
+        });
+        panel.addEventListener('book:hide', () => show(whole));
+        note.textContent = hint;
+        note.classList.add('is-hint');
+    });
 })();
 
 // ==========================================
