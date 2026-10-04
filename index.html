@@ -48,7 +48,7 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css?v=20261002l">
+    <link rel="stylesheet" href="css/styles.css?v=20261004a">
     <link rel="preload" href="assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/hero/hero-loop-poster.jpg" as="image" fetchpriority="high">
@@ -524,33 +524,112 @@
                 </div>
                 <a class="more-link" href="https://substack.com/@nikolasneofytou" target="_blank" rel="noopener noreferrer">Read on Substack <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
 
-                <h3 class="sub-head sub-head--gap">Bookshelf <span class="sub-note">— what's shaping how I think · drag to browse</span></h3>
-                <!-- Swappable: to change a book, replace its JPG in assets/books/ (keep the filename) or edit the src + title/author. Covers auto-sourced; some are non-Penguin editions until you drop in the Penguin scans. -->
-                <div class="shelf" role="list" aria-label="Books on my shelf">
-                    <div class="book" role="listitem">
-                        <div class="book-cover"><img src="assets/books/nietzsche-bge.jpg" alt="Beyond Good and Evil by Friedrich Nietzsche" loading="lazy" width="150" height="225"></div>
-                        <div class="book-meta"><span class="book-title">Beyond Good and Evil</span><span class="book-author">Friedrich Nietzsche</span></div>
+                <h3 class="sub-head sub-head--gap">Bookshelf <span class="sub-note">— what's shaping how I think · pick a spine</span></h3>
+                <!-- The spines are tabs (js/script.js); each opens its book: a plate (a Higgsfield neoclassical oil painting of the
+                     book's idea, umber and gold with one ultramarine silk: assets/books/plates/<slug>-{672,1344}.webp), the cover (assets/books/*.jpg) and a line.
+                     To add a book: a spine + a panel with matching ids; without JS every panel is listed. -->
+                <div class="shelf" data-shelf>
+                    <div class="shelf-rail">
+                        <div class="shelf-row" role="tablist" aria-label="Books on my shelf">
+                            <button class="spine" type="button" role="tab" id="spine-bge" aria-controls="book-bge" aria-selected="true" style="--w: 40px; --h: 170px"><span class="spine-num" aria-hidden="true">I</span><span class="spine-title">Beyond Good and Evil</span></button>
+                            <button class="spine" type="button" role="tab" id="spine-schopenhauer" aria-controls="book-schopenhauer" aria-selected="false" style="--w: 40px; --h: 174px"><span class="spine-num" aria-hidden="true">II</span><span class="spine-title">Essays and Aphorisms</span></button>
+                            <button class="spine" type="button" role="tab" id="spine-republic" aria-controls="book-republic" aria-selected="false" style="--w: 48px; --h: 166px"><span class="spine-num" aria-hidden="true">III</span><span class="spine-title">Republic</span></button>
+                            <button class="spine" type="button" role="tab" id="spine-ethics" aria-controls="book-ethics" aria-selected="false" style="--w: 46px; --h: 176px"><span class="spine-num" aria-hidden="true">IV</span><span class="spine-title">Nicomachean Ethics</span></button>
+                            <button class="spine" type="button" role="tab" id="spine-theban" aria-controls="book-theban" aria-selected="false" style="--w: 46px; --h: 172px"><span class="spine-num" aria-hidden="true">V</span><span class="spine-title">Theban Plays</span></button>
+                            <button class="spine" type="button" role="tab" id="spine-gibbon" aria-controls="book-gibbon" aria-selected="false" style="--w: 56px; --h: 184px"><span class="spine-num" aria-hidden="true">VI</span><span class="spine-title">Decline and Fall</span></button>
+                        </div>
+                        <span class="shelf-count" aria-hidden="true">06 vols</span>
                     </div>
-                    <div class="book" role="listitem">
-                        <div class="book-cover"><img src="assets/books/schopenhauer-ea.jpg" alt="Essays and Aphorisms by Arthur Schopenhauer" loading="lazy" width="150" height="225"></div>
-                        <div class="book-meta"><span class="book-title">Essays and Aphorisms</span><span class="book-author">Arthur Schopenhauer</span></div>
-                    </div>
-                    <div class="book" role="listitem">
-                        <div class="book-cover"><img src="assets/books/plato-republic.jpg" alt="Republic by Plato" loading="lazy" width="150" height="225"></div>
-                        <div class="book-meta"><span class="book-title">Republic</span><span class="book-author">Plato</span></div>
-                    </div>
-                    <div class="book" role="listitem">
-                        <div class="book-cover"><img src="assets/books/aristotle-ethics.jpg" alt="The Nicomachean Ethics by Aristotle" loading="lazy" width="150" height="225"></div>
-                        <div class="book-meta"><span class="book-title">The Nicomachean Ethics</span><span class="book-author">Aristotle</span></div>
-                    </div>
-                    <div class="book" role="listitem">
-                        <div class="book-cover"><img src="assets/books/sophocles-theban.jpg" alt="The Three Theban Plays by Sophocles" loading="lazy" width="150" height="225"></div>
-                        <div class="book-meta"><span class="book-title">The Three Theban Plays</span><span class="book-author">Sophocles</span></div>
-                    </div>
-                    <div class="book" role="listitem">
-                        <div class="book-cover"><img src="assets/books/gibbon-decline.jpg" alt="The Decline and Fall of the Roman Empire by Edward Gibbon" loading="lazy" width="150" height="225"></div>
-                        <div class="book-meta"><span class="book-title">The Decline and Fall of the Roman Empire</span><span class="book-author">Edward Gibbon</span></div>
-                    </div>
+                    <article class="book-panel" id="book-bge" role="tabpanel" aria-labelledby="spine-bge">
+                        <div class="book-plate">
+                            <img src="assets/books/plates/bge-1344.webp"
+                                 srcset="assets/books/plates/bge-672.webp 672w, assets/books/plates/bge-1344.webp 1344w"
+                                 sizes="(max-width: 1023px) 92vw, 600px" width="1344" height="752" loading="lazy" decoding="async"
+                                 alt="Painting: a plain white mask with ultramarine ribbon ties on a stone balustrade above an alpine lake at dusk.">
+                        </div>
+                        <div class="book-cover"><img src="assets/books/nietzsche-bge.jpg" width="292" height="450" loading="lazy" decoding="async" alt="Cover of Beyond Good and Evil, Penguin Classics"></div>
+                        <div class="book-body">
+                            <p class="book-fig"><span>Plate I</span> The mask</p>
+                            <h4 class="book-title">Beyond Good and Evil</h4>
+                            <p class="book-by">Friedrich Nietzsche · 1886</p>
+                            <p class="book-idea">Every philosophy as a hidden confession. Nietzsche asks what each value is for, and whom it serves.</p>
+                        </div>
+                    </article>
+                    <article class="book-panel" id="book-schopenhauer" role="tabpanel" aria-labelledby="spine-schopenhauer">
+                        <div class="book-plate">
+                            <img src="assets/books/plates/schopenhauer-1344.webp"
+                                 srcset="assets/books/plates/schopenhauer-672.webp 672w, assets/books/plates/schopenhauer-1344.webp 1344w"
+                                 sizes="(max-width: 1023px) 92vw, 600px" width="1344" height="752" loading="lazy" decoding="async"
+                                 alt="Painting: a lapis pendulum swinging between two Doric columns on a terrace above a lake at evening.">
+                        </div>
+                        <div class="book-cover"><img src="assets/books/schopenhauer-ea.jpg" width="324" height="500" loading="lazy" decoding="async" alt="Cover of Essays and Aphorisms, Penguin Classics"></div>
+                        <div class="book-body">
+                            <p class="book-fig"><span>Plate II</span> The pendulum</p>
+                            <h4 class="book-title">Essays and Aphorisms</h4>
+                            <p class="book-by">Arthur Schopenhauer · 1851</p>
+                            <p class="book-idea">The readable Schopenhauer. Life swings between want and boredom, and the short essays on reading, thinking and noise show how to live with it.</p>
+                        </div>
+                    </article>
+                    <article class="book-panel" id="book-republic" role="tabpanel" aria-labelledby="spine-republic">
+                        <div class="book-plate">
+                            <img src="assets/books/plates/republic-1344.webp"
+                                 srcset="assets/books/plates/republic-672.webp 672w, assets/books/plates/republic-1344.webp 1344w"
+                                 sizes="(max-width: 1023px) 92vw, 600px" width="1344" height="752" loading="lazy" decoding="async"
+                                 alt="Painting: an oil lamp throws a small robed statuette’s shadow, enormous, up a dim stone wall.">
+                        </div>
+                        <div class="book-cover"><img src="assets/books/plato-republic.jpg" width="293" height="450" loading="lazy" decoding="async" alt="Cover of Republic, Penguin Classics"></div>
+                        <div class="book-body">
+                            <p class="book-fig"><span>Plate III</span> The cave</p>
+                            <h4 class="book-title">Republic</h4>
+                            <p class="book-by">Plato · c. 375 BC</p>
+                            <p class="book-idea">What justice is, worked out by building a city in words. And the cave: prisoners who take the shadows on the wall for the world.</p>
+                        </div>
+                    </article>
+                    <article class="book-panel" id="book-ethics" role="tabpanel" aria-labelledby="spine-ethics">
+                        <div class="book-plate">
+                            <img src="assets/books/plates/ethics-1344.webp"
+                                 srcset="assets/books/plates/ethics-672.webp 672w, assets/books/plates/ethics-1344.webp 1344w"
+                                 sizes="(max-width: 1023px) 92vw, 600px" width="1344" height="752" loading="lazy" decoding="async"
+                                 alt="Painting: a brass balance at rest, perfectly level, a lapis sphere in one pan and a stone in the other, above olive groves and the sea.">
+                        </div>
+                        <div class="book-cover"><img src="assets/books/aristotle-ethics.jpg" width="289" height="450" loading="lazy" decoding="async" alt="Cover of The Nicomachean Ethics, Penguin Classics"></div>
+                        <div class="book-body">
+                            <p class="book-fig"><span>Plate IV</span> The mean</p>
+                            <h4 class="book-title">The Nicomachean Ethics</h4>
+                            <p class="book-by">Aristotle · c. 340 BC</p>
+                            <p class="book-idea">Virtue as a habit rather than a rule: the mean between too much and too little, found by practice and judgement.</p>
+                        </div>
+                    </article>
+                    <article class="book-panel" id="book-theban" role="tabpanel" aria-labelledby="spine-theban">
+                        <div class="book-plate">
+                            <img src="assets/books/plates/theban-1344.webp"
+                                 srcset="assets/books/plates/theban-672.webp 672w, assets/books/plates/theban-1344.webp 1344w"
+                                 sizes="(max-width: 1023px) 92vw, 600px" width="1344" height="752" loading="lazy" decoding="async"
+                                 alt="Painting: a winged Greek sphinx on its plinth, ultramarine drapery over the edge, above a plain where three roads meet.">
+                        </div>
+                        <div class="book-cover"><img src="assets/books/sophocles-theban.jpg" width="375" height="500" loading="lazy" decoding="async" alt="Cover of The Three Theban Plays, Penguin Classics"></div>
+                        <div class="book-body">
+                            <p class="book-fig"><span>Plate V</span> Where three roads meet</p>
+                            <h4 class="book-title">The Three Theban Plays</h4>
+                            <p class="book-by">Sophocles · c. 441–401 BC</p>
+                            <p class="book-idea">Oedipus answers the Sphinx and still cannot see himself. Antigone sets the city’s law against an older one.</p>
+                        </div>
+                    </article>
+                    <article class="book-panel" id="book-gibbon" role="tabpanel" aria-labelledby="spine-gibbon">
+                        <div class="book-plate">
+                            <img src="assets/books/plates/gibbon-1344.webp"
+                                 srcset="assets/books/plates/gibbon-672.webp 672w, assets/books/plates/gibbon-1344.webp 1344w"
+                                 sizes="(max-width: 1023px) 92vw, 600px" width="1344" height="752" loading="lazy" decoding="async"
+                                 alt="Painting: a broken fluted column drum on ultramarine silk among fallen fragments, Roman ruins in a golden evening behind.">
+                        </div>
+                        <div class="book-cover"><img src="assets/books/gibbon-decline.jpg" width="315" height="472" loading="lazy" decoding="async" alt="Cover of The Decline and Fall of the Roman Empire, Penguin Classics"></div>
+                        <div class="book-body">
+                            <p class="book-fig"><span>Plate VI</span> The fallen column</p>
+                            <h4 class="book-title">The Decline and Fall of the Roman Empire</h4>
+                            <p class="book-by">Edward Gibbon · 1776–89</p>
+                            <p class="book-idea">Thirteen centuries of how a vast, working system comes apart: slowly, from within, in famously measured prose.</p>
+                        </div>
+                    </article>
                 </div>
 
                 <h3 class="sub-head sub-head--gap">Photography <span class="sub-note">— Sony A7 III, click a frame for the capture data</span></h3>
@@ -635,6 +714,6 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up"></use></svg></button>
 
-    <script src="js/script.js?v=20261002l"></script>
+    <script src="js/script.js?v=20261004a"></script>
 </body>
 </html>

@@ -344,6 +344,52 @@
 })();
 
 // ==========================================
+// Bookshelf — the spines are tabs; picking one takes its book off the
+// shelf (plate, cover, a line on it). Without JS every book is listed.
+// ==========================================
+(function () {
+    const shelf = document.querySelector('[data-shelf]');
+    if (!shelf) return;
+    const spines = [...shelf.querySelectorAll('.spine')];
+    const panels = spines.map(s => document.getElementById(s.getAttribute('aria-controls')));
+    if (!spines.length || panels.includes(null)) return;
+
+    // Hidden lazy images never load; fetch a book's images on intent.
+    const warm = i => panels[i].querySelectorAll('img').forEach(img => { img.loading = 'eager'; });
+
+    function select(i, focus) {
+        spines.forEach((s, k) => {
+            const on = k === i;
+            s.setAttribute('aria-selected', on ? 'true' : 'false');
+            s.tabIndex = on ? 0 : -1;
+            panels[k].hidden = !on;
+        });
+        if (focus) spines[i].focus();
+    }
+
+    spines.forEach((s, i) => {
+        s.addEventListener('click', () => select(i));
+        s.addEventListener('pointerenter', () => warm(i));
+        s.addEventListener('focus', () => warm(i));
+    });
+
+    // Arrows wrap; Home / End jump to the ends of the shelf.
+    shelf.querySelector('[role="tablist"]').addEventListener('keydown', (e) => {
+        const cur = spines.indexOf(document.activeElement);
+        const n = spines.length;
+        const map = { ArrowRight: cur + 1, ArrowLeft: cur - 1, Home: 0, End: n - 1 };
+        if (cur < 0 || !(e.key in map)) return;
+        e.preventDefault();
+        const i = (map[e.key] + n) % n;
+        warm(i);
+        select(i, true);
+    });
+
+    shelf.classList.add('is-ready');
+    select(0);
+})();
+
+// ==========================================
 // Photography lightbox (grid → click → EXIF readout)
 // ==========================================
 (function () {
