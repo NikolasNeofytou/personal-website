@@ -346,6 +346,8 @@
 // ==========================================
 // Bookshelf — the spines are tabs; picking one takes its book off the
 // shelf (plate, cover, a line on it). Without JS every book is listed.
+// Each painting has a seamless loop over its still: only the open book's
+// plays, only on screen, and only when motion and data are welcome.
 // ==========================================
 (function () {
     const shelf = document.querySelector('[data-shelf]');
@@ -357,7 +359,34 @@
     // Hidden lazy images never load; fetch a book's images on intent.
     const warm = i => panels[i].querySelectorAll('img').forEach(img => { img.loading = 'eager'; });
 
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const saveData = navigator.connection && navigator.connection.saveData;
+    const live = !reduceMotion && !saveData && 'IntersectionObserver' in window;
+    const loops = panels.map(p => p.querySelector('.book-loop'));
+    let current = 0;
+    let onScreen = false;
+
+    // The loop's first frame is the still, so fading it in once it plays is seamless.
+    loops.forEach(v => v && v.addEventListener('playing', () => v.classList.add('is-playing')));
+
+    function playCurrent() {
+        loops.forEach((v, k) => {
+            if (!v) return;
+            if (live && onScreen && k === current) {
+                v.preload = 'auto';
+                v.play().catch(() => {});
+            } else if (!v.paused) {
+                v.pause();
+            }
+        });
+    }
+
     function select(i, focus) {
+        if (i !== current && loops[current]) {
+            loops[current].classList.remove('is-playing');
+            loops[current].currentTime = 0;
+        }
+        current = i;
         spines.forEach((s, k) => {
             const on = k === i;
             s.setAttribute('aria-selected', on ? 'true' : 'false');
@@ -365,6 +394,14 @@
             panels[k].hidden = !on;
         });
         if (focus) spines[i].focus();
+        playCurrent();
+    }
+
+    if (live) {
+        new IntersectionObserver((entries) => {
+            onScreen = entries[0].isIntersecting;
+            playCurrent();
+        }, { threshold: 0.25 }).observe(shelf);
     }
 
     spines.forEach((s, i) => {
