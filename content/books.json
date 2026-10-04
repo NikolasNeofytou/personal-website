@@ -1,0 +1,512 @@
+[
+  {
+    "slug": "bge",
+    "spine": {
+      "title": "Beyond Good and Evil",
+      "w": 40,
+      "h": 170
+    },
+    "title": "Beyond Good and Evil",
+    "by": "Friedrich Nietzsche · 1886",
+    "idea": "Every philosophy as a hidden confession. Nietzsche asks what each value is for, and whom it serves.",
+    "cover": {
+      "file": "nietzsche-bge.jpg",
+      "w": 292,
+      "h": 450
+    },
+    "overview": "Four scenes from nine parts",
+    "alt": "Painting: Beyond Good and Evil as one alpine landscape at dusk. A toppled marble bust, a misty chasm, a rose-lit summit above a lake, and a white mask with ultramarine ribbons.",
+    "chapters": [
+      {
+        "tag": "1",
+        "name": "The prejudices of philosophers",
+        "label": "Part 1",
+        "focus": "14 52 2.6",
+        "note": "Every great philosophy, Nietzsche suspects, is a confession of its author: a defence of a prejudice, dressed up as a proof."
+      },
+      {
+        "tag": "2",
+        "name": "The free spirit",
+        "label": "Part 2",
+        "focus": "86 76 2.6",
+        "note": "Whatever is deep wears a mask. The free spirit keeps its distance, its secrets and its laughter."
+      },
+      {
+        "tag": "4",
+        "name": "Epigrams and interludes",
+        "label": "Part 4",
+        "focus": "45 72 2.2",
+        "note": "Aphorisms, among them the famous warning: gaze long into an abyss, and the abyss gazes back into you."
+      },
+      {
+        "tag": "9",
+        "name": "What is noble?",
+        "label": "Part 9",
+        "focus": "53 22 2.6",
+        "note": "Nobility as a rank of the soul: the reverence a person has for themselves, and the distance they keep from the crowd."
+      }
+    ],
+    "shelf": "Philosophy"
+  },
+  {
+    "slug": "twilight",
+    "shelf": "Philosophy",
+    "spine": {
+      "title": "Twilight of the Idols",
+      "w": 38,
+      "h": 172
+    },
+    "title": "Twilight of the Idols",
+    "by": "Friedrich Nietzsche · 1889",
+    "idea": "Nietzsche's philosophy in miniature, written in about a week: idols sounded out with a hammer and found hollow.",
+    "cover": {
+      "file": "nietzsche-twilight.jpg",
+      "w": 304,
+      "h": 500
+    },
+    "overview": "Four sections at one noon",
+    "alt": "Painting: a blazing noon. Hollow stone idols with a hammer, a clay cup beside a sprig of hemlock, a sundial with almost no shadow, and a vine-grown temple with an ivy staff tied with an ultramarine ribbon.",
+    "chapters": [
+      {
+        "name": "Foreword",
+        "focus": "12 60 2.2",
+        "note": "Sounding out idols with a hammer, as with a tuning fork: the hollow ones give themselves away."
+      },
+      {
+        "name": "The problem of Socrates",
+        "focus": "52 80 2.6",
+        "note": "The wisest of every age judged life worthless, and Socrates, dying, called it a sickness. Nietzsche asks what that verdict says about the judges."
+      },
+      {
+        "name": "How the true world became a fable",
+        "focus": "66 64 2.8",
+        "note": "The history of an error in six short steps, ending at noon, the moment of the shortest shadow."
+      },
+      {
+        "name": "What I owe to the ancients",
+        "focus": "86 45 1.9",
+        "note": "Not the Greeks of the philosophers but of Thucydides and Dionysus: realism, and a yes to life."
+      }
+    ]
+  },
+  {
+    "slug": "schopenhauer",
+    "spine": {
+      "title": "Essays and Aphorisms",
+      "w": 40,
+      "h": 174
+    },
+    "title": "Essays and Aphorisms",
+    "by": "Arthur Schopenhauer · 1851",
+    "idea": "The readable Schopenhauer. Life swings between want and boredom, and the short essays on reading, thinking and noise show how to live with it.",
+    "cover": {
+      "file": "schopenhauer-ea.jpg",
+      "w": 324,
+      "h": 500
+    },
+    "overview": "Four essays in one landscape",
+    "alt": "Painting: a winter dusk. An hourglass on ultramarine silk, a storm-bent tree on a hill, porcupines huddled in the snow, and the lamplit window of a study.",
+    "chapters": [
+      {
+        "name": "On the suffering of the world",
+        "label": "Essay",
+        "focus": "26 27 2.4",
+        "note": "Pain is the positive thing in life, Schopenhauer argues, and happiness only its brief absence."
+      },
+      {
+        "name": "On the vanity of existence",
+        "label": "Essay",
+        "focus": "14 66 2.2",
+        "note": "Time takes everything we hold. The present keeps slipping into the past, which is why nothing in life quite satisfies."
+      },
+      {
+        "name": "On thinking for oneself",
+        "label": "Essay",
+        "focus": "85 42 2.3",
+        "note": "Reading is thinking with someone else's head. A little you have thought through beats a library you have only read."
+      },
+      {
+        "name": "Similes, parables and fables",
+        "label": "Essay",
+        "focus": "46 66 2.6",
+        "note": "The porcupines on a cold day: they huddle for warmth, prick each other, and settle at a polite distance."
+      }
+    ],
+    "shelf": "Philosophy"
+  },
+  {
+    "slug": "seneca",
+    "shelf": "Philosophy",
+    "spine": {
+      "title": "Letters from a Stoic",
+      "w": 44,
+      "h": 168
+    },
+    "title": "Letters from a Stoic",
+    "by": "Seneca · c. AD 65",
+    "idea": "Letters to a friend on how to live: time, reading, crowds, fear and friendship, from a statesman who knew power from the inside.",
+    "cover": {
+      "file": "seneca-letters.jpg",
+      "w": 327,
+      "h": 500
+    },
+    "overview": "Four letters from one terrace",
+    "alt": "Painting: a villa terrace above the Bay of Naples. A bronze water clock, a few scrolls on ultramarine cloth, an amphitheatre in a haze of dust, and a ship leaving harbour.",
+    "chapters": [
+      {
+        "tag": "1",
+        "name": "On saving time",
+        "label": "Letter 1",
+        "focus": "11 52 2.2",
+        "note": "Hold every hour in your grasp. Of all we have, only time is truly ours, and we let it slip away."
+      },
+      {
+        "tag": "2",
+        "name": "On reading",
+        "label": "Letter 2",
+        "focus": "40 82 2.6",
+        "note": "Stay with a few great writers and digest them. To be everywhere is to be nowhere."
+      },
+      {
+        "tag": "7",
+        "name": "On crowds",
+        "label": "Letter 7",
+        "focus": "42 52 3.0",
+        "note": "Avoid the crowd. Seneca comes home from the midday games more cruel and less human for having watched."
+      },
+      {
+        "tag": "28",
+        "name": "On travel",
+        "label": "Letter 28",
+        "focus": "82 60 2.6",
+        "note": "Travel cures nothing, because you take yourself along. You need a change of soul, not of sky."
+      }
+    ]
+  },
+  {
+    "slug": "republic",
+    "spine": {
+      "title": "Republic",
+      "w": 48,
+      "h": 166
+    },
+    "title": "Republic",
+    "by": "Plato · c. 375 BC",
+    "idea": "What justice is, worked out by building a city in words. And the cave: prisoners who take the shadows on the wall for the world.",
+    "cover": {
+      "file": "plato-republic.jpg",
+      "w": 293,
+      "h": 450
+    },
+    "overview": "Four scenes from ten books",
+    "alt": "Painting: the Republic as one landscape. A firelit cave with shadows on its wall, a ship in the bay, a pillar of rainbow light in the sky, and a gold ring on ultramarine silk.",
+    "chapters": [
+      {
+        "tag": "II",
+        "name": "The ring of Gyges",
+        "label": "Book II",
+        "focus": "84 78 2.6",
+        "note": "A shepherd finds a ring that makes him invisible. Would anyone stay just if no one could see?"
+      },
+      {
+        "tag": "VI",
+        "name": "The ship of state",
+        "label": "Book VI",
+        "focus": "56 52 2.6",
+        "note": "Sailors fight over the helm and mock the one who studies the stars and the winds. Who should steer a city?"
+      },
+      {
+        "tag": "VII",
+        "name": "The cave",
+        "label": "Book VII",
+        "focus": "14 52 2.3",
+        "note": "Prisoners take the shadows on the wall for the world. One is led up into the sun, and comes back to be laughed at."
+      },
+      {
+        "tag": "X",
+        "name": "The myth of Er",
+        "label": "Book X",
+        "focus": "77 26 2.2",
+        "note": "A soldier comes back from death and tells how souls choose their next lives beneath a pillar of light, like a rainbow."
+      }
+    ],
+    "shelf": "Philosophy"
+  },
+  {
+    "slug": "ethics",
+    "spine": {
+      "title": "Nicomachean Ethics",
+      "w": 46,
+      "h": 176
+    },
+    "title": "The Nicomachean Ethics",
+    "by": "Aristotle · c. 340 BC",
+    "idea": "Virtue as a habit rather than a rule: the mean between too much and too little, found by practice and judgement.",
+    "cover": {
+      "file": "aristotle-ethics.jpg",
+      "w": 289,
+      "h": 450
+    },
+    "overview": "Four scenes from ten books",
+    "alt": "Painting: an Aegean morning. An archery target with an arrow in its centre, a level brass balance, two cups on a table under a pergola, and an armillary sphere on a hill.",
+    "chapters": [
+      {
+        "tag": "I",
+        "name": "The good",
+        "label": "Book I",
+        "focus": "10 66 2.4",
+        "note": "Every action aims at some good. The highest is living well, and like archers we do better with a target to aim at."
+      },
+      {
+        "tag": "II",
+        "name": "The mean",
+        "label": "Book II",
+        "focus": "47 76 2.8",
+        "note": "Virtue is a habit of choosing the mean between too much and too little, found by practice, not by rule."
+      },
+      {
+        "tag": "VIII",
+        "name": "Friendship",
+        "label": "Book VIII",
+        "focus": "82 68 2.6",
+        "note": "Friends of use and pleasure come and go. Friends who love each other for who they are wish each other good for its own sake."
+      },
+      {
+        "tag": "X",
+        "name": "Contemplation",
+        "label": "Book X",
+        "focus": "86 14 3.0",
+        "note": "The happiest life is the life of the mind: contemplation, the most self-sufficient thing we do."
+      }
+    ],
+    "shelf": "Philosophy"
+  },
+  {
+    "slug": "odyssey",
+    "shelf": "Epic, drama & history",
+    "spine": {
+      "title": "The Odyssey",
+      "w": 52,
+      "h": 174
+    },
+    "title": "The Odyssey",
+    "by": "Homer · c. 8th century BC",
+    "idea": "Ten years to get home: a man of many turns, a household holding out for him, and the long road back to who he was.",
+    "cover": {
+      "file": "homer-odyssey.jpg",
+      "w": 315,
+      "h": 475
+    },
+    "overview": "Four scenes from twenty-four books",
+    "alt": "Painting: an Aegean morning. A boulder across a cave mouth with sheep grazing, a small rocky island in the surf, a bow beside a row of twelve axe-heads, and a bed built around an olive tree.",
+    "chapters": [
+      {
+        "tag": "IX",
+        "name": "The Cyclops",
+        "label": "Book IX",
+        "focus": "15 55 2.0",
+        "note": "Trapped in the Cyclops' cave behind a boulder, Odysseus calls himself Nobody, blinds the giant and escapes beneath the sheep."
+      },
+      {
+        "tag": "XII",
+        "name": "The Sirens",
+        "label": "Book XII",
+        "focus": "49 44 3.0",
+        "note": "Odysseus has himself bound to the mast to hear the Sirens sing, while his crew row on with wax in their ears."
+      },
+      {
+        "tag": "XXI",
+        "name": "The bow and the axes",
+        "label": "Book XXI",
+        "focus": "73 45 2.4",
+        "note": "Penelope's test: string Odysseus's bow and shoot through twelve axe-heads. Only the beggar in the hall can."
+      },
+      {
+        "tag": "XXIII",
+        "name": "The olive-tree bed",
+        "label": "Book XXIII",
+        "focus": "80 80 2.4",
+        "note": "Penelope's last test: their bed cannot be moved, because Odysseus built it around a living olive tree."
+      }
+    ]
+  },
+  {
+    "slug": "aeneid",
+    "shelf": "Epic, drama & history",
+    "spine": {
+      "title": "The Aeneid",
+      "w": 50,
+      "h": 178
+    },
+    "title": "The Aeneid",
+    "by": "Virgil · 19 BC",
+    "idea": "The founding poem of Rome: a refugee from burning Troy carries his father and his gods to a new country, at great cost.",
+    "cover": {
+      "file": "virgil-aeneid.jpg",
+      "w": 303,
+      "h": 475
+    },
+    "overview": "Four scenes from twelve books",
+    "alt": "Painting: a city burning across the sea with a wooden horse before it, a new harbour city under scaffolding, a golden bough above a dark cave, and huts on a green hill by a river.",
+    "chapters": [
+      {
+        "tag": "I",
+        "name": "Carthage rising",
+        "label": "Book I",
+        "focus": "40 62 2.4",
+        "note": "Shipwrecked, Aeneas watches the Carthaginians building their city and envies them: their walls are already rising."
+      },
+      {
+        "tag": "II",
+        "name": "The fall of Troy",
+        "label": "Book II",
+        "focus": "10 45 2.6",
+        "note": "The wooden horse, the night attack, the city in flames: Aeneas tells Dido how Troy fell."
+      },
+      {
+        "tag": "VI",
+        "name": "The golden bough",
+        "label": "Book VI",
+        "focus": "82 52 1.35",
+        "note": "To enter the underworld and meet his father, Aeneas must first break a golden bough from a dark tree."
+      },
+      {
+        "tag": "VIII",
+        "name": "The site of Rome",
+        "label": "Book VIII",
+        "focus": "68 42 2.8",
+        "note": "Aeneas walks with King Evander over the hills where Rome will stand, still a place of huts and cattle."
+      }
+    ]
+  },
+  {
+    "slug": "theban",
+    "spine": {
+      "title": "Theban Plays",
+      "w": 46,
+      "h": 172
+    },
+    "title": "The Three Theban Plays",
+    "by": "Sophocles · c. 441–401 BC",
+    "idea": "Oedipus answers the Sphinx and still cannot see himself. Antigone sets the city’s law against an older one.",
+    "cover": {
+      "file": "sophocles-theban.jpg",
+      "w": 375,
+      "h": 500
+    },
+    "overview": "Three plays in one landscape",
+    "alt": "Painting: Thebes at evening. A burial mound outside the city walls, a winged sphinx above a plain where three roads meet, and a sacred grove of olive and laurel.",
+    "chapters": [
+      {
+        "tag": "I",
+        "name": "Antigone",
+        "focus": "14 62 2.0",
+        "note": "Antigone buries her brother against the king's decree, setting the city's law against an older, unwritten one."
+      },
+      {
+        "tag": "II",
+        "name": "Oedipus the King",
+        "focus": "46 44 1.6",
+        "note": "Oedipus solved the Sphinx's riddle. Now he hunts a killer back to the place where three roads meet, and finds himself."
+      },
+      {
+        "tag": "III",
+        "name": "Oedipus at Colonus",
+        "focus": "87 62 2.3",
+        "note": "Old, blind and exiled, Oedipus reaches the sacred grove at Colonus, near Athens, where at last he is taken in."
+      }
+    ],
+    "shelf": "Epic, drama & history"
+  },
+  {
+    "slug": "plutarch",
+    "shelf": "Epic, drama & history",
+    "spine": {
+      "title": "Parallel Lives",
+      "w": 58,
+      "h": 180
+    },
+    "title": "Parallel Lives",
+    "by": "Plutarch · c. AD 100",
+    "idea": "Paired lives of Greeks and Romans, written to show character in small things: a jest, a gesture, a single decision.",
+    "cover": {
+      "file": "plutarch-lives.jpg",
+      "w": 301,
+      "h": 475,
+      "alt": "Cover of Makers of Rome, a Penguin Classics selection of Plutarch's Lives"
+    },
+    "overview": "Four lives in one landscape",
+    "alt": "Painting: a temple on a citadel wrapped in scaffolding, a yoke tied with a great knot, a river bridge with an eagle standard, and fresh figs on ultramarine cloth.",
+    "chapters": [
+      {
+        "name": "Pericles",
+        "focus": "20 22 2.6",
+        "note": "Pericles turns Athens into a building site, and Plutarch marvels that work done so quickly has lasted so long."
+      },
+      {
+        "name": "Alexander",
+        "focus": "33 74 2.4",
+        "note": "At Gordium, Alexander is shown a knot no one can untie, and undoes it his own way."
+      },
+      {
+        "name": "Cato the Elder",
+        "focus": "88 82 2.6",
+        "note": "Cato drops fresh figs from Carthage in the Senate, grown three days' sail from Rome. Carthage, he says, must be destroyed."
+      },
+      {
+        "name": "Caesar",
+        "focus": "66 50 2.2",
+        "note": "Caesar halts at the Rubicon and weighs the cost for a long while, then says, ‘Let the die be cast’, and crosses."
+      }
+    ]
+  },
+  {
+    "slug": "gibbon",
+    "spine": {
+      "title": "Decline and Fall",
+      "w": 56,
+      "h": 184
+    },
+    "title": "The Decline and Fall of the Roman Empire",
+    "by": "Edward Gibbon · 1776–89",
+    "idea": "Thirteen centuries of how a vast, working system comes apart: slowly, from within, in famously measured prose.",
+    "cover": {
+      "file": "gibbon-decline.jpg",
+      "w": 315,
+      "h": 472
+    },
+    "overview": "Four scenes from seventy-one chapters",
+    "alt": "Painting: Rome's history in one view. A golden forum, smoke rising beyond the walls, a domed city across a strait, and a fallen column among ruins.",
+    "chapters": [
+      {
+        "tag": "1–3",
+        "name": "The age of the Antonines",
+        "label": "Chapters 1–3",
+        "focus": "16 55 2.2",
+        "note": "The empire at its height in the second century: peace, law and prosperity, the happiest age, Gibbon thought, in human history."
+      },
+      {
+        "tag": "17",
+        "name": "Constantinople founded",
+        "label": "Chapter 17",
+        "focus": "79 49 2.8",
+        "note": "Constantine builds a new capital on the Bosphorus, and the empire's centre of gravity moves east."
+      },
+      {
+        "tag": "31",
+        "name": "Alaric sacks Rome",
+        "label": "Chapter 31",
+        "focus": "37 33 2.4",
+        "note": "In 410 the Goths under Alaric enter Rome, the first time in eight centuries the city has fallen to a foreign enemy."
+      },
+      {
+        "tag": "71",
+        "name": "The ruins of Rome",
+        "label": "Chapter 71",
+        "focus": "78 84 2.2",
+        "note": "The last chapter: Rome in the fifteenth century, its monuments quarried and overgrown, seen from the Capitol."
+      }
+    ],
+    "shelf": "Epic, drama & history"
+  }
+]
