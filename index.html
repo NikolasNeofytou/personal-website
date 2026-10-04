@@ -48,7 +48,7 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css?v=20261004a">
+    <link rel="stylesheet" href="css/styles.css?v=20261004b">
     <link rel="preload" href="assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/hero/hero-loop-poster.jpg" as="image" fetchpriority="high">
@@ -527,6 +527,7 @@
                 <h3 class="sub-head sub-head--gap">Bookshelf <span class="sub-note">— what's shaping how I think · pick a spine</span></h3>
                 <!-- The spines are tabs (js/script.js); each opens its book: a plate (a Higgsfield neoclassical oil painting of the
                      book's idea, umber and gold with one ultramarine silk: assets/books/plates/<slug>-{672,1344}.webp), the cover (assets/books/*.jpg) and a line.
+                     Each plate also has a seamless Higgsfield loop, <slug>-loop.{webm,mp4}, built by scripts/encode-plate.sh.
                      To add a book: a spine + a panel with matching ids; without JS every panel is listed. -->
                 <div class="shelf" data-shelf>
                     <div class="shelf-rail">
@@ -546,6 +547,10 @@
                                  srcset="assets/books/plates/bge-672.webp 672w, assets/books/plates/bge-1344.webp 1344w"
                                  sizes="(max-width: 1023px) 92vw, 600px" width="1344" height="752" loading="lazy" decoding="async"
                                  alt="Painting: a plain white mask with ultramarine ribbon ties on a stone balustrade above an alpine lake at dusk.">
+                            <video class="book-loop" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+                                <source src="assets/books/plates/bge-loop.webm" type="video/webm">
+                                <source src="assets/books/plates/bge-loop.mp4" type="video/mp4">
+                            </video>
                         </div>
                         <div class="book-cover"><img src="assets/books/nietzsche-bge.jpg" width="292" height="450" loading="lazy" decoding="async" alt="Cover of Beyond Good and Evil, Penguin Classics"></div>
                         <div class="book-body">
@@ -561,6 +566,10 @@
                                  srcset="assets/books/plates/schopenhauer-672.webp 672w, assets/books/plates/schopenhauer-1344.webp 1344w"
                                  sizes="(max-width: 1023px) 92vw, 600px" width="1344" height="752" loading="lazy" decoding="async"
                                  alt="Painting: a lapis pendulum swinging between two Doric columns on a terrace above a lake at evening.">
+                            <video class="book-loop" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+                                <source src="assets/books/plates/schopenhauer-loop.webm" type="video/webm">
+                                <source src="assets/books/plates/schopenhauer-loop.mp4" type="video/mp4">
+                            </video>
                         </div>
                         <div class="book-cover"><img src="assets/books/schopenhauer-ea.jpg" width="324" height="500" loading="lazy" decoding="async" alt="Cover of Essays and Aphorisms, Penguin Classics"></div>
                         <div class="book-body">
@@ -576,6 +585,10 @@
                                  srcset="assets/books/plates/republic-672.webp 672w, assets/books/plates/republic-1344.webp 1344w"
                                  sizes="(max-width: 1023px) 92vw, 600px" width="1344" height="752" loading="lazy" decoding="async"
                                  alt="Painting: an oil lamp throws a small robed statuette’s shadow, enormous, up a dim stone wall.">
+                            <video class="book-loop" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+                                <source src="assets/books/plates/republic-loop.webm" type="video/webm">
+                                <source src="assets/books/plates/republic-loop.mp4" type="video/mp4">
+                            </video>
                         </div>
                         <div class="book-cover"><img src="assets/books/plato-republic.jpg" width="293" height="450" loading="lazy" decoding="async" alt="Cover of Republic, Penguin Classics"></div>
                         <div class="book-body">
@@ -591,6 +604,10 @@
                                  srcset="assets/books/plates/ethics-672.webp 672w, assets/books/plates/ethics-1344.webp 1344w"
                                  sizes="(max-width: 1023px) 92vw, 600px" width="1344" height="752" loading="lazy" decoding="async"
                                  alt="Painting: a brass balance at rest, perfectly level, a lapis sphere in one pan and a stone in the other, above olive groves and the sea.">
+                            <video class="book-loop" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+                                <source src="assets/books/plates/ethics-loop.webm" type="video/webm">
+                                <source src="assets/books/plates/ethics-loop.mp4" type="video/mp4">
+                            </video>
                         </div>
                         <div class="book-cover"><img src="assets/books/aristotle-ethics.jpg" width="289" height="450" loading="lazy" decoding="async" alt="Cover of The Nicomachean Ethics, Penguin Classics"></div>
                         <div class="book-body">
@@ -606,6 +623,10 @@
                                  srcset="assets/books/plates/theban-672.webp 672w, assets/books/plates/theban-1344.webp 1344w"
                                  sizes="(max-width: 1023px) 92vw, 600px" width="1344" height="752" loading="lazy" decoding="async"
                                  alt="Painting: a winged Greek sphinx on its plinth, ultramarine drapery over the edge, above a plain where three roads meet.">
+                            <video class="book-loop" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+                                <source src="assets/books/plates/theban-loop.webm" type="video/webm">
+                                <source src="assets/books/plates/theban-loop.mp4" type="video/mp4">
+                            </video>
                         </div>
                         <div class="book-cover"><img src="assets/books/sophocles-theban.jpg" width="375" height="500" loading="lazy" decoding="async" alt="Cover of The Three Theban Plays, Penguin Classics"></div>
                         <div class="book-body">
@@ -621,6 +642,10 @@
                                  srcset="assets/books/plates/gibbon-672.webp 672w, assets/books/plates/gibbon-1344.webp 1344w"
                                  sizes="(max-width: 1023px) 92vw, 600px" width="1344" height="752" loading="lazy" decoding="async"
                                  alt="Painting: a broken fluted column drum on ultramarine silk among fallen fragments, Roman ruins in a golden evening behind.">
+                            <video class="book-loop" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+                                <source src="assets/books/plates/gibbon-loop.webm" type="video/webm">
+                                <source src="assets/books/plates/gibbon-loop.mp4" type="video/mp4">
+                            </video>
                         </div>
                         <div class="book-cover"><img src="assets/books/gibbon-decline.jpg" width="315" height="472" loading="lazy" decoding="async" alt="Cover of The Decline and Fall of the Roman Empire, Penguin Classics"></div>
                         <div class="book-body">
@@ -714,6 +739,6 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up"></use></svg></button>
 
-    <script src="js/script.js?v=20261004a"></script>
+    <script src="js/script.js?v=20261004b"></script>
 </body>
 </html>
