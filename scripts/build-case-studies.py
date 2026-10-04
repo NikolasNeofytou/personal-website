@@ -153,6 +153,9 @@ def main() -> None:
         # badge: "Public"/"Private" by default; a project can override it (e.g. "Live")
         open_ = p["public"] or "flag" in p
         flag = html.escape(p.get("flag", "Public" if p["public"] else "Private"))
+        # link previews: the cover cropped to 1200x630 when there is one, else the site card
+        og_image = (f"{SITE}/assets/og/{p['slug']}.jpg"
+                    if (ROOT / "assets" / "og" / f"{p['slug']}.jpg").exists() else f"{SITE}/assets/og-image.jpg")
         page = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -169,7 +172,8 @@ def main() -> None:
     <meta property="og:type" content="article">
     <meta property="og:url" content="{url}">
     <meta property="og:site_name" content="Nikolas Neofytou">
-    <meta property="og:image" content="{SITE}/assets/og-image.jpg">
+    <meta property="og:image" content="{og_image}">
+    <meta property="og:image:alt" content="{e['alt']}">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
     <link rel="stylesheet" href="../css/styles.css?v={version}">
