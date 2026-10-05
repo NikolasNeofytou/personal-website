@@ -5,26 +5,26 @@
     "title": "Cinna",
     "public": false,
     "tagline": "Real-time bus tracking for Cyprus public transit.",
-    "description": "Case study: Cinna — real-time bus tracking for all seven Cyprus bus operators. Flutter on iOS and Android over Django, PostGIS and a dedicated GTFS-RT fetcher; 14 ADRs, 1,400+ tests.",
+    "description": "Case study: Cinna — real-time bus tracking for all seven Cyprus bus operators. Flutter on iOS and Android over Django, PostGIS and a dedicated GTFS-RT fetcher; 15 ADRs, 1,400+ tests.",
     "lede": "A live map of every bus in Cyprus, arrival estimates you can trust, and a trip planner that would rather say “I don’t know” than guess. Flutter on iOS and Android, over a Django and PostGIS backend fed by the national real-time feed.",
     "alt": "A folded transit map on a dark desk with one route traced in cobalt thread, a brass token beside it.",
     "meta": {
       "Role": "Solo",
-      "Timeline": "Dec 2025 – Sep 2026",
+      "Timeline": "Dec 2025 – present",
       "Stack": "Flutter · Riverpod · Django REST · PostGIS · Celery · Redis",
-      "Status": "Backend in production · iOS pilot on TestFlight"
+      "Status": "Backend in production · iOS on TestFlight"
     },
     "card": {
-      "role": "Solo · Flutter + Django/PostGIS · Dec 2025 – Sep 2026",
+      "role": "Solo · Flutter + Django/PostGIS · Dec 2025 – present",
       "problem": "Public-transit riders are stuck with schedules that drift from reality and clunky paper-or-card ticketing — no single place to see where the bus actually is and pay for the ride.",
-      "approach": "A real-time transit companion: a Flutter/Riverpod app for iOS and Android over a Django REST + PostGIS backend that ingests the national GTFS-RT feed every 15 seconds — plus Stripe tickets delivered as Apple/Google Wallet passes.",
+      "approach": "A real-time transit companion: a Flutter/Riverpod app for iOS and Android over a Django REST + PostGIS backend that ingests the national GTFS-RT feed every 15 seconds. Stripe tickets and Apple Wallet passes are built and stay off until Cinna is licensed to issue them.",
       "bullets": [
         "A dedicated fetcher writes live positions straight into PostGIS — current state and history in separate tables.",
         "PostGIS for spatial work — nearest-stop, route geometry, &ldquo;arriving near me&rdquo;.",
         "Arrival estimates designed to say &ldquo;unknown&rdquo; rather than be confidently wrong.",
-        "Every significant call written down — 14 architecture decision records."
+        "Every significant call written down — 15 architecture decision records."
       ],
-      "outcome": "Backend in production, iOS pilot on TestFlight, 1,400+ automated tests. Private repo — walkthrough on request.",
+      "outcome": "Backend in production, iOS on TestFlight, 1,400+ automated tests. Private repo — walkthrough on request.",
       "tags": [
         "Flutter",
         "Riverpod",
@@ -40,7 +40,7 @@
     },
     "scope": {
       "line": "Real-time transit for Cyprus: where the bus actually is.",
-      "status": "in production",
+      "status": "backend in production",
       "meas": [
         [
           "feed",
@@ -52,7 +52,7 @@
         ],
         [
           "ADRs",
-          "14"
+          "15"
         ]
       ]
     }

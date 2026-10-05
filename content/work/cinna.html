@@ -11,15 +11,15 @@
                     <div class="cs-prose">
                         <p>A Flutter app for iOS and Android over a Django and PostGIS backend:</p>
                         <ul>
-                            <li>A live map of every bus across all seven Cypriot operators, refreshed from the official feed every 15 seconds.</li>
-                            <li>Nearby stops, arrival estimates, a trip planner, and push alerts when your bus is approaching.</li>
-                            <li>Ticket purchase through Stripe with Apple and Google Wallet passes, built and switched off until the app is licensed to issue tickets.</li>
+                            <li>A live map of every bus on a route across all seven Cypriot operators, refreshed from the national feed every 15 seconds.</li>
+                            <li>Nearby stops, arrival estimates, and a trip planner that says why when it has no answer.</li>
+                            <li>Ticket purchase through Stripe with Apple Wallet passes, built against Stripe's sandbox and switched off until the app is licensed to issue tickets.</li>
                         </ul>
                     </div>
                     <div class="cs-stats" role="list">
                         <div class="cs-stat" role="listitem"><span class="cs-stat-num">7</span><span class="cs-stat-label">Bus operators</span></div>
                         <div class="cs-stat" role="listitem"><span class="cs-stat-num">15 s</span><span class="cs-stat-label">Live-feed cycle</span></div>
-                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">14</span><span class="cs-stat-label">Written ADRs</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">15</span><span class="cs-stat-label">Written ADRs</span></div>
                         <div class="cs-stat" role="listitem"><span class="cs-stat-num">1,400+</span><span class="cs-stat-label">Automated tests</span></div>
                     </div>
                 </section>
@@ -27,11 +27,11 @@
                 <section class="section" aria-labelledby="ci-arch">
                     <h2 class="section-head" id="ci-arch"><span class="section-num">03</span> Architecture</h2>
                     <div class="cs-prose">
-                        <p>The live feed and the timetable take different paths into one PostGIS database. A dedicated process ingests vehicle positions. Celery handles the slower jobs: the nightly timetable import, arrival alerts and cache warming. The API answers spatial questions straight from Postgres.</p>
+                        <p>The live feed and the timetable take different paths into one PostGIS database. A dedicated process ingests vehicle positions. Celery handles the slower jobs: the nightly timetable import and cache warming. The API answers spatial questions straight from Postgres.</p>
                     </div>
                     <figure class="cs-diagram">
                         <svg viewBox="0 0 680 320" role="img" aria-labelledby="ci-dg-title">
-                            <title id="ci-dg-title">Data flow: the national GTFS-RT vehicle feed is polled every 15 seconds by a dedicated fetcher and upserted into PostGIS; static GTFS timetables are imported nightly by Celery; a Django REST API serves spatial queries to the Flutter app, with Redis for queues and caching and push notifications for arrival alerts.</title>
+                            <title id="ci-dg-title">Data flow: the national GTFS-RT vehicle feed is polled every 15 seconds by a dedicated fetcher and upserted into PostGIS; static GTFS timetables are imported nightly by Celery; a Django REST API serves spatial queries to the Flutter app, with Redis for queues and caching.</title>
                             <defs>
                                 <marker id="ci-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="rgba(26,26,23,0.55)"/></marker>
                                 <marker id="ci-arrow-a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="#1F3BFF"/></marker>
@@ -54,7 +54,7 @@
                             <rect class="dg-box" x="180" y="112" width="150" height="58"/>
                             <text class="dg-label" x="190" y="134">Celery beat</text>
                             <text class="dg-sub" x="190" y="150">nightly import, 30 s</text>
-                            <text class="dg-sub" x="190" y="163">arrival-alert job</text>
+                            <text class="dg-sub" x="190" y="163">cache warming</text>
 
                             <text class="dg-tag" x="360" y="14">STORE</text>
                             <rect class="dg-box dg-box--accent" x="360" y="26" width="150" height="144"/>
@@ -78,9 +78,6 @@
                             <text class="dg-label" x="550" y="134">Flutter app</text>
                             <text class="dg-sub" x="550" y="150">iOS + Android,</text>
                             <text class="dg-sub" x="550" y="163">Riverpod, maps</text>
-                            <rect class="dg-box" x="540" y="196" width="140" height="46"/>
-                            <text class="dg-label" x="550" y="216">FCM / APNs</text>
-                            <text class="dg-sub" x="550" y="232">"bus approaching"</text>
 
                             <path class="dg-edge dg-edge--accent" d="M150,55 H178" marker-end="url(#ci-arrow-a)"/>
                             <path class="dg-edge" d="M150,141 H178" marker-end="url(#ci-arrow)"/>
@@ -88,8 +85,6 @@
                             <path class="dg-edge" d="M330,141 H358" marker-end="url(#ci-arrow)"/>
                             <path class="dg-edge dg-edge--accent" d="M510,55 H538" marker-end="url(#ci-arrow-a)"/>
                             <path class="dg-edge dg-edge--accent" d="M610,84 V110" marker-end="url(#ci-arrow-a)"/>
-                            <path class="dg-edge" d="M510,219 H538" marker-end="url(#ci-arrow)"/>
-                            <path class="dg-edge" d="M610,196 V172" marker-end="url(#ci-arrow)"/>
                             <path class="dg-edge" d="M255,170 V219 H358" marker-end="url(#ci-arrow)"/>
                             <text class="dg-sub" x="0" y="290">Hosted on DigitalOcean App Platform (Frankfurt) · CI/CD via GitHub Actions · errors to Sentry</text>
                         </svg>
@@ -100,7 +95,7 @@
                 <section class="section" aria-labelledby="ci-week">
                     <h2 class="section-head" id="ci-week"><span class="section-num">04</span> A week with Cinna</h2>
                     <div class="cs-prose">
-                        <p>What "an app you can trust at the bus stop" looks like across one commuter's week in Nicosia. The phone is the app, and the map is one route from home to the university. Every beat is a feature that ships. Tickets are built and switched on in review builds while licensing completes. The times and figures are examples, not real data.</p>
+                        <p>What "an app you can trust at the bus stop" looks like across one commuter's week in Nicosia. The phone is the app, and the map is one route from home to the university. Every beat is in the app except Thursday's ticket, which is built and stays off until Cinna is licensed to issue tickets. The times and figures are examples, not real data.</p>
                     </div>
                     <div class="week" data-demo="week-cinna">
                         <div class="demo-body">
@@ -108,7 +103,7 @@
                                 <li><div><b>Mon</b><span>At the stop</span></div><p>Bus 30 is coming in live, refreshed from the national feed every 15 seconds. Bus 22 is marked as scheduled, because that’s all it is.</p></li>
                                 <li><div><b>Tue</b><span>The feed goes quiet</span></div><p>Bus 30 stops reporting its position. Instead of a stale countdown, Cinna falls back to the timetable and says why.</p></li>
                                 <li><div><b>Wed</b><span>Plan a trip</span></div><p>Home to the university: the planner offers the direct bus or a walk and a change, and draws the route.</p></li>
-                                <li><div><b>Thu</b><span>Board and ride</span></div><p>Board with the ticket in your wallet; the driver’s app scans it. Then Ride mode shows one thing at a time: the next stop.</p></li>
+                                <li><div><b>Thu</b><span>Board and ride</span></div><p>Ride mode shows one thing at a time: the next stop. (Wallet tickets, scanned by the driver’s app, are built and stay off until Cinna is licensed.)</p></li>
                                 <li><div><b>Fri</b><span>Journey complete</span></div><p>The trip summary: time on board and CO₂ saved compared with driving, added to your week.</p></li>
                             </ol>
                         </div>
@@ -129,7 +124,7 @@
                 <section class="section" aria-labelledby="ci-decisions">
                     <h2 class="section-head" id="ci-decisions"><span class="section-num">06</span> Key decisions</h2>
                     <div class="cs-prose">
-                        <p>Every significant call is written down as an architecture decision record, 14 so far. Each one includes what would make me revisit it. Four of them:</p>
+                        <p>Every significant call is written down as an architecture decision record, 15 so far. Each one includes what would make me revisit it. Four of them:</p>
                     </div>
                     <div class="cs-decisions">
                         <article class="cs-adr">
@@ -190,7 +185,7 @@
                 <section class="section" aria-labelledby="ci-outcome">
                     <h2 class="section-head" id="ci-outcome"><span class="section-num">08</span> Outcome &amp; what I'd do differently</h2>
                     <div class="cs-prose">
-                        <p>The backend runs in production. The iOS app is in a TestFlight pilot, and an Android release build is ready. Payments and wallet passes are built and waiting on ticketing approval. The code is private, and I'm happy to walk through it on a call.</p>
+                        <p>The backend runs in production and the iOS app is on TestFlight; the Android app builds in CI. Payments and Apple Wallet passes are built and stay off until Cinna is licensed to issue tickets. The code is private, and I'm happy to walk through it on a call.</p>
                         <ul>
                             <li><strong>Row counts aren't freshness.</strong> Health checks should ask "is today's service running?", not "is the table non-empty?".</li>
                             <li><strong>One definition per service.</strong> Production and local configs drifted because the same worker was described in two files. Now a test compares them.</li>

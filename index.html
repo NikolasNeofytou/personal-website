@@ -48,7 +48,7 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css?v=20261005b">
+    <link rel="stylesheet" href="css/styles.css?v=20261005c">
     <link rel="preload" href="assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
@@ -120,11 +120,11 @@
                     </div>
                     <div class="scope-readout">
                         <div class="scope-panel" id="scope-p-cinna">
-                            <p class="scope-panel-head">Measure · M1 <span class="scope-status"><span class="scope-dot" aria-hidden="true"></span>in production</span></p>
+                            <p class="scope-panel-head">Measure · M1 <span class="scope-status"><span class="scope-dot" aria-hidden="true"></span>backend in production</span></p>
                             <img class="scope-cover" src="assets/covers/cinna-672.webp" width="672" height="376" alt="" decoding="async">
                             <p class="scope-name">Cinna</p>
                             <p class="scope-line">Real-time transit for Cyprus: where the bus actually is.</p>
-                            <dl class="scope-meas"><div><dt>feed</dt><dd>15 s</dd></div><div><dt>tests</dt><dd>1,400+</dd></div><div><dt>ADRs</dt><dd>14</dd></div></dl>
+                            <dl class="scope-meas"><div><dt>feed</dt><dd>15 s</dd></div><div><dt>tests</dt><dd>1,400+</dd></div><div><dt>ADRs</dt><dd>15</dd></div></dl>
                             <a class="scope-link" href="work/cinna.html">Read the case study <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
                         </div>
                         <div class="scope-panel" id="scope-p-ludi" hidden>
@@ -330,16 +330,16 @@
                             <h3 class="case-title" style="view-transition-name: title-cinna">Cinna</h3>
                             <span class="case-flag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private</span>
                         </header>
-                        <p class="case-role">Solo · Flutter + Django/PostGIS · Dec 2025 – Sep 2026</p>
+                        <p class="case-role">Solo · Flutter + Django/PostGIS · Dec 2025 – present</p>
                         <p class="case-line"><span class="case-k">Problem</span> Public-transit riders are stuck with schedules that drift from reality and clunky paper-or-card ticketing — no single place to see where the bus actually is and pay for the ride.</p>
-                        <p class="case-line"><span class="case-k">Approach</span> A real-time transit companion: a Flutter/Riverpod app for iOS and Android over a Django REST + PostGIS backend that ingests the national GTFS-RT feed every 15 seconds — plus Stripe tickets delivered as Apple/Google Wallet passes.</p>
+                        <p class="case-line"><span class="case-k">Approach</span> A real-time transit companion: a Flutter/Riverpod app for iOS and Android over a Django REST + PostGIS backend that ingests the national GTFS-RT feed every 15 seconds. Stripe tickets and Apple Wallet passes are built and stay off until Cinna is licensed to issue them.</p>
                         <ul class="case-decisions">
                             <li>A dedicated fetcher writes live positions straight into PostGIS — current state and history in separate tables.</li>
                             <li>PostGIS for spatial work — nearest-stop, route geometry, &ldquo;arriving near me&rdquo;.</li>
                             <li>Arrival estimates designed to say &ldquo;unknown&rdquo; rather than be confidently wrong.</li>
-                            <li>Every significant call written down — 14 architecture decision records.</li>
+                            <li>Every significant call written down — 15 architecture decision records.</li>
                         </ul>
-                        <p class="case-line"><span class="case-k">Outcome</span> Backend in production, iOS pilot on TestFlight, 1,400+ automated tests. Private repo — walkthrough on request.</p>
+                        <p class="case-line"><span class="case-k">Outcome</span> Backend in production, iOS on TestFlight, 1,400+ automated tests. Private repo — walkthrough on request.</p>
                         <div class="case-tech">
                             <span class="tech-tag">Flutter</span><span class="tech-tag">Riverpod</span><span class="tech-tag">Django REST</span><span class="tech-tag">PostGIS</span><span class="tech-tag">Celery</span><span class="tech-tag">GTFS-RT</span>
                         </div>
@@ -1535,6 +1535,6 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up"></use></svg></button>
 
-    <script src="js/script.js?v=20261005b"></script>
+    <script src="js/script.js?v=20261005c"></script>
 </body>
 </html>
