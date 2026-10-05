@@ -1,10 +1,10 @@
-# nikolasneofytou.github.io/personal-website
+# nikolasneofytou.com
 
 The personal site of Nikolas Neofytou: embedded systems and the full-stack apps around them.
 
-**Live:** https://nikolasneofytou.github.io/personal-website/
+**Live:** https://nikolasneofytou.com/
 
-It is hand-written HTML, CSS and JavaScript with no framework and no build step at serve time. It is served by GitHub Pages straight from `main`. The site itself is part of the portfolio, so it is held to a budget: Lighthouse 94+ on mobile, 100 for accessibility, best practices and SEO, and zero layout shift.
+It is hand-written HTML, CSS and JavaScript with no framework and no build step at serve time. It is served by GitHub Pages straight from `main`, on a custom domain (`CNAME`) registered with Cloudflare. The site itself is part of the portfolio, so it is held to a budget: Lighthouse 94+ on mobile, 100 for accessibility, best practices and SEO, and zero layout shift.
 
 ## What's on it
 

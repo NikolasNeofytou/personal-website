@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nikolasneofytou.github.io/personal-website/sitemap.xml
+Sitemap: https://nikolasneofytou.com/sitemap.xml
