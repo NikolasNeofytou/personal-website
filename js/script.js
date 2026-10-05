@@ -402,17 +402,30 @@
         playCurrent();
     }
 
+    // Watch the open book's painting, not the whole shelf: with five shelves
+    // the shelf is taller than a phone screen and would never be 25% visible.
+    const plates = panels.map(p => p.querySelector('.book-plate') || p);
     if (live) {
-        new IntersectionObserver((entries) => {
-            onScreen = entries[0].isIntersecting;
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.target === plates[current]) onScreen = e.isIntersecting; });
             playCurrent();
-        }, { threshold: 0.25 }).observe(shelf);
+        }, { threshold: 0.25 });
+        plates.forEach(p => io.observe(p));
+    }
+
+    // A book opened from an upper shelf can land below the fold: bring it into
+    // view (on click only, so arrow keys along the shelf never jump the page).
+    function reveal(i) {
+        const r = panels[i].getBoundingClientRect();
+        if (r.top > innerHeight * 0.6 || r.bottom < 0) {
+            panels[i].scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
+        }
     }
     // A chapter tour back at its whole painting hands motion back to the loop.
     shelf.addEventListener('tour:overview', playCurrent);
 
     spines.forEach((s, i) => {
-        s.addEventListener('click', () => select(i));
+        s.addEventListener('click', () => { select(i); reveal(i); });
         s.addEventListener('pointerenter', () => warm(i));
         s.addEventListener('focus', () => warm(i));
     });
@@ -436,10 +449,18 @@
 // ==========================================
 // Chapter tour — a book whose plate is one panorama with a region per
 // chapter (data-focus="x% y% zoom"). Picking a chapter moves the camera
-// there and the full-resolution still carries the close-up; "Whole
-// painting" or Escape glides back. Reduced motion jumps instead.
+// there and the full-resolution still carries the close-up; once the
+// camera arrives, the chapter's own loop (data-loop) fades in over it.
+// "Whole painting" or Escape glides back. Reduced motion jumps instead,
+// and like Save-Data it keeps every close-up still.
 // ==========================================
 (function () {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const saveData = navigator.connection && navigator.connection.saveData;
+    const live = !reduceMotion && !saveData && 'IntersectionObserver' in window;
+    const ext = document.createElement('video').canPlayType('video/webm; codecs="vp9"') ? '.webm' : '.mp4';
+    const ARRIVE_MS = 1400;   // the camera's glide (.plate-view transition)
+
     document.querySelectorAll('[data-tour]').forEach(plate => {
         const panel = plate.closest('.book-panel');
         const view = plate.querySelector('.plate-view');
@@ -451,8 +472,41 @@
         const note = panel.querySelector('.chapter-note');
         const overview = name.textContent;
         const hint = 'Pick a chapter and the painting moves to it.';
+        const closeUp = plate.querySelector('.chapter-loop');
+        let arrival = 0;
+        let onScreen = true;
+
+        function stopCloseUp() {
+            clearTimeout(arrival);
+            if (!closeUp) return;
+            closeUp.classList.remove('is-playing');
+            closeUp.pause();
+        }
+        function startCloseUp(btn) {
+            if (!live || !closeUp || !btn.dataset.loop) return;
+            const src = btn.dataset.loop + ext;
+            arrival = setTimeout(() => {
+                if (closeUp.dataset.src !== src) {
+                    closeUp.src = src;
+                    closeUp.dataset.src = src;
+                }
+                closeUp.currentTime = 0;
+                if (onScreen) closeUp.play().catch(() => {});
+            }, ARRIVE_MS);
+        }
+        if (live && closeUp) {
+            closeUp.addEventListener('playing', () => closeUp.classList.add('is-playing'));
+            new IntersectionObserver(([e]) => {
+                onScreen = e.isIntersecting;
+                if (!closeUp.classList.contains('is-playing')) return;
+                if (onScreen) closeUp.play().catch(() => {});
+                else closeUp.pause();
+            }, { threshold: 0.25 }).observe(plate);
+        }
 
         function show(btn) {
+            if (btn !== whole && btn.getAttribute('aria-pressed') === 'true') return;
+            stopCloseUp();
             buttons.forEach(b => b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'));
             note.classList.toggle('is-hint', btn === whole);
             if (btn === whole) {
@@ -479,6 +533,7 @@
             view.style.transform = `translate(${edge(50 - zoom * fx)}%, ${edge(50 - zoom * fy)}%) scale(${zoom})`;
             name.textContent = btn.lastChild.textContent;
             note.textContent = btn.dataset.label ? `${btn.dataset.label}. ${btn.dataset.note}` : btn.dataset.note;
+            startCloseUp(btn);
         }
 
         buttons.forEach(b => b.addEventListener('click', () => show(b)));
