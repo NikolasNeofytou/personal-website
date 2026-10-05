@@ -526,7 +526,7 @@
     // ======================================================================
     // Cinna — a commuter's week (scroll-driven)
     // The phone is the app; on the right, a schematic of one route through
-    // Nicosia. Every beat is a shipped feature: live arrivals, the
+    // Nicosia. Every beat is in the app except the ticket: live arrivals, the
     // timetable fallback when the feed goes quiet, the trip planner,
     // boarding with a scanned ticket and Ride mode, and the journey summary.
     // Illustrative — the times and figures are examples, not real data.
@@ -536,7 +536,7 @@
             ['Mon', 'At the stop', 'Bus 30 is coming in live, refreshed from the national feed every 15 seconds. Bus 22 is marked as scheduled, because that’s all it is.'],
             ['Tue', 'The feed goes quiet', 'Bus 30 stops reporting its position. Instead of a stale countdown, Cinna falls back to the timetable and says why.'],
             ['Wed', 'Plan a trip', 'Home to the university: the planner offers the direct bus or a walk and a change, and draws the route.'],
-            ['Thu', 'Board and ride', 'Board with the ticket in your wallet; the driver’s app scans it. Then Ride mode shows one thing at a time: the next stop.'],
+            ['Thu', 'Board and ride', 'Ride mode shows one thing at a time: the next stop. (Wallet tickets, scanned by the driver’s app, are built and stay off until Cinna is licensed.)'],
             ['Fri', 'Journey complete', 'The trip summary: time on board and CO₂ saved compared with driving, added to your week.'],
         ];
         const sh = weekShell(root, { days: DAYS, kicker: 'CINNA · ΛΕΥΚΩΣΙΑ', titles: ['Makariou Ave', 'Makariou Ave', 'Plan a trip', 'Ride', 'Journey'],
