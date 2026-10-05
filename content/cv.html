@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Source of assets/cv.pdf. Rebuild with: python3 scripts/build-cv.py. Facts here must match index.html. -->
+<title>Nikolas Neofytou — CV</title>
+<style>
+    @font-face { font-family: 'Instrument Serif'; src: url('../assets/fonts/instrument-serif.woff2') format('woff2'); }
+    @font-face { font-family: 'Inter'; font-weight: 300 600; src: url('../assets/fonts/inter-var.woff2') format('woff2'); }
+    @font-face { font-family: 'Inter'; font-weight: 300 600; src: url('../assets/fonts/inter-var-greek.woff2') format('woff2');
+        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF; }
+    @font-face { font-family: 'DM Mono'; font-weight: 400; src: url('../assets/fonts/dm-mono-400.woff2') format('woff2'); }
+
+    @page { size: A4; margin: 0; }
+    :root { --text: #1A1A17; --dim: #494841; --faint: #66645A; --accent: #1F3BFF; --line: rgba(26, 26, 23, 0.14); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { position: relative; width: 210mm; height: 297mm; overflow: hidden; padding: 12mm 15mm 10mm;
+           font: 400 8.4pt/1.37 'Inter', sans-serif; color: var(--text); }
+    a { color: inherit; text-decoration: none; }
+
+    header { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 0 8mm; padding-bottom: 3mm; border-bottom: 1px solid var(--text); }
+    h1 { font: 400 26pt/1 'Instrument Serif', Georgia, serif; letter-spacing: -0.01em; }
+    .pitch { margin-top: 1.4mm; font: 400 11.5pt/1.2 'Instrument Serif', Georgia, serif; color: var(--dim); }
+    .pitch em { color: var(--accent); font-style: normal; }
+    .contact { font: 400 7.2pt/1.6 'DM Mono', monospace; color: var(--dim); text-align: right; }
+    .contact a { color: var(--accent); }
+
+    .summary { margin-top: 3mm; color: var(--dim); }
+
+    h2 { margin: 3.4mm 0 1mm; font: 400 7pt/1 'DM Mono', monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+         display: flex; align-items: center; gap: 2.5mm; }
+    h2::after { content: ''; flex: 1; border-top: 1px solid var(--line); }
+
+    .row { display: grid; grid-template-columns: 24mm 1fr; gap: 0 4mm; padding: 0.7mm 0; }
+    .when { font: 400 7.1pt/1.6 'DM Mono', monospace; color: var(--faint); }
+    h3 { font-size: 8.6pt; font-weight: 600; line-height: 1.4; }
+    h3 .org { font-weight: 400; color: var(--dim); }
+    h3 .tag { font: 400 6.9pt 'DM Mono', monospace; color: var(--accent); margin-left: 1.5mm; }
+    .row p { color: var(--dim); }
+    .stack { font: 400 6.9pt/1.5 'DM Mono', monospace; color: var(--faint) !important; }
+
+    .note { color: var(--faint); font-size: 7.6pt; margin-bottom: 0.4mm; }
+    .note a { color: var(--accent); }
+    .more { color: var(--dim); padding-top: 0.8mm; }
+    .more b { font-weight: 600; color: var(--text); }
+
+    .skills { display: grid; grid-template-columns: 24mm 1fr; gap: 0.5mm 4mm; padding-top: 0.6mm; }
+    .skills dt { font: 400 7.1pt/1.6 'DM Mono', monospace; color: var(--faint); }
+    .skills dd { color: var(--dim); }
+
+    footer { position: absolute; left: 15mm; right: 15mm; bottom: 7mm; font: 400 6.5pt 'DM Mono', monospace; color: var(--faint);
+             display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Nikolas Neofytou</h1>
+            <p class="pitch">I build at the seam between <em>hardware</em> and <em>software</em>.</p>
+        </div>
+        <div class="contact">
+            <a href="mailto:nikiforialicht@gmail.com">nikiforialicht@gmail.com</a> · +357 96 666 897<br>
+            <a href="https://nikolasneofytou.github.io/personal-website/">nikolasneofytou.github.io/personal-website</a><br>
+            <a href="https://www.linkedin.com/in/nikolasneofytou/">linkedin.com/in/nikolasneofytou</a> · <a href="https://github.com/NikolasNeofytou">github.com/NikolasNeofytou</a><br>
+            Cyprus · available for freelance
+        </div>
+    </header>
+
+    <p class="summary">Electrical &amp; Computer Engineering at NTUA (MEng, June 2027). I ship embedded systems and the full-stack apps around them, write the decisions down, and test what matters. Open to freelance work in embedded, full-stack, or the messy bit in between.</p>
+
+    <h2>Experience</h2>
+    <div class="row">
+        <div class="when">Sep 2026 – now</div>
+        <div>
+            <h3>Digital Governor, part-time <span class="org">· WisePrint, Nicosia</span></h3>
+            <p>Software, firmware and design across WisePrint and Wiseshop. The print shop's pricing engine, job board and press queue run at the counter: 45 versions, 2,521 tests, self-updating with nightly off-site backups.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="when">Jul – Aug 2026</div>
+        <div>
+            <h3>Electrical Engineering Intern <span class="org">· SignalGeneriX, Limassol · ΙΔΕΚ scholarship</span></h3>
+            <p>RF assembly and characterisation on a VNA and spectrum analyser, and SCPI instrument control. Built Augur, a bring-up toolkit for a GNSS-guided relay controller, with NMEA decoding and a geofence on the module itself.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="when">Jul – Aug 2025</div>
+        <div>
+            <h3>Electrical Engineering Intern <span class="org">· SignalGeneriX, Limassol</span></h3>
+            <p>Test plans for an AI edge board across seven interfaces (Ethernet, RS-485, CAN, USB, CSI, GPIO, PCIe); verification automated in Linux, Bash and Python.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="when">Jul – Oct 2024</div>
+        <div>
+            <h3>Software Engineering Intern <span class="org">· PHOEBE Research &amp; Innovation</span></h3>
+            <p>A web app that ranks fuel stations by official price and distance: API integration, responsive UI, developer documentation.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="when">2021 – 2022</div>
+        <div>
+            <h3>Leadership role <span class="org">· Cyprus National Guard</span></h3>
+            <p>Led a team of 10 through daily operations; honorary promotion for ethics and leadership.</p>
+        </div>
+    </div>
+
+    <h2>Selected work</h2>
+    <p class="note">All solo. Case studies and interactive demos at <a href="https://nikolasneofytou.github.io/personal-website/#work">nikolasneofytou.github.io/personal-website</a>; private repos are walked through on request.</p>
+    <div class="row">
+        <div class="when">Dec 2025 –<br>Sep 2026</div>
+        <div>
+            <h3>Cinna <span class="org">· real-time transit for Cyprus</span></h3>
+            <p>A Flutter app over Django REST and PostGIS that ingests the national GTFS-RT feed every 15 s, with Stripe tickets as Wallet passes. The backend is in production, with an iOS pilot on TestFlight, 1,400+ tests and 14 ADRs.</p>
+            <p class="stack">Flutter · Riverpod · Django REST · PostGIS · Celery · GTFS-RT</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="when">Apr – Oct 2026</div>
+        <div>
+            <h3>Ludi <span class="org">· five-a-side pitch marketplace</span><a class="tag" href="https://ludi.football">ludi.football</a></h3>
+            <p>A player app, an owner dashboard and a lobby TV on one Postgres. Double-booking is impossible by constraint, row-level security is covered by 249 pgTAP tests, and payments run on Stripe Connect. Launched in August 2026.</p>
+            <p class="stack">Expo · Next.js · Supabase · PostGIS · Stripe Connect</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="when">May – Sep 2026</div>
+        <div>
+            <h3>Aristophanes <span class="org">· a platform for amateur theatre</span></h3>
+            <p>Each production is its own space, with seven roles, a call board, calendar, wardrobe and box office; row-level security is the only server boundary. 62 ADRs, 829 tests, in use by a 12-person cast.</p>
+            <p class="stack">Flutter · Supabase · Postgres RLS · ports &amp; adapters · Stripe</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="when">Aug 2026</div>
+        <div>
+            <h3>Ρίζα <span class="org">· open Modern Greek dictionary</span><a class="tag" href="https://plutarch-five.vercel.app">plutarch-five.vercel.app</a></h3>
+            <p>95,774 entries with accent-insensitive search that resolves any inflected form to its entry. Live, built in four days, 98 tests.</p>
+            <p class="stack">Next.js · TypeScript · PostgreSQL · pg_trgm</p>
+        </div>
+    </div>
+    <p class="more"><b>Also:</b> Aedile Table B, communal-fee shares under Cyprus' Table B formula (live) · booking and intake for a solo psychologist (in use) · Fons, Virgil and Γράκχοι (TestFlight).</p>
+
+    <h2>Education</h2>
+    <div class="row">
+        <div class="when">2022 – Jun 2027</div>
+        <div>
+            <h3>MEng Electrical &amp; Computer Engineering <span class="org">· National Technical University of Athens</span></h3>
+            <p>Electronics, Systems &amp; Embedded Computers: DSP, control-systems design, microcomputer systems, operating systems, VLSI.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="when">2014 – 2020</div>
+        <div>
+            <h3>High School Diploma <span class="org">· Pascal English School · GPA 19.8/20 (2nd of 80) · A-Levels: Physics A, Mathematics A, Greek A*</span></h3>
+        </div>
+    </div>
+
+    <h2>Skills</h2>
+    <dl class="skills">
+        <dt>Embedded</dt><dd>STM32 · AVR · FPGA · ESP32 · Jetson Orin Nano · Altium · SCPI · NMEA/GNSS · VNA, oscilloscope, logic analyser</dd>
+        <dt>Control</dt><dd>PID · root locus · Bode/Nyquist · state-space · observers · LQR</dd>
+        <dt>Code</dt><dd>C · C++ · Python · TypeScript · Dart · Java · MATLAB/Simulink · Bash</dd>
+        <dt>Full-stack</dt><dd>Flutter · Expo · Next.js · React · Django REST · HTMX · PostgreSQL/PostGIS · Supabase · Redis · Stripe · Docker</dd>
+        <dt>Languages</dt><dd>Greek (native) · English (IELTS 8.0/9)</dd>
+    </dl>
+
+    <footer><span>Nikolas Neofytou · CV</span><span>October 2026</span></footer>
+</body>
+</html>

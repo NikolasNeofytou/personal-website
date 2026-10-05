@@ -1,0 +1,6 @@
+# GitHub Pages (Jekyll) settings. Sources that build the site stay out of the published output.
+exclude:
+  - README.md
+  - content/
+  - scripts/
+  - assets/og-card.html

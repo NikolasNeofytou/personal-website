@@ -1309,6 +1309,8 @@ g.is-dim { opacity: 0.35; }
 }
 .xp-org { color: var(--accent-dim); font-weight: 400; }
 .xp-body p { font-size: 0.92rem; line-height: 1.65; color: var(--text-dim); max-width: 56ch; }
+.xp-body a { color: var(--accent); border-bottom: 1px solid var(--accent-line); transition: border-color 0.2s; }
+.xp-body a:hover { border-color: var(--accent); }
 
 /* ==========================================================================
    Beyond — writing + photography

@@ -1,191 +1,62 @@
-# Nikolas Neofytou - Personal Portfolio Website ⚡
+# nikolasneofytou.github.io/personal-website
 
-A futuristic, dark-themed portfolio website for an ECE student at NTUA specializing in electronics and control systems. Features a cyberpunk-inspired electrical engineering aesthetic with circuit patterns, neon glows, and tech-focused design elements.
+The personal site of Nikolas Neofytou: embedded systems and the full-stack apps around them.
 
-🌐 **Live Site**: [https://nikolasneofytou.github.io/proper_personal_website-](https://nikolasneofytou.github.io/proper_personal_website-)
+**Live:** https://nikolasneofytou.github.io/personal-website/
 
-## 🎨 Design Philosophy
+It is hand-written HTML, CSS and JavaScript with no framework and no build step at serve time. It is served by GitHub Pages straight from `main`. The site itself is part of the portfolio, so it is held to a budget: Lighthouse 94+ on mobile, 100 for accessibility, best practices and SEO, and zero layout shift.
 
-The website embodies the spirit of electrical engineering through:
-- **Dark-only theme** - Optimized for the engineering workflow
-- **Circuit board patterns** - Repeating grid backgrounds mimicking PCB traces
-- **Neon cyan/blue accents** - Tech-inspired glowing borders and effects
-- **Futuristic typography** - Orbitron (headings), Rajdhani (body), Share Tech Mono (code)
-- **Animated elements** - Scanning lines, pulsing glows, and smooth transitions
+## What's on it
 
-## ✨ Key Features
+- **Selected work.** Six case studies (`work/*.html`), each with an interactive explainer or a scroll-driven "week with" story (`js/explainers.js`).
+- **Fig. 00 / Fig. 01.** A looping hero clip and a scroll-scrubbed canvas (bench → board → silicon).
+- **Signal trace.** An SVG PCB trace in the gutter, routed from live element positions.
+- **Bookshelf.** 26 books on five shelves. Each book is one painted panorama with a camera tour of its chapters and animated close-ups.
+- **Writing and photography.** Writing comes from a Substack snapshot; photography has EXIF capture data in a lightbox.
 
-### Sections
-1. **Hero** - Dynamic gradient background with animated intro
-2. **About** - Personal philosophy covering ECE passion, classical studies, athletics, and photography
-3. **Timeline** - Academic journey with internship experiences at SignalGeneriX and PHOEBE
-4. **Projects** - GitHub repositories with language-specific gradient backgrounds
-5. **Writing** - Latest Substack posts with featured images via RSS feed
-6. **Skills** - Electronics, Control Systems, Software Tools, and Adobe Creative Cloud
-7. **Lab & Equipment** - Personal hardware setup (dev boards, test equipment, components)
-8. **Contact** - Email, location, and phone displayed in glowing tech cards
+Motion is skipped under `prefers-reduced-motion` and Save-Data, and every interactive section has static markup without JavaScript.
 
-### Hidden Sections (Commented Out)
-- **Photography Gallery** - Lightbox-enabled photo showcase
-- **Heroes & Mentors** - Ancient Greek heroes and modern inspirations with golden aesthetic
-
-### Interactive Features
-- Dynamic GitHub repository loading with gradient cards
-- Substack RSS feed integration with featured images
-- Smooth scroll navigation
-- Mobile-responsive hamburger menu
-- Animated section titles with neon underlines
-- Hover effects with elevation and glow
-
-## 🛠️ Technologies
-
-- **HTML5** - Semantic structure
-- **CSS3** - Custom properties, backdrop filters, gradients, keyframe animations
-- **JavaScript (ES6+)** - GitHub API, RSS parsing, DOM manipulation
-- **Font Awesome 6.4.0** - Icons
-- **Google Fonts** - Orbitron, Rajdhani, Share Tech Mono
-
-## 📂 Project Structure
+## Layout
 
 ```
-proper_personal_website-/
-├── index.html              # Main structure with all sections
-├── css/
-│   └── styles.css         # Dark theme styles with tech effects (2087 lines)
-├── js/
-│   └── script.js          # GitHub API, RSS feed, navigation (791 lines)
-├── assets/
-│   ├── PROFILE.JPEG       # Profile picture
-│   ├── cv.pdf             # Greek CV download
+index.html            front page
+work/*.html           case studies (generated, do not edit by hand)
+css/styles.css        all styles
+js/script.js          site behaviour: nav, trace, scrub, shelf, lightbox
+js/explainers.js      case-study demos
+content/              sources for the generated parts (not published)
+scripts/              generators and media encoders (not published)
+assets/               fonts, images, video, OG cards, CV
 ```
 
-## 🚀 Quick Start
+## Editing
 
-### Local Development
+The generated regions are rebuilt from `content/` with Python 3 (standard library only):
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/NikolasNeofytou/proper_personal_website-.git
-   cd proper_personal_website-
-   ```
-
-2. **Run development server:**
-   ```powershell
-   # Using the included PowerShell script (Windows)
-   .\scripts\dev-server.ps1
-   
-   # Or manually with Python
-   python -m http.server 8000
-   ```
-
-3. **View the site:**
-   - Open `http://localhost:8000` in your browser
-
-### Deployment
-
-The site is deployed via **GitHub Pages**:
-- Live URL: https://nikolasneofytou.github.io/proper_personal_website-
-- Auto-deploys on push to `main` branch
-- Takes 1-3 minutes to update
-
-## 🎯 Personal Info Displayed
-
-- **Name**: Nikolas Neofytou
-- **Role**: ECE Student at NTUA (Electronics & Control Systems)
-- **Location**: Athens, Greece
-- **Email**: nikiforialicht@gmail.com
-- **Phone**: +357 96 666 897
-- **GitHub**: [NikolasNeofytou](https://github.com/NikolasNeofytou)
-- **Substack**: [@nikolasneofytou](https://substack.com/@nikolasneofytou)
-- **LinkedIn**: [nikolas-neofytou](https://linkedin.com/in/nikolas-neofytou)
-
-## 📝 Content Highlights
-
-### About Me
-Focuses on:
-- Passion for electronics and control systems ("will to power")
-- Interest in Roman politics and Greek philosophy (Plato, Aristotle, Schopenhauer, Nietzsche)
-- Athletic pursuits (football → tennis)
-- Photography with macro lens for electronics
-
-### Timeline
-- **NTUA** - MEng Electrical & Computer Engineering (Oct 2022 - Present)
-- **SignalGeneriX** - Electrical Engineering Internship (Jul 2025 - Sep 2025)
-- **PHOEBE** - Software Engineering Internship (Jun 2024 - Nov 2024)
-- **Cyprus National Guard** - Mandatory Service (Jun 2021 - Dec 2021)
-- **Pascal English School** - High School (Sep 2018 - Jun 2021)
-
-### Technical Skills
-- **Embedded & Hardware**: STM32, AVR, Arduino, Jetson Orin Nano, I²C, SPI, UART, PCB Design (Altium)
-- **Control & Robotics**: PID Control, State-Space, LQR, Kinematics, Dynamics, Cobot Programming
-- **Software & Tools**: C, C++, Python, MATLAB/Simulink, Git, Linux, Docker, Django, Flask
-- **Adobe Creative Cloud**: Photoshop, Premiere Pro, After Effects, Illustrator, Adobe XD, InDesign, Lightroom
-
-### Lab Equipment
-- Development boards (STM32 Nucleo, Arduino, ESP32, Raspberry Pi 4, NVIDIA Jetson Orin Nano)
-- Test equipment (oscilloscope, function generator, logic analyzer, multimeter, power supplies)
-- Sensors (IMUs, temperature, ultrasonic, cameras)
-- Electronic components and soldering equipment
-
-## 🔧 Customization Guide
-
-To adapt this website for your own use:
-
-1. Update personal information in `index.html` (name, bio, timeline, skills, lab equipment)
-2. Replace `assets/PROFILE.JPEG` with your profile picture
-3. Update `assets/cv.pdf` with your CV
-4. Modify GitHub username in `js/script.js` (line ~382)
-5. Update Substack RSS feed URL in `js/script.js` (line ~631)
-6. Change color scheme in `css/styles.css` (`:root` CSS variables)
-7. Update social media links in footer section
-8. Uncomment Photography or Heroes sections if desired
-
-## 🎨 Color Customization
-
-Primary tech colors defined in `:root`:
-```css
---primary-color: #4f46e5;      /* Indigo */
---secondary-color: #1e3a8a;    /* Deep Blue */
---accent-color: #f43f5e;       /* Rose */
+```bash
+python3 scripts/build-case-studies.py
+python3 scripts/build-shelf.py
+python3 scripts/fetch-substack.py
+python3 scripts/build-cv.py
 ```
 
-Change these to match your personal brand!
+- `build-case-studies.py` writes `work/*.html` and the project cards in `index.html` from `content/work/`.
+- `build-shelf.py` writes the Bookshelf from `content/books.json`.
+- `build-cv.py` prints `content/cv.html` to `assets/cv.pdf` with headless Chrome and fails if it spills onto a second page.
+- `fetch-substack.py` snapshots the latest posts into `assets/substack.json`. Run it after publishing a post, because Substack blocks CI runners.
 
-## 🌐 Features to Enable
+The `scripts/encode-*.sh` helpers (ffmpeg) turn raw video exports into the hero loop, scrub frames and plate loops.
 
-**Photography Section** - Uncomment in `index.html` around line 400 to display your photo gallery with lightbox
+When CSS or JS changes, bump the `?v=` asset version in `index.html`, then re-run `build-case-studies.py` so the case studies pick it up.
 
-**Heroes & Mentors Section** - Uncomment around line 838 to showcase your inspirations with golden Greek aesthetic
+## Running locally
 
-## 📊 Performance
+```bash
+python3 -m http.server 8765
+```
 
-- **Lighthouse Score**: 90+ (Performance, Accessibility, Best Practices, SEO)
-- **Load Time**: < 2s on 3G
-- **Mobile Optimized**: Fully responsive with touch interactions
-- **Dark Theme**: Reduced eye strain, better for technical work
+Then open http://localhost:8765.
 
-## 🔧 Browser Support
+## Rights
 
-- Chrome/Edge (latest) ✅
-- Firefox (latest) ✅
-- Safari (latest) ✅
-- Mobile browsers ✅
-
-## 📝 License
-
-Open source - feel free to fork and customize for your own portfolio!
-
-## 🙏 Credits
-
-**Built by**: Nikolas Neofytou  
-**Design**: Custom futuristic electrical engineering theme  
-**Icons**: Font Awesome 6.4.0  
-**Fonts**: Google Fonts (Orbitron, Rajdhani, Share Tech Mono)
-
----
-
-Made with ⚡ by an ECE student passionate about electronics and control systems
-
----
-
-Made with ⚡ by an ECE student passionate about electronics and control systems
+The code is here to read. The writing and photographs are © Nikolas Neofytou, and the generated paintings and video were made for this site; please ask before reusing any of them. Book covers belong to their publishers. Icons are from Font Awesome Free (CC BY 4.0). Instrument Serif, Inter and DM Mono are under the SIL Open Font License.

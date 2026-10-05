@@ -60,7 +60,7 @@ def chapter(b, n, c):
 def panel(b):
     s, p = b['slug'], f'assets/books/plates/{b["slug"]}-pano'
     chapters = '\n'.join(chapter(b, n, c) for n, c in enumerate(b['chapters']))
-    return f'''{I}    <article class="book-panel book-panel--tour" id="book-{s}" role="tabpanel" aria-labelledby="spine-{s}">
+    return f'''{I}    <div class="book-panel book-panel--tour" id="book-{s}" role="tabpanel" aria-labelledby="spine-{s}">
 {I}        <div class="book-plate" data-tour>
 {I}            <div class="plate-view">
 {I}                <img class="plate-still" src="{p}-1344.webp"
@@ -86,7 +86,7 @@ def panel(b):
 {I}            </div>
 {I}            <p class="chapter-note" aria-live="polite"></p>
 {I}        </div>
-{I}    </article>'''
+{I}    </div>'''
 
 
 def main():
