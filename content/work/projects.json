@@ -160,14 +160,14 @@
     "title": "Wiseprint",
     "public": false,
     "tagline": "A cost-plus pricing engine that became a print shop’s working tool.",
-    "description": "Case study: Wiseprint, pricing and job management for a one-store print shop in Cyprus. A pure cost-plus engine, immutable quotes and a self-updating install on the shop’s Mac. 45 versions, 2,518 tests.",
+    "description": "Case study: Wiseprint, pricing and job management for a one-store print shop in Cyprus. A pure cost-plus engine, immutable quotes and a self-updating install on the shop’s Mac. 45 versions, 2,521 tests.",
     "lede": "A print shop priced every job in the owner’s head. Wiseprint prices it the way he already does (paper, printing, finishing, margin), keeps every quote as a frozen record, and grew into the shop’s job board, intake and press queue. It’s in Greek, at the counter and on his phone.",
     "alt": "A stack of business cards with one cobalt-painted edge, a paper swatch fan, a calculator and a brass ruler on a dark desk.",
     "meta": {
       "Role": "Solo, for a print shop",
       "Timeline": "Sep – Oct 2026",
       "Stack": "Python · Django · HTMX · SQLite",
-      "Status": "In daily use at the shop"
+      "Status": "Installed and running at the shop"
     },
     "card": {
       "flag_html": "<span class=\"case-flag\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private</span>",
@@ -175,11 +175,11 @@
       "problem": "A print shop priced every job in the owner’s head and kept enquiries on paper, so no job could ever be rebuilt from a record.",
       "approach": "A cost-plus pricing engine that prices the way the owner already does, grown into the shop’s job board, intake and press queue. It’s in Greek, on the counter PC and his phone.",
       "bullets": [
-        "A pure engine with no framework imports, its answers worked out by hand in 26 cases before the code existed.",
+        "A pure engine with no framework imports, checked against 26 hand-worked cases, the first six written before the code.",
         "Saved quotes are frozen with a fingerprint of the rates they used, so a price change never rewrites history.",
         "It updates itself from a release branch on the shop’s own Mac, with nightly off-site backups."
       ],
-      "outcome": "In daily use at the shop, across 45 owner-approved versions and 2,518 tests. Private repo, walkthrough on request.",
+      "outcome": "Installed and running at the shop, across 45 versions and 2,521 tests. Private repo, walkthrough on request.",
       "tags": [
         "Python",
         "Django",
