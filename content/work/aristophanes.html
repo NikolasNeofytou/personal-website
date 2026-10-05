@@ -11,16 +11,16 @@
                     <ol class="cs-path">
                         <li><span class="cs-path-when">May 2026</span><h3>A scene partner for one actor</h3><p>The first version was built for one person rehearsing <em>Lysistrata</em> alone, in Greek and English. Text-to-speech reads the other characters and waits for her line. Even polytonic Greek had to render correctly on day two.</p></li>
                         <li><span class="cs-path-when">May – Jun</span><h3>Practice, polished</h3><p>Voices that suit each character, recording and takes, a rehearsal log, and a personal wardrobe. These were planned one version at a time, each starting from a written spec and a spike on its riskiest assumption.</p></li>
-                        <li><span class="cs-path-when">9 Jun</span><h3>A director asks for the whole company</h3><p>The first external client wanted costume photos, a calendar for rehearsals and shows, group communication, and more roles: assistant director, costume, sound, music. Every ask mapped onto the platform the roadmap had already sketched, so it was validation rather than scope creep.</p></li>
-                        <li><span class="cs-path-when">15 – 22 Jun</span><h3>Eight versions in eight days</h3><p>Sign-in on iOS and Android, seven production roles enforced on the server, a shared calendar, a call board with polls and attendance, a shared wardrobe over cloud storage, and push notifications. The test suite grew from 513 to 728 tests along the way.</p></li>
-                        <li><span class="cs-path-when">Late Jun</span><h3>The cast moves in, then tickets</h3><p>A 12-person cast installed it, and their first session drove a comfort patch. Then came a box office: issued tickets, a door scanner that admits each ticket once, sales on the web through Stripe, and Apple Wallet passes.</p></li>
-                        <li><span class="cs-path-when">Sep 2026</span><h3>Lampblack: a design system</h3><p>Four colour-and-type systems were drawn against the real screens, and one won. That meant near-white paper, lampblack ink, a cobalt signal, one opaque material instead of frosted glass, and screens recast as a theatre's own artefacts: the call sheet, the programme and the playbill. Every member now gets a generated wax seal as a face.</p></li>
-                        <li class="is-next"><span class="cs-path-when">Next</span><h3>Many companies, then discovery</h3><p>A company switcher for actors in several productions at once, then an audience-facing "what's on" before any casting marketplace.</p></li>
+                        <li><span class="cs-path-when">9 Jun</span><h3>A director asks for the whole company</h3><p>The director of an amateur company wanted costume photos, a calendar for rehearsals and shows, group communication, and more roles: assistant director, costume, sound, music. Every ask mapped onto the platform the roadmap had already sketched, so it was validation rather than scope creep.</p></li>
+                        <li><span class="cs-path-when">15 – 22 Jun</span><h3>Nine versions in eight days</h3><p>Sign-in on iOS and Android, seven production roles enforced on the server, a shared calendar, a call board with polls and attendance, a shared wardrobe over cloud storage, and push notifications. The test suite grew from 513 to 728 tests along the way.</p></li>
+                        <li><span class="cs-path-when">Late Jun</span><h3>The cast moves in, then tickets</h3><p>The cast installed it, and their first session drove a comfort patch. Then came a box office: issued tickets, a door scanner that admits each ticket once, a web checkout through Stripe (in test mode), and Apple Wallet passes.</p></li>
+                        <li><span class="cs-path-when">Sep 2026</span><h3>Lampblack: a design system</h3><p>Four colour-and-type systems were drawn against the real screens, and one won. That meant near-white paper, lampblack ink, a cobalt signal, one opaque material instead of frosted glass, and screens recast as a theatre's own artefacts: the call sheet and the programme.</p></li>
+                        <li class="is-next"><span class="cs-path-when">Next</span><h3>Line checking on device, then the redesign</h3><p>Ship the safer cutoff for checking a spoken line and test it on real Greek recordings, then merge the Lampblack redesign. Later: a company switcher for actors in several productions at once, and an audience-facing "what's on".</p></li>
                     </ol>
                     <div class="cs-stats" role="list">
                         <div class="cs-stat" role="listitem"><span class="cs-stat-num">7</span><span class="cs-stat-label">Production roles</span></div>
-                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">6</span><span class="cs-stat-label">Backend domains under RLS</span></div>
-                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">62</span><span class="cs-stat-label">Written ADRs</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">18</span><span class="cs-stat-label">Tables under RLS</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">61</span><span class="cs-stat-label">Written ADRs</span></div>
                         <div class="cs-stat" role="listitem"><span class="cs-stat-num">829</span><span class="cs-stat-label">Automated tests</span></div>
                     </div>
                 </section>
@@ -28,11 +28,11 @@
                 <section class="section" aria-labelledby="ar-arch">
                     <h2 class="section-head" id="ar-arch"><span class="section-num">03</span> Architecture</h2>
                     <div class="cs-prose">
-                        <p>Ports and adapters on the device, row-level security on the server. The rehearsal engine and the rules for roles, the calendar and tickets live in a pure Dart core that imports nothing but its own interfaces. Speech, audio, storage, sign-in and push are adapters behind 28 ports. Supabase holds the shared production data, and every table is guarded by Postgres policies that mirror the app's permission map.</p>
+                        <p>Ports and adapters on the device, row-level security on the server. The rehearsal engine and the rules for roles, the calendar and tickets live in a pure Dart core that imports nothing but its own interfaces. Speech, audio, storage, sign-in and push are adapters behind 28 ports. Supabase holds the shared production data, and every table has row-level security; the role-gated ones mirror the app's permission map.</p>
                     </div>
                     <figure class="cs-diagram">
                         <svg viewBox="0 0 680 340" role="img" aria-labelledby="ar-dg-title">
-                            <title id="ar-dg-title">Hexagonal architecture: a pure domain core surrounded by a ring of 28 ports; the Flutter UI connects through a composition root on the left; adapters for on-device storage, text-to-speech and audio, speech recognition, Supabase and push notifications plug in on the right; server-side Supabase Edge Functions and a Next.js ticket site handle payments.</title>
+                            <title id="ar-dg-title">Hexagonal architecture: a pure domain core surrounded by a ring of 28 ports; the Flutter UI connects through a composition root on the left; adapters for on-device storage, text-to-speech and audio, speech recognition, Supabase and push notifications plug in on the right; server-side Supabase Edge Functions and a Next.js ticket site handle ticket checkout, in Stripe test mode, and wallet passes.</title>
                             <defs>
                                 <marker id="ar-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="rgba(26,26,23,0.55)"/></marker>
                             </defs>
@@ -87,7 +87,7 @@
                 <section class="section" aria-labelledby="ar-week">
                     <h2 class="section-head" id="ar-week"><span class="section-num">04</span> A week in the production</h2>
                     <div class="cs-prose">
-                        <p>What "one space for the whole company" means in practice. Scroll through one week of a production of <em>Lysistrata</em>: the phone is the app, and the seals are the company, a director, a costume designer and twelve actors, each named after their part. It's illustrative, not real data, but every beat is a feature that ships.</p>
+                        <p>What "one space for the whole company" means in practice. Scroll through one week of a production of <em>Lysistrata</em>: the phone is the app, and the seals are the company, a director, a costume designer and the cast, each named after their part. It's illustrative, not real data, but every beat is a feature that is built.</p>
                     </div>
                     <div class="week" data-demo="week">
                         <div class="demo-body">
@@ -96,7 +96,7 @@
                                 <li><div><b>Wed</b><span>Rehearsal</span></div><p>Lysistrata rehearses alone. The app reads the Magistrate; she says her own lines.</p></li>
                                 <li><div><b>Thu</b><span>A quick poll</span></div><p>Costume fitting, Saturday or Sunday? The cast votes on the call board.</p></li>
                                 <li><div><b>Fri</b><span>Costumes</span></div><p>The costume designer uploads photos. Each actor finds theirs in their wardrobe.</p></li>
-                                <li><div><b>Sat</b><span>Opening night</span></div><p>Tickets sold on the web, scanned at the door. Each one admits exactly once.</p></li>
+                                <li><div><b>Sat</b><span>Opening night</span></div><p>Tickets issued on the web, scanned at the door. Each one admits exactly once.</p></li>
                             </ol>
                         </div>
                     </div>
@@ -110,8 +110,8 @@
                             <h3>The org chart is the permission model</h3>
                             <dl>
                                 <dt>Context</dt><dd>The director asked for more roles. Real companies have a fixed org chart, and the same person is the organiser in one production and cast in another.</dd>
-                                <dt>Decision</dt><dd>Roles are a <em>set</em> per membership, not per account. A tiny, pure <code>can()</code> map decides what the app shows, and Postgres row-level security mirrors the same matrix as the only server-side boundary. The server never trusts the client.</dd>
-                                <dt>Trade-off</dt><dd>The matrix lives in two places, Dart and SQL. Live two-user isolation tests keep them honest.</dd>
+                                <dt>Decision</dt><dd>Roles are a <em>set</em> per membership, not per account. A tiny, pure <code>can()</code> map decides what the app shows, and Postgres row-level security mirrors the same matrix on the server. The server never trusts the client.</dd>
+                                <dt>Trade-off</dt><dd>The matrix lives in two places, Dart and SQL. Live multi-account isolation tests keep them honest.</dd>
                             </dl>
                         </article>
                         <article class="cs-adr">
@@ -128,7 +128,7 @@
                             <h3>The server decides who gets in</h3>
                             <dl>
                                 <dt>Context</dt><dd>A ticket QR code can be copied, and two door phones can scan the same ticket at the same moment.</dd>
-                                <dt>Decision</dt><dd>The QR holds a 32-byte opaque token and nothing else. Admission is a server function that checks the scanner's role, locks the row, and admits each ticket exactly once. The phone only renders the verdict.</dd>
+                                <dt>Decision</dt><dd>The QR holds a long random opaque token and nothing else. Admission is a server function that checks the scanner's role, locks the row, and admits each ticket exactly once. The phone only renders the verdict.</dd>
                                 <dt>Trade-off</dt><dd>The door needs a connection. Correctness at the door is non-negotiable.</dd>
                             </dl>
                         </article>
@@ -138,7 +138,7 @@
                             <dl>
                                 <dt>Context</dt><dd>Frosted-glass chrome looked fine in screenshots and failed in actors' hands: hard to read, and hard to tell what was tappable.</dd>
                                 <dt>Decision</dt><dd>Lock a design system before restyling a single screen. Four complete colour-and-type systems were drawn against the real app, and Lampblack won. That meant one opaque material for everything actionable, a grotesque for chrome, a serif for the script, and a rehearsal screen with no chrome at all.</dd>
-                                <dt>Trade-off</dt><dd>A whole visual register retired, along with the ADRs behind it, in exchange for a system every future screen inherits.</dd>
+                                <dt>Trade-off</dt><dd>A whole visual register, and the ADRs behind it, retires when the redesign merges, in exchange for a system every future screen inherits. It is in TestFlight testing.</dd>
                             </dl>
                         </article>
                     </div>
@@ -148,7 +148,7 @@
                     <h2 class="section-head" id="ar-hard"><span class="section-num">06</span> Hard problems</h2>
                     <div class="cs-story">
                         <h3>Security, tested live</h3>
-                        <p>Row-level security that's only reasoned about isn't security. Every shared domain (casting, calendar, call board, wardrobe storage) got a live two-user isolation gate: one real account tries to read or write another production's data and must be refused. Each gate also has an always-run mirror against a fake backend.</p>
+                        <p>Row-level security that's only reasoned about isn't security. The first four shared domains (casting, calendar, call board, wardrobe storage) each got a live isolation gate: real accounts try to read or write another production's data and must be refused. Each gate also has an always-run mirror against a fake backend. The ticket tables so far have fake-backed flow tests only.</p>
                     </div>
                     <div class="cs-story">
                         <h3>An invariant that blocked its own teardown</h3>
@@ -156,17 +156,17 @@
                     </div>
                     <div class="cs-story">
                         <h3>Greek that was never there</h3>
-                        <p>The design mocks showed polytonic Greek "in" the new serif, and the design log recorded full coverage. It was the browser silently falling back to another font: checking the font's character map showed it covered almost none of the Greek blocks. Now every candidate face is checked at the glyph level before it's adopted, and the app falls back to a bundled, device-verified Greek serif.</p>
+                        <p>The design mocks showed polytonic Greek "in" the new serif, and the design log recorded full coverage. It was the browser silently falling back to another font: checking the font's character map showed it covered almost none of the Greek blocks. Now every candidate face is checked at the glyph level before it's adopted, and the redesign falls back to EB Garamond, the bundled Greek serif the app has rendered since day one.</p>
                     </div>
                 </section>
 
                 <section class="section" aria-labelledby="ar-outcome">
                     <h2 class="section-head" id="ar-outcome"><span class="section-num">07</span> Outcome &amp; what I'd do differently</h2>
                     <div class="cs-prose">
-                        <p>Aristophanes is in use by a 12-person cast, distributed through TestFlight on iOS and Firebase on Android. The Lampblack redesign is in testing, and ticketing runs in Stripe test mode. The repo is private, and I'm happy to do a walkthrough.</p>
+                        <p>A theatre company's cast took Aristophanes up in June 2026, through Firebase App Distribution on Android; iOS builds go out on TestFlight. The Lampblack redesign is in TestFlight testing, and ticketing runs in Stripe test mode. The repo is private, and I'm happy to do a walkthrough.</p>
                         <ul>
                             <li><strong>Substrate before features.</strong> Sign-in and roles landed first, so the calendar, board, wardrobe and push that followed each took days, not weeks. I'd sequence it the same way again.</li>
-                            <li><strong>Lock the system, then the screens.</strong> The glass rework shipped screen by screen and had to be undone. Lampblack was locked as a whole system first, and nothing has needed undoing since.</li>
+                            <li><strong>Lock the system, then the screens.</strong> The glass rework shipped screen by screen and had to be undone. Lampblack was locked as a whole system first, so later rounds have been screen tweaks, not reversals.</li>
                             <li><strong>Watch the user, don't help them.</strong> The first user test turned collaborative, and half the questions on the watch list went unanswered.</li>
                         </ul>
                     </div>
