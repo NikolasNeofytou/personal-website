@@ -14,6 +14,9 @@ Per book in books.json (shelf order = list order; plates are numbered I, II, ...
 "focus" is the point (percent of the painting) the camera centres on and
 how far it zooms in. Panorama files: assets/books/plates/<slug>-pano-
 {1344,2560,3840}.webp and <slug>-pano-loop.{webm,mp4} (scripts/encode-plate.sh).
+A chapter whose close-up loop exists (<slug>-ch<n>-loop.{webm,mp4}, n = its
+position in the book's chapter list) gets a data-loop and plays it once the
+camera arrives.
 """
 import html
 import json
@@ -44,16 +47,19 @@ def spine(b, first):
             f'<span class="spine-num" aria-hidden="true">{b["num"]}</span><span class="spine-title">{e(s["title"])}</span></button>')
 
 
-def chapter(c):
+def chapter(b, n, c):
     tag = f'<span class="chapter-no">{e(c["tag"])}</span>' if c.get('tag') else ''
     label = f' data-label="{e(c["label"])}"' if c.get('label') else ''
+    loop = f'assets/books/plates/{b["slug"]}-ch{n}-loop'
+    if (ROOT / f'{loop}.webm').exists() and (ROOT / f'{loop}.mp4').exists():
+        label += f' data-loop="{loop}"'
     return (f'{I}                <button class="chapter" type="button" aria-pressed="false" data-focus="{c["focus"]}"{label}'
             f' data-note="{e(c["note"])}">{tag}{e(c["name"])}</button>')
 
 
 def panel(b):
     s, p = b['slug'], f'assets/books/plates/{b["slug"]}-pano'
-    chapters = '\n'.join(chapter(c) for c in b['chapters'])
+    chapters = '\n'.join(chapter(b, n, c) for n, c in enumerate(b['chapters']))
     return f'''{I}    <article class="book-panel book-panel--tour" id="book-{s}" role="tabpanel" aria-labelledby="spine-{s}">
 {I}        <div class="book-plate" data-tour>
 {I}            <div class="plate-view">
@@ -66,6 +72,7 @@ def panel(b):
 {I}                    <source src="{p}-loop.mp4" type="video/mp4">
 {I}                </video>
 {I}            </div>
+{I}            <video class="chapter-loop" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
 {I}        </div>
 {I}        <div class="book-cover"><img src="assets/books/{b["cover"]["file"]}" width="{b["cover"]["w"]}" height="{b["cover"]["h"]}" loading="lazy" decoding="async" alt="{e(b["cover"].get("alt") or f'Cover of {b["title"]}, Penguin Classics')}"></div>
 {I}        <div class="book-body">

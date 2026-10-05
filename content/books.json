@@ -508,5 +508,635 @@
       }
     ],
     "shelf": "Epic, drama & history"
+  },
+  {
+    "slug": "circuits",
+    "shelf": "Circuits & devices",
+    "spine": {
+      "title": "Electric Circuits",
+      "w": 52,
+      "h": 160
+    },
+    "title": "Electric Circuits",
+    "by": "James W. Nilsson & Susan A. Riedel · 10th ed.",
+    "idea": "The standard first course in circuits: Kirchhoff's laws and a handful of analysis methods, carried from resistors through capacitors and inductors to AC.",
+    "cover": {
+      "file": "nilsson-circuits.jpg",
+      "w": 394,
+      "h": 500,
+      "alt": "Cover of Electric Circuits, 10th edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a candlelit study with a wiring board and galvanometer, a row of Leyden jars with a spark, a copper coil on an iron ring beside a compass, and a hand-cranked dynamo.",
+    "chapters": [
+      {
+        "name": "Techniques of circuit analysis",
+        "focus": "16 70 2.4",
+        "note": "Kirchhoff's laws: the currents into a node sum to zero, and so do the voltages around a loop. Every analysis method starts there."
+      },
+      {
+        "name": "Capacitance",
+        "focus": "34 46 2.4",
+        "note": "A capacitor stores energy in an electric field. The Leyden jar, from 1745, was the first."
+      },
+      {
+        "name": "Inductance",
+        "focus": "57 54 2.3",
+        "note": "An inductor stores energy in a magnetic field. Faraday's iron ring of 1831 showed that a changing current induces another."
+      },
+      {
+        "name": "Sinusoidal steady state",
+        "focus": "84 48 2.0",
+        "note": "Drive a circuit with a sinusoid, as a dynamo does, and phasors turn its differential equations into algebra."
+      }
+    ]
+  },
+  {
+    "slug": "microelectronics",
+    "shelf": "Circuits & devices",
+    "spine": {
+      "title": "Microelectronic Circuits",
+      "w": 62,
+      "h": 196
+    },
+    "title": "Microelectronic Circuits",
+    "by": "Adel S. Sedra & Kenneth C. Smith · 7th ed.",
+    "idea": "How semiconductor devices become amplifiers: diodes, MOSFETs and BJTs, their small-signal models, and the circuits built from them.",
+    "cover": {
+      "file": "sedra-microelectronics.jpg",
+      "w": 400,
+      "h": 500,
+      "alt": "Cover of Microelectronic Circuits, 7th edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: an instrument maker's bench with a galena crystal and cat's-whisker wire, a glowing glass valve, a brass speaking trumpet beside a tuning fork, and graduated glass bowls of water.",
+    "chapters": [
+      {
+        "name": "Signals and amplifiers",
+        "focus": "60 58 2.1",
+        "note": "An amplifier makes a weak signal stronger without changing its shape: the tuning fork's note, made louder."
+      },
+      {
+        "name": "Diodes",
+        "focus": "11 66 2.6",
+        "note": "A diode lets current through one way only. The first were crystal detectors: a fine wire touching a crystal of galena."
+      },
+      {
+        "name": "Transistors",
+        "focus": "35 52 1.7",
+        "note": "A small signal at the input controls a large current at the output. The triode valve did it before the transistor."
+      },
+      {
+        "name": "Frequency response",
+        "focus": "88 65 2.6",
+        "note": "Every amplifier favours some frequencies over others, as each glass rings at its own pitch."
+      }
+    ]
+  },
+  {
+    "slug": "digital-design",
+    "shelf": "Circuits & devices",
+    "spine": {
+      "title": "Digital Design",
+      "w": 50,
+      "h": 152
+    },
+    "title": "Digital Design",
+    "by": "M. Morris Mano & Michael D. Ciletti · 6th ed.",
+    "idea": "From binary numbers and Boolean algebra to gates, flip-flops, registers and memory, with a hardware description language alongside.",
+    "cover": {
+      "file": "mano-digital-design.jpg",
+      "w": 377,
+      "h": 500,
+      "alt": "Cover of Digital Design, 6th edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a mechanician's room with a row of brass knife switches, a calculating machine with stepped drums, an open clock movement with its escapement, and a chain of punched loom cards.",
+    "chapters": [
+      {
+        "name": "Binary numbers",
+        "focus": "13 28 2.6",
+        "note": "Two states, on and off, are enough to write any number in binary."
+      },
+      {
+        "name": "Combinational logic",
+        "focus": "30 64 2.4",
+        "note": "Circuits whose outputs depend only on their present inputs, like adders. Leibniz's stepped drum did addition in brass."
+      },
+      {
+        "name": "Synchronous sequential logic",
+        "focus": "59 40 1.8",
+        "note": "Add memory and a clock, and a circuit steps from state to state one tick at a time, like an escapement."
+      },
+      {
+        "name": "Registers and memory",
+        "focus": "78 60 2.0",
+        "note": "Rows of stored bits. Jacquard's loom of the early 1800s kept its patterns on punched cards."
+      }
+    ]
+  },
+  {
+    "slug": "digital-ics",
+    "shelf": "Circuits & devices",
+    "spine": {
+      "title": "Digital ICs",
+      "w": 56,
+      "h": 150
+    },
+    "title": "Digital Integrated Circuits",
+    "by": "Jan M. Rabaey, Anantha Chandrakasan & Borivoje Nikolić · 2nd ed.",
+    "idea": "Digital design at the level of the chip: how CMOS is made, how wires and timing limit it, and how gates, arithmetic and memory are built.",
+    "cover": {
+      "file": "rabaey-digital-ics.jpg",
+      "w": 360,
+      "h": 475,
+      "alt": "Cover of Digital Integrated Circuits, 2nd edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a crystal-maker's workshop with a lens projecting light through a pierced stencil onto a shimmering disc, spools of fine gold wire, a chronometer and metronome, and a tray of marbles in a grid, a furnace glowing behind.",
+    "chapters": [
+      {
+        "name": "The manufacturing process",
+        "focus": "15 55 2.3",
+        "note": "Chips are printed with light: a pattern is projected through a mask onto silicon, layer by layer."
+      },
+      {
+        "name": "The wire",
+        "focus": "40 47 2.1",
+        "note": "At small scales wires stop being ideal; their resistance and capacitance slow every signal down."
+      },
+      {
+        "name": "Timing issues",
+        "focus": "62 54 2.4",
+        "note": "A synchronous chip runs on one clock, and keeping its tick aligned across the whole die is a discipline of its own."
+      },
+      {
+        "name": "Memory and array structures",
+        "focus": "86 80 2.5",
+        "note": "Memory is a dense grid of cells, each holding one bit, read and written by rows and columns."
+      }
+    ]
+  },
+  {
+    "slug": "cortex-m",
+    "shelf": "Circuits & devices",
+    "spine": {
+      "title": "ARM Cortex-M",
+      "w": 54,
+      "h": 150
+    },
+    "title": "The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors",
+    "by": "Joseph Yiu · 3rd ed.",
+    "idea": "Inside the microcontroller cores in most embedded devices: the instruction set, the memory map, interrupts and low-power modes.",
+    "cover": {
+      "file": "yiu-cortex-m.jpg",
+      "w": 322,
+      "h": 400,
+      "alt": "Cover of The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors, 3rd edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a great house's service passage with a board of servants' bells on springs, an open music box, a tall cabinet of small drawers, and a shuttered lantern on a chair.",
+    "chapters": [
+      {
+        "name": "The instruction set",
+        "focus": "28 60 2.3",
+        "note": "A program is a sequence of instructions read in order, like the pins on a music box's cylinder."
+      },
+      {
+        "name": "The memory system",
+        "focus": "60 40 2.0",
+        "note": "One address space holds code, data and peripherals, each register in its own drawer."
+      },
+      {
+        "name": "Exceptions and interrupts",
+        "focus": "12 22 2.6",
+        "note": "Peripherals ring for the processor's attention, and the interrupt controller decides which bell is answered first."
+      },
+      {
+        "name": "Low-power features",
+        "focus": "86 58 2.4",
+        "note": "Sleep modes turn the clock down to a glimmer until an interrupt wakes the core."
+      }
+    ]
+  },
+  {
+    "slug": "electromagnetics",
+    "shelf": "Circuits & devices",
+    "spine": {
+      "title": "Electromagnetics",
+      "w": 54,
+      "h": 160
+    },
+    "title": "Elements of Electromagnetics",
+    "by": "Matthew N. O. Sadiku · 6th ed.",
+    "idea": "Vector calculus put to work: static electric and magnetic fields, Maxwell's equations, and waves travelling through space and along lines.",
+    "cover": {
+      "file": "sadiku-electromagnetics.jpg",
+      "w": 405,
+      "h": 500,
+      "alt": "Cover of Elements of Electromagnetics, 6th edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a lecture room with an electrostatic machine throwing a spark, iron filings around a bar magnet, ripples spreading in a copper basin, and telegraph wires outside the window.",
+    "chapters": [
+      {
+        "name": "Electrostatics",
+        "focus": "12 46 2.1",
+        "note": "Charges at rest and the fields around them, studied with machines like this one since the 1700s."
+      },
+      {
+        "name": "Magnetostatics",
+        "focus": "32 75 2.6",
+        "note": "Steady currents and magnets make magnetic fields; iron filings trace their lines."
+      },
+      {
+        "name": "Electromagnetic waves",
+        "focus": "60 68 2.5",
+        "note": "Maxwell's equations predict fields that travel as waves, spreading out like ripples on water."
+      },
+      {
+        "name": "Transmission lines",
+        "focus": "85 38 2.0",
+        "note": "Two parallel conductors guide a wave from one end to the other, as telegraph wires did."
+      }
+    ]
+  },
+  {
+    "slug": "signals",
+    "shelf": "Signals & systems",
+    "spine": {
+      "title": "Signals and Systems",
+      "w": 56,
+      "h": 168
+    },
+    "title": "Signals and Systems",
+    "by": "Alan V. Oppenheim & Alan S. Willsky · 2nd ed.",
+    "idea": "The language of signals and linear time-invariant systems: convolution, the Fourier, Laplace and z-transforms, and sampling.",
+    "cover": {
+      "file": "oppenheim-signals.jpg",
+      "w": 375,
+      "h": 475,
+      "alt": "Cover of Signals and Systems, 2nd edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a music room turned laboratory with a monochord, a bronze bell in a frame, a prism splitting a beam of moonlight into a rainbow, and a slotted disc in front of a spoked wheel.",
+    "chapters": [
+      {
+        "name": "Signals",
+        "focus": "30 75 2.0",
+        "note": "A signal is a quantity that varies in time, like the vibration of a plucked string."
+      },
+      {
+        "name": "Linear time-invariant systems",
+        "focus": "35 36 2.2",
+        "note": "Strike it once and its ring is the impulse response; for an LTI system, that ring tells you everything."
+      },
+      {
+        "name": "Fourier series",
+        "focus": "65 34 2.2",
+        "note": "A periodic signal is a sum of sinusoids, just as a prism splits white light into colours."
+      },
+      {
+        "name": "Sampling",
+        "focus": "88 52 2.0",
+        "note": "Look at a signal only at instants and you can still recover it, if you look fast enough. Too slow, and a wheel seems to turn backwards."
+      }
+    ]
+  },
+  {
+    "slug": "dsp",
+    "shelf": "Signals & systems",
+    "spine": {
+      "title": "Signal Processing",
+      "w": 56,
+      "h": 164
+    },
+    "title": "Digital Signal Processing",
+    "by": "John G. Proakis & Dimitris G. Manolakis · 4th ed.",
+    "idea": "Processing sampled signals with computers: the z-transform, the DFT and its fast algorithms, and the design of digital filters.",
+    "cover": {
+      "file": "proakis-dsp.jpg",
+      "w": 378,
+      "h": 500,
+      "alt": "Cover of Digital Signal Processing, 4th edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: an acoustics laboratory with brass weights hanging on threads of graduated lengths, a rack of tuning forks, a case of butterflies pinned in an X, and coloured glass panes before a lamp.",
+    "chapters": [
+      {
+        "name": "Discrete-time signals",
+        "focus": "12 42 2.1",
+        "note": "A signal known only at evenly spaced instants: a row of values, one per sample."
+      },
+      {
+        "name": "The discrete Fourier transform",
+        "focus": "35 50 2.2",
+        "note": "The DFT measures how much of each frequency a finite signal holds, one tuning fork per bin."
+      },
+      {
+        "name": "The fast Fourier transform",
+        "focus": "62 56 2.3",
+        "note": "The FFT computes the DFT in N log N steps, built from crossing pairs of operations called butterflies."
+      },
+      {
+        "name": "Design of digital filters",
+        "focus": "88 52 2.2",
+        "note": "A filter passes some frequencies and stops others, as coloured glass passes some light."
+      }
+    ]
+  },
+  {
+    "slug": "communications",
+    "shelf": "Signals & systems",
+    "spine": {
+      "title": "Communication Systems",
+      "w": 54,
+      "h": 204
+    },
+    "title": "Communication Systems",
+    "by": "Simon Haykin · 4th ed.",
+    "idea": "How information crosses a noisy channel: random processes, analogue and pulse modulation, digital transmission and Shannon's limits.",
+    "cover": {
+      "file": "haykin-communication.jpg",
+      "w": 375,
+      "h": 475,
+      "alt": "Cover of Communication Systems, 4th edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a coastal signal station at night with a telegraph key and paper tape, a lighthouse beam sweeping the sea outside, a conch shell, and a great coil of submarine cable.",
+    "chapters": [
+      {
+        "name": "Random processes",
+        "focus": "64 50 2.8",
+        "note": "Every signal is judged against noise, modelled as a random process: the sea you hear in a shell."
+      },
+      {
+        "name": "Continuous-wave modulation",
+        "focus": "42 25 2.4",
+        "note": "A message rides on a carrier by varying its amplitude or frequency, as a lighthouse signals by changing its light."
+      },
+      {
+        "name": "Pulse modulation",
+        "focus": "18 52 2.5",
+        "note": "A signal sent as a train of pulses, the idea behind the telegraph and every digital link since."
+      },
+      {
+        "name": "Information theory",
+        "focus": "88 58 2.0",
+        "note": "Every channel has a capacity, Shannon showed, and below it a message can get through almost without error."
+      }
+    ]
+  },
+  {
+    "slug": "control",
+    "shelf": "Signals & systems",
+    "spine": {
+      "title": "Modern Control",
+      "w": 54,
+      "h": 156
+    },
+    "title": "Modern Control Engineering",
+    "by": "Katsuhiko Ogata · 5th ed.",
+    "idea": "Making systems behave through feedback: transfer functions, transient response, stability, root locus, frequency response and state space.",
+    "cover": {
+      "file": "ogata-control.jpg",
+      "w": 390,
+      "h": 500,
+      "alt": "Cover of Modern Control Engineering, 5th edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a ship's cabin by lamplight with a steam engine and flyball governor, a gimballed compass, a ball in a bowl and a ball balanced on an upturned bowl, and the ship's wheel through the doorway.",
+    "chapters": [
+      {
+        "name": "Feedback control",
+        "focus": "15 44 2.0",
+        "note": "Watt's governor senses an engine's speed and closes the steam valve as it rises: the classic feedback loop."
+      },
+      {
+        "name": "Transient response",
+        "focus": "36 55 2.2",
+        "note": "Disturb a system and watch it settle, like a compass needle swinging back to north."
+      },
+      {
+        "name": "Stability",
+        "focus": "59 63 2.8",
+        "note": "A ball in a bowl returns when nudged; a ball on top of one runs away. Stability is telling the two apart."
+      },
+      {
+        "name": "PID control",
+        "focus": "85 38 2.2",
+        "note": "Proportional, integral and derivative action, first worked out for steering ships."
+      }
+    ]
+  },
+  {
+    "slug": "physics",
+    "shelf": "Mathematics & physics",
+    "spine": {
+      "title": "University Physics",
+      "w": 58,
+      "h": 166
+    },
+    "title": "University Physics",
+    "by": "Hugh D. Young & Roger A. Freedman · 14th ed.",
+    "idea": "Calculus-based physics from the ground up: motion, forces, energy, rotation, gravitation, waves and heat.",
+    "cover": {
+      "file": "young-physics.jpg",
+      "w": 390,
+      "h": 500,
+      "alt": "Cover of University Physics, 14th edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a lecture room with a ball at the top of an inclined plane hung with bells, a gyroscope, a brass orrery around a lamp, and Hero's steam sphere spinning over a flame.",
+    "chapters": [
+      {
+        "name": "Newton's laws of motion",
+        "focus": "14 50 2.0",
+        "note": "Galileo timed balls rolling down a slope; Newton's three laws explain what he saw."
+      },
+      {
+        "name": "Rotation",
+        "focus": "34 48 2.3",
+        "note": "A spinning body has angular momentum, which is why a gyroscope holds its axis."
+      },
+      {
+        "name": "Gravitation",
+        "focus": "59 50 1.9",
+        "note": "One law of attraction keeps every planet on its orbit, the motion an orrery shows in brass."
+      },
+      {
+        "name": "Thermodynamics",
+        "focus": "88 46 2.1",
+        "note": "Heat is energy that can do work, as Hero of Alexandria's steam sphere showed two thousand years ago."
+      }
+    ]
+  },
+  {
+    "slug": "linear-algebra",
+    "shelf": "Mathematics & physics",
+    "spine": {
+      "title": "Linear Algebra",
+      "w": 52,
+      "h": 156
+    },
+    "title": "Linear Algebra and Its Applications",
+    "by": "Gilbert Strang · 4th ed.",
+    "idea": "Linear algebra as a working tool: elimination, vector spaces, orthogonality, determinants and eigenvalues, with applications throughout.",
+    "cover": {
+      "file": "strang-linear-algebra.jpg",
+      "w": 388,
+      "h": 500,
+      "alt": "Cover of Linear Algebra and Its Applications, 4th edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a cartographer's study with a sea chart, compass rose and dividers, a pantograph copying a vase, sand forming a star pattern on a bowed brass plate, and a thread stretched between scattered pins.",
+    "chapters": [
+      {
+        "name": "Vector spaces",
+        "focus": "18 77 2.2",
+        "note": "Vectors have size and direction, like a course plotted on a chart, and can be added and scaled."
+      },
+      {
+        "name": "Linear transformations",
+        "focus": "36 50 2.2",
+        "note": "A pantograph copies a drawing at a new scale: one linear map applied to every point at once."
+      },
+      {
+        "name": "Orthogonality and least squares",
+        "focus": "88 62 2.4",
+        "note": "The line that best fits scattered points, the method Gauss used to find a lost planet in 1801."
+      },
+      {
+        "name": "Eigenvalues and eigenvectors",
+        "focus": "60 52 2.4",
+        "note": "Bow a plate and the sand gathers on the lines that stay still; each pattern is an eigenmode."
+      }
+    ]
+  },
+  {
+    "slug": "discrete-math",
+    "shelf": "Mathematics & physics",
+    "spine": {
+      "title": "Discrete Mathematics",
+      "w": 56,
+      "h": 172
+    },
+    "title": "Discrete Mathematics and Its Applications",
+    "by": "Kenneth H. Rosen · 8th ed.",
+    "idea": "The mathematics of computing: logic and proof, number theory, induction, counting, and graphs and trees.",
+    "cover": {
+      "file": "rosen-discrete.jpg",
+      "w": 386,
+      "h": 500,
+      "alt": "Cover of Discrete Mathematics and Its Applications, 8th edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a library at night with a row of toppling dominoes, a model town of seven bridges, a cipher made of stacked wooden discs, and strings of coloured beads.",
+    "chapters": [
+      {
+        "name": "Number theory and cryptography",
+        "focus": "63 60 2.8",
+        "note": "Arithmetic that wraps around, like the discs of a cipher wheel. Modular arithmetic is what modern cryptography is built on."
+      },
+      {
+        "name": "Induction",
+        "focus": "12 60 2.4",
+        "note": "Show the first domino falls and that each one knocks over the next, and they all fall."
+      },
+      {
+        "name": "Counting",
+        "focus": "86 66 2.3",
+        "note": "How many necklaces can these beads make? Counting arguments answer without listing them all."
+      },
+      {
+        "name": "Graphs",
+        "focus": "35 60 2.0",
+        "note": "Could you cross each of Königsberg's seven bridges exactly once? Euler proved in 1736 that you could not, and graph theory began."
+      }
+    ]
+  },
+  {
+    "slug": "odes",
+    "shelf": "Mathematics & physics",
+    "spine": {
+      "title": "Differential Equations",
+      "w": 56,
+      "h": 184
+    },
+    "title": "Elementary Differential Equations and Boundary Value Problems",
+    "by": "William E. Boyce & Richard C. DiPrima · 10th ed.",
+    "idea": "Equations of change: first- and second-order equations, systems, Laplace transforms, and the classic equations of heat and waves.",
+    "cover": {
+      "file": "boyce-ode.jpg",
+      "w": 312,
+      "h": 400,
+      "alt": "Cover of Elementary Differential Equations and Boundary Value Problems, 10th edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a country-house laboratory with a steaming cup of tea and a thermometer, a weight on a coiled spring, hares and a fox in the moonlit meadow outside, and wax melting along rods heated by a candle.",
+    "chapters": [
+      {
+        "name": "First-order equations",
+        "focus": "12 62 2.3",
+        "note": "A cup of tea cools by Newton's law of cooling, a first-order equation."
+      },
+      {
+        "name": "Second-order linear equations",
+        "focus": "33 42 1.8",
+        "note": "A weight on a spring oscillates; its motion is the textbook second-order equation."
+      },
+      {
+        "name": "Systems of equations",
+        "focus": "58 48 2.6",
+        "note": "Hares and foxes rise and fall in turn, described by a pair of coupled equations."
+      },
+      {
+        "name": "The heat equation",
+        "focus": "86 72 2.4",
+        "note": "Heat spreads along a rod by a partial differential equation, melting the wax nearest the flame first."
+      }
+    ]
+  },
+  {
+    "slug": "probability",
+    "shelf": "Mathematics & physics",
+    "spine": {
+      "title": "Probability",
+      "w": 56,
+      "h": 150
+    },
+    "title": "Probability and Random Processes for Electrical Engineering",
+    "by": "Alberto Leon-Garcia · 2nd ed.",
+    "idea": "Probability built for engineers: random variables, limit theorems, estimation and random processes.",
+    "cover": {
+      "file": "leongarcia-probability.jpg",
+      "w": 386,
+      "h": 500,
+      "alt": "Cover of Probability and Random Processes for Electrical Engineering, 2nd edition"
+    },
+    "overview": "Four chapters in one room",
+    "alt": "Painting: a study at night with dice and cards on a baize table, a Galton board of pins with balls piling into a bell curve, a microscope by a candle, and a sextant by a window onto the sea.",
+    "chapters": [
+      {
+        "name": "Probability",
+        "focus": "16 76 2.3",
+        "note": "Probability began with games of chance and a question about dice."
+      },
+      {
+        "name": "The central limit theorem",
+        "focus": "35 38 1.8",
+        "note": "Add up enough random bounces and a bell curve appears, as Galton's board shows."
+      },
+      {
+        "name": "Random processes",
+        "focus": "60 50 2.2",
+        "note": "Pollen in water jiggles at random, Brown saw in 1827: a random process unfolding in time."
+      },
+      {
+        "name": "Estimation",
+        "focus": "88 55 2.4",
+        "note": "Estimating an unknown from noisy measurements, as a navigator fixes a position from star sights."
+      }
+    ]
   }
 ]
