@@ -4,8 +4,9 @@
 Each page = the shared shell (head, icon sprite, sidebar, footer — taken
 from index.html so there is one source of truth) + an article from
 content/work/<slug>.html, described by content/work/projects.json. It also
-regenerates the Selected Work cards in index.html (between the CASES markers)
-from the same file, so a project's facts live in one place.
+regenerates the Selected Work cards (between the CASES markers) and the landing
+oscilloscope (SCOPE markers) in index.html from the same file, so a project's
+facts live in one place.
 
     python3 scripts/build-case-studies.py
 
@@ -14,6 +15,7 @@ content/work/, then commit the generated work/*.html. Stdlib only.
 """
 import html
 import json
+import math
 import pathlib
 import re
 
@@ -102,6 +104,78 @@ def write_cards(projects: list) -> None:
     print(f"index.html: {len(projects)} cards")
 
 
+SCOPE_W, SCOPE_H, SEAM = 800, 250, 400
+SCOPE_MARKS = [70, 200, 330, 470, 600, 730]
+
+
+def scope_y(x: float) -> float:
+    """The landing trace: a noisy analog sine that turns into a logic square at the seam."""
+    sq = lambda v: 1 if math.sin(v) >= 0 else -1
+    if x < SEAM - 20:
+        return 125 - 62 * math.sin(x / 15.5) - 6 * math.sin(x / 3.1) * math.cos(x / 7)
+    if x < SEAM + 20:
+        t = (x - SEAM + 20) / 40
+        return 125 - 62 * math.sin(x / 15.5) * (1 - t) - 70 * t * sq(x / 12.7)
+    return 125 - 70 * sq((x - SEAM - 20) / 12.7)
+
+
+def write_scope(projects: list) -> None:
+    """Regenerate the landing oscilloscope between the SCOPE markers in index.html:
+    the trace, one marker and soft key per project, and a readout panel each."""
+    path = ROOT / "index.html"
+    text = path.read_text()
+    start = text.index("<!-- SCOPE:START")
+    start = text.index("\n", start) + 1
+    end = text.index("                <!-- SCOPE:END -->")
+    I = " " * 16
+
+    d = "M" + "L".join(f"{x} {scope_y(x):.1f}" for x in range(0, SCOPE_W + 1, 2))
+    grat = "".join(f'<line x1="{x}" y1="0" x2="{x}" y2="{SCOPE_H}"/>' for x in range(0, SCOPE_W + 1, 80))
+    grat += "".join(f'<line x1="0" y1="{y:g}" x2="{SCOPE_W}" y2="{y:g}"/>' for y in [i * SCOPE_H / 8 for i in range(9)])
+    ticks = "".join(f'<line x1="{x}" y1="121" x2="{x}" y2="129"/>' for x in range(16, SCOPE_W, 16) if x % 80)
+    marks, keys, panels = [], [], []
+    for i, p in enumerate(projects):
+        s, sc, n = p["slug"], p["scope"], i + 1
+        x = SCOPE_MARKS[i * len(SCOPE_MARKS) // len(projects)]
+        on = " is-on" if i == 0 else ""
+        marks.append(f'{I}            <span class="scope-m{on}" style="--x: {x / SCOPE_W:.2%}; --y: {scope_y(x) / SCOPE_H:.2%}; '
+                     f'--d: {0.25 + 1.4 * x / SCOPE_W:.2f}s"><i></i><b>M{n}</b></span>')
+        keys.append(f'{I}            <a class="scope-key" id="scope-k-{s}" href="work/{s}.html" data-panel="scope-p-{s}">'
+                    f'<span>{n}</span>{html.escape(p["title"])}</a>')
+        meas = "".join(f"<div><dt>{html.escape(k)}</dt><dd>{html.escape(v)}</dd></div>" for k, v in sc["meas"])
+        lazy = ' loading="lazy"' if i else ""
+        state = " scope-status--bench" if sc.get("bench") else ""
+        panels.append(f'''{I}        <div class="scope-panel" id="scope-p-{s}"{"" if i == 0 else " hidden"}>
+{I}            <p class="scope-panel-head">Measure · M{n} <span class="scope-status{state}"><span class="scope-dot" aria-hidden="true"></span>{html.escape(sc["status"])}</span></p>
+{I}            <img class="scope-cover" src="assets/covers/{s}-672.webp" width="672" height="376" alt="" decoding="async"{lazy}>
+{I}            <p class="scope-name">{html.escape(p["title"])}</p>
+{I}            <p class="scope-line">{html.escape(sc["line"])}</p>
+{I}            <dl class="scope-meas">{meas}</dl>
+{I}            <a class="scope-link" href="work/{s}.html">Read the case study <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
+{I}        </div>''')
+    block = f'''{I}<div class="scope" data-scope>
+{I}    <div class="scope-screen">
+{I}        <p class="scope-hud" aria-hidden="true"><span><b>CH1</b> analog · 2 V/div</span><span class="scope-hud-seam">seam</span><span><b>CH2</b> logic · 3.3 V</span></p>
+{I}        <div class="scope-plot" aria-hidden="true">
+{I}            <svg class="scope-grid" viewBox="0 0 {SCOPE_W} {SCOPE_H}" preserveAspectRatio="none" focusable="false"><g class="scope-grat">{grat}</g><g class="scope-ticks">{ticks}</g><line class="scope-seam" x1="{SEAM}" y1="0" x2="{SEAM}" y2="{SCOPE_H}"/></svg>
+{I}            <div class="scope-wave">
+{I}                <svg viewBox="0 0 {SCOPE_W} {SCOPE_H}" preserveAspectRatio="none" focusable="false"><defs><filter id="scope-blur" x="-5%" y="-30%" width="110%" height="160%"><feGaussianBlur stdDeviation="2.5"/></filter></defs><path class="scope-glow" d="{d}"/><path class="scope-line" d="{d}"/></svg>
+{I}            </div>
+{chr(10).join(marks)}
+{I}        </div>
+{I}        <div class="scope-keys">
+{chr(10).join(keys)}
+{I}        </div>
+{I}    </div>
+{I}    <div class="scope-readout">
+{chr(10).join(panels)}
+{I}    </div>
+{I}</div>
+'''
+    path.write_text(text[:start] + block + text[end:])
+    print(f"index.html: scope with {len(projects)} channels")
+
+
 def write_more(items: list) -> None:
     """Regenerate the compact "More projects" list between the MORE markers."""
     path = ROOT / "index.html"
@@ -138,6 +212,7 @@ def main() -> None:
     for i, p in enumerate(projects):
         p["num"] = f"{i + 1:02d}"
     write_cards(projects)
+    write_scope(projects)
     write_more(json.loads((CONTENT / "more.json").read_text()))
     index = (ROOT / "index.html").read_text()   # re-read: the shell below is lifted from it
     OUT.mkdir(exist_ok=True)

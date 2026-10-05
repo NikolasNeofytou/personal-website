@@ -48,6 +48,65 @@
 })();
 
 // ==========================================
+// Landing scope — the soft keys are tabs: picking a project moves the
+// marker on the trace and swaps the readout. Without JS the keys stay
+// plain links to the case studies and the first readout shows.
+// ==========================================
+(function () {
+    const scope = document.querySelector('[data-scope]');
+    if (!scope) return;
+    const keys = [...scope.querySelectorAll('.scope-key')];
+    const panels = keys.map(k => document.getElementById(k.dataset.panel));
+    const marks = [...scope.querySelectorAll('.scope-m')];
+    if (!keys.length || panels.some(p => !p)) return;
+
+    const list = scope.querySelector('.scope-keys');
+    list.setAttribute('role', 'tablist');
+    list.setAttribute('aria-label', 'Selected work');
+    keys.forEach((k, i) => {
+        k.setAttribute('role', 'tab');
+        k.setAttribute('aria-controls', panels[i].id);
+        panels[i].setAttribute('role', 'tabpanel');
+        panels[i].setAttribute('aria-labelledby', k.id);
+    });
+
+    // warm a readout's cover before it is picked
+    const warm = (i) => panels[i].querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
+
+    function select(i, focus) {
+        keys.forEach((k, j) => {
+            const on = j === i;
+            k.setAttribute('aria-selected', String(on));
+            k.tabIndex = on ? 0 : -1;
+            panels[j].hidden = !on;
+            if (marks[j]) marks[j].classList.toggle('is-on', on);
+        });
+        if (focus) keys[i].focus();
+    }
+
+    keys.forEach((k, i) => {
+        k.addEventListener('click', (e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;   // open-in-new-tab still works
+            e.preventDefault();
+            select(i);
+        });
+        k.addEventListener('keydown', (e) => {
+            const to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: keys.length - 1 }[e.key];
+            if (to === undefined) return;
+            e.preventDefault();
+            select((to + keys.length) % keys.length, true);
+        });
+        k.addEventListener('pointerenter', () => warm(i));
+        k.addEventListener('focus', () => warm(i));
+    });
+    marks.forEach((m, i) => {
+        m.addEventListener('click', () => select(i));
+        m.addEventListener('pointerenter', () => warm(i));
+    });
+    select(0);
+})();
+
+// ==========================================
 // Fig. 01 scrub — scroll position picks a frame of the bench → silicon
 // push-in and draws it to a pinned canvas (Apple-style image sequence).
 // Frames load coarse-to-fine; until a frame arrives the nearest loaded one

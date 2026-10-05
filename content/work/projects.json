@@ -37,6 +37,24 @@
         "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · demo on request</span>"
       ],
       "flag_html": "<span class=\"case-flag\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private</span>"
+    },
+    "scope": {
+      "line": "Real-time transit for Cyprus: where the bus actually is.",
+      "status": "in production",
+      "meas": [
+        [
+          "feed",
+          "15 s"
+        ],
+        [
+          "tests",
+          "1,400+"
+        ],
+        [
+          "ADRs",
+          "14"
+        ]
+      ]
     }
   },
   {
@@ -76,6 +94,24 @@
       "links": [
         "<a class=\"case-badge case-badge--link\" href=\"https://ludi.football\" target=\"_blank\" rel=\"noopener noreferrer\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-arrow-right\"></use></svg> Live site</a>"
       ]
+    },
+    "scope": {
+      "line": "Five-a-side pitches, booked without the WhatsApp chase.",
+      "status": "live",
+      "meas": [
+        [
+          "surfaces",
+          "3"
+        ],
+        [
+          "RLS tests",
+          "249"
+        ],
+        [
+          "launched",
+          "Aug 2026"
+        ]
+      ]
     }
   },
   {
@@ -113,6 +149,25 @@
       ],
       "links": [
         "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · walkthrough on request</span>"
+      ]
+    },
+    "scope": {
+      "line": "A relay board that knows where it is, with no PC in the chain.",
+      "status": "on the bench",
+      "bench": true,
+      "meas": [
+        [
+          "decode",
+          "on module"
+        ],
+        [
+          "lock",
+          "checksum only"
+        ],
+        [
+          "PC",
+          "none"
+        ]
       ]
     }
   },
@@ -152,6 +207,24 @@
         "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · demo on request</span>"
       ],
       "flag_html": "<span class=\"case-flag\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private</span>"
+    },
+    "scope": {
+      "line": "A whole theatre company in one app.",
+      "status": "in use · cast of 12",
+      "meas": [
+        [
+          "roles",
+          "7"
+        ],
+        [
+          "ADRs",
+          "62"
+        ],
+        [
+          "tests",
+          "829"
+        ]
+      ]
     }
   },
   {
@@ -188,6 +261,24 @@
       ],
       "links": [
         "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · walkthrough on request</span>"
+      ]
+    },
+    "scope": {
+      "line": "A print shop's pricing, from the owner's head to the counter.",
+      "status": "running at the shop",
+      "meas": [
+        [
+          "versions",
+          "45"
+        ],
+        [
+          "tests",
+          "2,521"
+        ],
+        [
+          "worked cases",
+          "26"
+        ]
       ]
     }
   },
@@ -226,6 +317,24 @@
         "<a class=\"case-badge case-badge--link\" href=\"https://plutarch-five.vercel.app\" target=\"_blank\" rel=\"noopener noreferrer\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-arrow-right\"></use></svg> Live site</a>"
       ],
       "flag_html": "<span class=\"case-flag case-flag--open\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-unlock\"></use></svg> Live</span>"
+    },
+    "scope": {
+      "line": "Ρίζα, an open Modern Greek dictionary that finds any inflected form.",
+      "status": "live",
+      "meas": [
+        [
+          "entries",
+          "95,774"
+        ],
+        [
+          "built in",
+          "4 days"
+        ],
+        [
+          "tests",
+          "98"
+        ]
+      ]
     }
   }
 ]
