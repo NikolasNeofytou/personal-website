@@ -37,10 +37,12 @@ The generated regions are rebuilt from `content/` with Python 3 (standard librar
 python3 scripts/build-case-studies.py
 python3 scripts/build-shelf.py
 python3 scripts/fetch-substack.py
+python3 scripts/build-cv.py
 ```
 
 - `build-case-studies.py` writes `work/*.html` and the project cards in `index.html` from `content/work/`.
 - `build-shelf.py` writes the Bookshelf from `content/books.json`.
+- `build-cv.py` prints `content/cv.html` to `assets/cv.pdf` with headless Chrome and fails if it spills onto a second page.
 - `fetch-substack.py` snapshots the latest posts into `assets/substack.json`. Run it after publishing a post, because Substack blocks CI runners.
 
 The `scripts/encode-*.sh` helpers (ffmpeg) turn raw video exports into the hero loop, scrub frames and plate loops.
