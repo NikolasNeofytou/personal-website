@@ -257,17 +257,17 @@
                     <div class="case-body">
                         <header class="case-head">
                             <h3 class="case-title" style="view-transition-name: title-ludi">Ludi</h3>
-                            <span class="case-flag case-flag--open"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-unlock"></use></svg> Live</span>
+                            <span class="case-flag case-flag--open"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-unlock"></use></svg> Beta</span>
                         </header>
                         <p class="case-role">Solo · Expo + Next.js + Supabase · Apr – Oct 2026</p>
                         <p class="case-line"><span class="case-k">Problem</span> Five-a-side in Cyprus runs on WhatsApp: players chase pitches and people through group chats, and owners keep the calendar in their heads.</p>
                         <p class="case-line"><span class="case-k">Approach</span> A two-sided marketplace. A player app to find a pitch, book, pay and fill the team; a Greek owner dashboard to run the week; and a lobby TV. All three sit on one Postgres database.</p>
                         <ul class="case-decisions">
                             <li>Double-booking is impossible by database constraint: of 100 simultaneous bookings, exactly one wins.</li>
-                            <li>Row-level security on every table, covered by 249 pgTAP tests.</li>
-                            <li>Card payments and venue payouts through Stripe Connect, built end to end.</li>
+                            <li>Row-level security on every table, covered by 426 pgTAP tests.</li>
+                            <li>Card payments and venue payouts through Stripe Connect, built end to end and in test mode.</li>
                         </ul>
-                        <p class="case-line"><span class="case-k">Outcome</span> Launched in August, with the iOS app approved by Apple and early partner venues on the dashboard. Payments are in test mode until going live.</p>
+                        <p class="case-line"><span class="case-k">Outcome</span> In beta since August: the iOS app is approved by Apple with the public release pending, two partner venues are enrolled on the dashboard, and payments run in test mode.</p>
                         <div class="case-tech">
                             <span class="tech-tag">Expo</span><span class="tech-tag">Next.js</span><span class="tech-tag">Supabase</span><span class="tech-tag">PostGIS</span><span class="tech-tag">Stripe Connect</span>
                         </div>

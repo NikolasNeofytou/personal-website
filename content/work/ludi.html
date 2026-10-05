@@ -10,14 +10,14 @@
                     <h2 class="section-head" id="lu-built"><span class="section-num">02</span> What I built</h2>
                     <div class="cs-prose">
                         <ul>
-                            <li><strong>The player app</strong> (iOS and Android): discover pitches on a map, book and pay, share a fixture with an invite link that also works for friends without the app, open a game to the community board, and keep a record and player card with an Apple Wallet pass.</li>
+                            <li><strong>The player app</strong> (iOS and Android, in beta): discover pitches (on a map on iOS), book and pay, share a fixture with an invite link that also works for friends without the app, open a game to the community board, and keep a record and player card with an Apple Wallet pass.</li>
                             <li><strong>The owner dashboard</strong>, in Greek or English and built for a phone: a week grid and printable day sheet, walk-ins logged from a free cell, standing bookings, earnings and payouts, venue enrolment, and staff access.</li>
-                            <li><strong>The lobby TV</strong>: a public screen at the venue showing today's kick-offs and pitches in use, with a QR code to the app.</li>
-                            <li><strong>The money</strong>: card payments and venue payouts through Stripe Connect, built end to end and running in test mode until the switch to live payments.</li>
+                            <li><strong>The lobby TV</strong>: a public screen at a private link showing today's kick-offs and pitches in use, never with a player's name, and a QR code that opens the same screen on a phone.</li>
+                            <li><strong>The money</strong>: card payments and venue payouts through Stripe Connect, built end to end and running in test mode until payments are switched on.</li>
                         </ul>
                     </div>
                     <div class="cs-stats" role="list">
-                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">249</span><span class="cs-stat-label">Row-level security tests</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">426</span><span class="cs-stat-label">pgTAP database tests</span></div>
                         <div class="cs-stat" role="listitem"><span class="cs-stat-num">59</span><span class="cs-stat-label">Database migrations</span></div>
                         <div class="cs-stat" role="listitem"><span class="cs-stat-num">32</span><span class="cs-stat-label">Written ADRs</span></div>
                         <div class="cs-stat" role="listitem"><span class="cs-stat-num">1 / 100</span><span class="cs-stat-label">Concurrent bookings that win</span></div>
@@ -76,7 +76,7 @@
                             <path class="dg-edge dg-edge--accent" d="M450,211 H595 V164" marker-end="url(#lu-arrow-a)"/>
                             <path class="dg-edge" d="M595,102 V76 H452" stroke-dasharray="3 3" marker-end="url(#lu-arrow)"/>
                             <text class="dg-sub" x="470" y="70">webhook</text>
-                            <text class="dg-sub" x="0" y="290">Monorepo (pnpm + Turborepo) · CI on GitHub Actions · weekly encrypted backup · hosted in Frankfurt</text>
+                            <text class="dg-sub" x="0" y="290">Monorepo (pnpm + Turborepo) · CI on GitHub Actions · hosted in Frankfurt</text>
                         </svg>
                         <figcaption>Fig. 1 · Three surfaces on one database</figcaption>
                     </figure>
@@ -100,7 +100,7 @@
                             <dl>
                                 <dt>Context</dt><dd>One person building three surfaces can't afford a hand-written API layer for every read.</dd>
                                 <dt>Decision</dt><dd>Let row-level security cover about 80% of operations directly, and keep edge functions for anything that moves money or must be atomic.</dd>
-                                <dt>Trade-off</dt><dd>RLS has sharp edges, and one bit (see below). It's covered by 249 pgTAP tests.</dd>
+                                <dt>Trade-off</dt><dd>RLS has sharp edges, and one bit (see below). It's covered by 426 pgTAP tests.</dd>
                             </dl>
                         </article>
                         <article class="cs-adr">
@@ -117,7 +117,7 @@
                             <h3>Standing bookings without a scheduling engine</h3>
                             <dl>
                                 <dt>Context</dt><dd>Academies book the same pitch every week, and owners needed that on their calendar.</dd>
-                                <dt>Decision</dt><dd>Materialise each standing booking as ordinary walk-in rows eight weeks ahead. The calendar, the invariant and the TV just work, and skipping a week is deleting a row.</dd>
+                                <dt>Decision</dt><dd>Materialise each standing booking as ordinary walk-in rows eight weeks ahead. The calendar, the invariant and the TV just work, and skipping a week is cancelling one row.</dd>
                                 <dt>Trade-off</dt><dd>A rolling horizon to regenerate, instead of a recurrence engine everything would have to understand.</dd>
                             </dl>
                         </article>
@@ -128,7 +128,7 @@
                     <h2 class="section-head" id="lu-hard"><span class="section-num">05</span> Hard problems</h2>
                     <div class="cs-story">
                         <h3>A refund that would have cost money</h3>
-                        <p>Two Stripe refund flags were set the wrong way round. On a typical booking, the venue would have kept its payout while the platform refunded its own fee and more. It was caught before a single real refund, fixed, and verified with a test-mode script that walks the money through every account.</p>
+                        <p>Two Stripe refund flags were misread. As shipped, the platform would have funded refunds while the venue kept its payout. The first fix, made from the documentation, swung it the other way and put the whole refund on the venue. A test-mode script that walks the money through every account caught that before a single real refund, and now every claim about money gets a run like it.</p>
                     </div>
                     <div class="cs-story">
                         <h3>A view that ignored the rules</h3>
@@ -143,7 +143,7 @@
                 <section class="section" aria-labelledby="lu-outcome">
                     <h2 class="section-head" id="lu-outcome"><span class="section-num">06</span> Outcome &amp; what I'd do differently</h2>
                     <div class="cs-prose">
-                        <p>Ludi launched at the end of August. The site is live, the iOS app has been approved by Apple, and early partner venues are on the owner dashboard. Payments are fully built and still in test mode until the switch to live payments. The repo is private, and I'm happy to do a walkthrough.</p>
+                        <p>The site went live at the end of August, and the apps are in beta: iOS on TestFlight, approved by Apple with the public release pending, and Android as a direct download. Two partner venues are enrolled on the owner dashboard. Payments are fully built and run in test mode until they are switched on. The repo is private, and I'm happy to do a walkthrough.</p>
                         <ul>
                             <li><strong>Test the claims, not just the code.</strong> "Views inherit RLS" and a payment library's flag semantics were both trusted until they were tested.</li>
                             <li><strong>Migrations meet production data CI never sees.</strong> Constraint lists are now derived from the live definition.</li>

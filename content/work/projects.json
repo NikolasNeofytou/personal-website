@@ -44,7 +44,7 @@
     "num": "00",
     "title": "Ludi",
     "public": false,
-    "flag": "Live",
+    "flag": "Beta",
     "tagline": "Football pitch booking and matchmaking for Cyprus.",
     "description": "Case study: Ludi, a two-sided marketplace for five-a-side football in Cyprus. A player app, a Greek owner dashboard and a lobby TV on one Postgres database, where double-booking is impossible by construction.",
     "lede": "Book a five-a-side pitch in a few taps, fill the team with an open match, and give venue owners a calendar instead of a WhatsApp thread. A player app, an owner dashboard in Greek and a lobby TV, all on one Postgres database.",
@@ -53,19 +53,19 @@
       "Role": "Solo",
       "Timeline": "Apr – Oct 2026",
       "Stack": "Expo / React Native · Next.js · Supabase (Postgres, PostGIS, RLS) · Stripe Connect",
-      "Status": "Launched · iOS app approved · payments in test mode"
+      "Status": "In beta · iOS approved, release pending · payments in test mode"
     },
     "card": {
-      "flag_html": "<span class=\"case-flag case-flag--open\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-unlock\"></use></svg> Live</span>",
+      "flag_html": "<span class=\"case-flag case-flag--open\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-unlock\"></use></svg> Beta</span>",
       "role": "Solo · Expo + Next.js + Supabase · Apr – Oct 2026",
       "problem": "Five-a-side in Cyprus runs on WhatsApp: players chase pitches and people through group chats, and owners keep the calendar in their heads.",
       "approach": "A two-sided marketplace. A player app to find a pitch, book, pay and fill the team; a Greek owner dashboard to run the week; and a lobby TV. All three sit on one Postgres database.",
       "bullets": [
         "Double-booking is impossible by database constraint: of 100 simultaneous bookings, exactly one wins.",
-        "Row-level security on every table, covered by 249 pgTAP tests.",
-        "Card payments and venue payouts through Stripe Connect, built end to end."
+        "Row-level security on every table, covered by 426 pgTAP tests.",
+        "Card payments and venue payouts through Stripe Connect, built end to end and in test mode."
       ],
-      "outcome": "Launched in August, with the iOS app approved by Apple and early partner venues on the dashboard. Payments are in test mode until going live.",
+      "outcome": "In beta since August: the iOS app is approved by Apple with the public release pending, two partner venues are enrolled on the dashboard, and payments run in test mode.",
       "tags": [
         "Expo",
         "Next.js",
