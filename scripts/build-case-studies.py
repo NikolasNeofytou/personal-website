@@ -22,7 +22,7 @@ import re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "work"
 OUT = ROOT / "work"
-SITE = "https://nikolasneofytou.github.io/personal-website"
+SITE = "https://nikolasneofytou.com"
 
 
 def between(text: str, start: str, end: str) -> str:
