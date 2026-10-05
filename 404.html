@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#F5F4EF">
+    <!-- GitHub Pages serves this page at any missing path, so every URL resolves from the site root. -->
+    <base href="/personal-website/">
+    <title>No signal — Nikolas Neofytou</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <style>
+        @font-face { font-family: 'Instrument Serif'; font-display: swap; src: url('assets/fonts/instrument-serif.woff2') format('woff2'); }
+        @font-face { font-family: 'Inter'; font-weight: 300 600; font-display: swap; src: url('assets/fonts/inter-var.woff2') format('woff2'); }
+        @font-face { font-family: 'DM Mono'; font-weight: 400; font-display: swap; src: url('assets/fonts/dm-mono-400.woff2') format('woff2'); }
+        :root {
+            --bg: #F5F4EF; --text: #1A1A17; --text-dim: #494841; --text-faint: #66645A;
+            --accent: #1F3BFF; --line: rgba(26, 26, 23, 0.12);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 2rem 1.5rem;
+            background-color: var(--bg); color: var(--text);
+            background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+            background-size: 32px 32px;
+            font: 400 1rem/1.6 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        main { width: 100%; max-width: 34rem; }
+        .scope { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: #FFFFFF; }
+        .scope path { fill: none; stroke: var(--accent); stroke-width: 2; }
+        .scope line { stroke: var(--line); }
+        .fig { margin: 0.6rem 0 2rem; font: 400 0.75rem/1.4 'DM Mono', 'Courier New', monospace; color: var(--text-faint); letter-spacing: 0.04em; }
+        .fig b { color: var(--accent); font-weight: 400; }
+        h1 { margin: 0 0 0.6rem; font: 400 clamp(2.4rem, 7vw, 3.4rem)/1.05 'Instrument Serif', Georgia, serif; letter-spacing: -0.01em; }
+        p { margin: 0 0 1.6rem; color: var(--text-dim); }
+        nav { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; font: 400 0.85rem/1.4 'DM Mono', 'Courier New', monospace; }
+        a { color: var(--accent); text-underline-offset: 0.2em; }
+        a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    </style>
+</head>
+<body>
+    <main>
+        <svg class="scope" viewBox="0 0 480 140" role="img" aria-label="An oscilloscope trace: a square wave that stops and goes flat.">
+            <line x1="0" y1="35" x2="480" y2="35"/><line x1="0" y1="70" x2="480" y2="70"/><line x1="0" y1="105" x2="480" y2="105"/>
+            <line x1="120" y1="0" x2="120" y2="140"/><line x1="240" y1="0" x2="240" y2="140"/><line x1="360" y1="0" x2="360" y2="140"/>
+            <path d="M0 105 H30 V35 H70 V105 H110 V35 H150 V105 H190 V70 H480"/>
+        </svg>
+        <p class="fig"><b>Fig. 404</b> · No signal on this trace</p>
+        <h1>This page isn't here.</h1>
+        <p>The link may be old, or the address mistyped. Everything that is here starts from the front page.</p>
+        <nav aria-label="Where to go">
+            <a href="./">Front page</a>
+            <a href="./#work">Selected work</a>
+            <a href="./#contact">Contact</a>
+        </nav>
+    </main>
+</body>
+</html>
