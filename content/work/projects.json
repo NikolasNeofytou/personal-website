@@ -97,19 +97,20 @@
     },
     "scope": {
       "line": "Five-a-side pitches, booked without the WhatsApp chase.",
-      "status": "live",
+      "status": "in beta",
+      "bench": true,
       "meas": [
         [
           "surfaces",
           "3"
         ],
         [
-          "RLS tests",
-          "249"
+          "pgTAP tests",
+          "426"
         ],
         [
-          "launched",
-          "Aug 2026"
+          "payments",
+          "test mode"
         ]
       ]
     }
