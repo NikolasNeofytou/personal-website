@@ -288,26 +288,26 @@
     "num": "03",
     "title": "Plutarch",
     "public": false,
-    "tagline": "Ρίζα — an open dictionary of Modern Greek where every definition cites its source.",
-    "description": "Case study: Plutarch (Ρίζα), an open Modern Greek dictionary — 95,774 entries from Greek Wiktionary, accent-insensitive search over 650k inflected forms, built in four days on Next.js and Postgres.",
-    "lede": "Ρίζα is an open dictionary of Modern Greek where every definition carries a citation you can click through to. Type any form of a word — accented or not, monotonic or polytonic — and land on its entry, with declension and conjugation tables, cross-references and real usage examples.",
+    "tagline": "Ρίζα — a free dictionary of Modern Greek where every definition cites its source.",
+    "description": "Case study: Plutarch (Ρίζα), a free Modern Greek dictionary: 94,509 headwords from Greek Wiktionary, with accent-insensitive search that resolves inflected forms to their entry, built on Next.js and Postgres.",
+    "lede": "Ρίζα is a free dictionary of Modern Greek where every definition carries a citation you can click through to. Type a word in its inflected forms — accented or not, monotonic or polytonic — and land on its entry, with declension and conjugation tables, cross-references and usage examples from Wiktionary.",
     "alt": "An open antique lexicon on a dark desk with a brass loupe resting on the page and a cobalt ribbon bookmark.",
     "meta": {
       "Role": "Solo",
-      "Timeline": "Aug 2026 · 4-day build",
+      "Timeline": "Planned spring 2026 · built 23–25 Aug 2026",
       "Stack": "Next.js 16 · TypeScript · Postgres (Neon) · Vercel",
       "Status": "Live at <a href=\"https://plutarch-five.vercel.app\" target=\"_blank\" rel=\"noopener noreferrer\">plutarch-five.vercel.app</a>"
     },
     "flag": "Live",
     "card": {
       "role": "Solo · Next.js + Postgres · Aug 2026",
-      "problem": "Greek dictionaries online are slow and shallow — hard to scan, weak on cross-references, painful to explore a word's neighbourhood.",
-      "approach": "Ρίζα, an open Modern Greek dictionary: 95,774 entries from Greek Wiktionary, with accent-insensitive search that resolves any inflected form to its entry — Next.js + TypeScript over Postgres.",
+      "problem": "Online Greek dictionaries are either thin word lists or closed products, and few find a word from an inflected or unaccented form.",
+      "approach": "Ρίζα, a free Modern Greek dictionary: 94,509 headwords from Greek Wiktionary, with accent-insensitive search that resolves inflected forms to their entry — Next.js + TypeScript over Postgres.",
       "bullets": [
         "Structured, normalised entries so meanings and relations are first-class, not free text.",
         "Server-rendered Next.js for fast, shareable, search-friendly pages."
       ],
-      "outcome": "Live, built in four days, 98 tests. Source private for now.",
+      "outcome": "Live since 23 Aug 2026, 104 tests. Source private for now.",
       "tags": [
         "Next.js",
         "TypeScript",
@@ -320,7 +320,7 @@
       "flag_html": "<span class=\"case-flag case-flag--open\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-unlock\"></use></svg> Live</span>"
     },
     "scope": {
-      "line": "Ρίζα, an open Modern Greek dictionary that finds any inflected form.",
+      "line": "Ρίζα, a free Modern Greek dictionary that finds words from their inflected forms.",
       "status": "live",
       "meas": [
         [
@@ -329,11 +329,11 @@
         ],
         [
           "built in",
-          "4 days"
+          "3 days"
         ],
         [
           "tests",
-          "98"
+          "104"
         ]
       ]
     }

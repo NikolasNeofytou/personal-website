@@ -47,7 +47,7 @@
     ];
     const keyOf = s => STEPS.reduce((acc, [, f]) => f(acc), s.trim());
     // a tiny slice of the dictionary: lemma → a few of its inflected forms
-    // (the real index holds ~650k forms; any of them leads back to the entry)
+    // (the real index holds hundreds of thousands of forms, capped per entry; each leads back to its entry)
     const SAMPLE = {
         'ύπνος': ['ύπνου', 'ύπνοι'], 'άνθρωπος': ['ανθρώπου', 'ανθρώπων', 'άνθρωποι'], 'ανθρώπινος': [],
         'καλημέρα': [], 'θάλασσα': ['θάλασσας', 'θάλασσες', 'θαλασσών'], 'θαλασσινός': [],
@@ -727,11 +727,11 @@
     // ======================================================================
     function plutarchWeekDemo(root) {
         const DAYS = [
-            ['Mon', 'Any form', 'A reader types εκανες, no accents. The search key strips them, finds the inflected form, and lands on its verb: κάνω.'],
+            ['Mon', 'No accents', 'A reader types εκανες, no accents. The search key strips them, finds the inflected form, and lands on its verb: κάνω.'],
             ['Tue', 'Cited senses', 'Every sense carries a link to where it came from: Greek Wiktionary, CC BY-SA.'],
             ['Wed', 'The table', 'The conjugation table shows the form they typed, in context.'],
             ['Thu', 'Word of the day', 'Ρίζα, “root”, the dictionary’s own name. Cross-references lead to the words around it.'],
-            ['Fri', 'Report a mistake', 'A reader flags an example. It’s sent anonymously (only a salted hash is kept, for rate limiting) to the reports queue.'],
+            ['Fri', 'Report a mistake', 'A reader flags an example. It’s sent anonymously, with no account or email, to the reports queue.'],
         ];
         const sh = weekShell(root, { days: DAYS, kicker: 'ΡΙΖΑ · ΛΕΞΙΚΟ', titles: ['Αναζήτηση', 'κάνω', 'κάνω · κλίση', 'Λέξη της ημέρας', 'Αναφορά λάθους'],
             label: 'Illustration: the Ρίζα dictionary on a phone beside the data behind an entry' });
@@ -810,7 +810,7 @@
         S('rect', { x: 42, y: 150, width: 168, height: 56, rx: 8, class: 'week-card wk-selected' }, result);
         T(result, 54, 174, 'κάνω', 'pl-res-lemma', { lang: 'el' });
         T(result, 112, 174, 'ρήμα', 'week-small', { lang: 'el' });
-        T(result, 54, 194, 'από τον τύπο «έκανες»', 'week-small', { lang: 'el' });
+        T(result, 54, 194, 'έκανες → κάνω', 'week-small', { lang: 'el' });
         // TUE: entry
         const tue = screens[1];
         [['1.', 'φτιάχνω, δημιουργώ', 'κάνω ένα τραπέζι'], ['2.', 'εκτελώ, πραγματοποιώ', 'κάνω μια δουλειά']].forEach(([n, s1, ex], i) => {

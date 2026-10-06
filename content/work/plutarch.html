@@ -2,7 +2,7 @@
                     <h2 class="section-head" id="pl-problem"><span class="section-num">01</span> Problem</h2>
                     <div class="cs-prose">
                         <p>Online Greek dictionaries are either thin word lists or closed products. Greek also makes lookup hard: the same word arrives as dozens of inflected forms, with or without accents, and in monotonic or polytonic spelling. A search box that only matches the headword exactly fails most real queries.</p>
-                        <p>I wanted the opposite: an <strong>open</strong> dictionary where any form of a word finds its entry, and every definition cites where it came from.</p>
+                        <p>I wanted the opposite: a <strong>free</strong> dictionary, with CC&nbsp;BY-SA content, where the forms people actually type find their entry, and every definition cites where it came from.</p>
                     </div>
                 </section>
 
@@ -11,16 +11,16 @@
                     <div class="cs-prose">
                         <p><strong>Ρίζα</strong> ("root") imports the Greek Wiktionary extraction from kaikki.org into Postgres and serves it through a Next.js app:</p>
                         <ul>
-                            <li>Search that ignores accents and case, accepts polytonic input, and resolves inflected forms back to their lemma.</li>
+                            <li>Search that ignores accents and case, accepts polytonic spellings of Modern Greek words, and resolves inflected forms back to their lemma.</li>
                             <li>Server-rendered entry pages with senses, usage examples, cross-references, and declension and conjugation tables.</li>
                             <li>Greek permalinks (<code>/λέξη/…</code>), a sitemap, word of the day, and an anonymous report-an-error flow.</li>
                         </ul>
                     </div>
                     <div class="cs-stats" role="list">
-                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">95,774</span><span class="cs-stat-label">Entries</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">95,774</span><span class="cs-stat-label">Entries (94,509 headwords)</span></div>
                         <div class="cs-stat" role="listitem"><span class="cs-stat-num">130,584</span><span class="cs-stat-label">Senses</span></div>
                         <div class="cs-stat" role="listitem"><span class="cs-stat-num">38,920</span><span class="cs-stat-label">Usage examples</span></div>
-                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">98</span><span class="cs-stat-label">Tests</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">104</span><span class="cs-stat-label">Tests</span></div>
                     </div>
                 </section>
 
@@ -101,11 +101,11 @@
                     <div class="week" data-demo="week-plutarch">
                         <div class="demo-body">
                             <ol class="week-story">
-                                <li><div><b>Mon</b><span>Any form</span></div><p>A reader types εκανες, no accents. The search key strips them, finds the inflected form, and lands on its verb: κάνω.</p></li>
+                                <li><div><b>Mon</b><span>No accents</span></div><p>A reader types εκανες, no accents. The search key strips them, finds the inflected form, and lands on its verb: κάνω.</p></li>
                                 <li><div><b>Tue</b><span>Cited senses</span></div><p>Every sense carries a link to where it came from: Greek Wiktionary, CC BY-SA.</p></li>
                                 <li><div><b>Wed</b><span>The table</span></div><p>The conjugation table shows the form they typed, in context.</p></li>
                                 <li><div><b>Thu</b><span>Word of the day</span></div><p>Ρίζα, “root”, the dictionary’s own name. Cross-references lead to the words around it.</p></li>
-                                <li><div><b>Fri</b><span>Report a mistake</span></div><p>A reader flags an example. It’s sent anonymously (only a salted hash is kept, for rate limiting) to the reports queue.</p></li>
+                                <li><div><b>Fri</b><span>Report a mistake</span></div><p>A reader flags an example. It’s sent anonymously, with no account or email, to the reports queue.</p></li>
                             </ol>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                             <h3>Cap forms per entry instead of dropping words</h3>
                             <dl>
                                 <dt>Context</dt><dd>The corpus didn't fit the free database tier. The obvious filter would have deleted about 74,000 headwords.</dd>
-                                <dt>Decision</dt><dd>Keep every entry and cap the inflected forms stored per entry, preferring tagged forms. That cut the corpus from 371&nbsp;MB to 255&nbsp;MB with all 95,774 entries intact.</dd>
+                                <dt>Decision</dt><dd>Keep every entry, cap the inflected forms stored per entry and drop two unused indexes. That cut the corpus from 371&nbsp;MB to 255&nbsp;MB with all 95,774 entries intact. (The cap later rose to 50, preferring tagged forms, for the conjugation tables.)</dd>
                                 <dt>Trade-off</dt><dd>The long tail of rare verb forms isn't searchable. Losing words would have been worse.</dd>
                             </dl>
                         </article>
@@ -172,7 +172,7 @@
                     </div>
                     <div class="cs-story">
                         <h3>A sequential scan on every keystroke</h3>
-                        <p>A <code>LIKE</code> pattern built inside a CTE stopped Postgres from using the index, so every keystroke scanned 880,000 inflected forms. Rewriting the prefix match as a range query on a btree index took it from 61&nbsp;ms to 0.028&nbsp;ms.</p>
+                        <p>A <code>LIKE</code> pattern built inside a CTE stopped Postgres from using the index, so every keystroke scanned 880,000 inflected forms. Rewriting the prefix match as a range query on a btree index took that lookup from 61&nbsp;ms to 0.028&nbsp;ms.</p>
                     </div>
                     <div class="cs-story">
                         <h3>Ranking undone by the app</h3>
@@ -183,11 +183,11 @@
                 <section class="section" aria-labelledby="pl-outcome">
                     <h2 class="section-head" id="pl-outcome"><span class="section-num">08</span> Outcome &amp; what I'd do differently</h2>
                     <div class="cs-prose">
-                        <p>Ρίζα is live and stable: 95,774 entries, declension tables for 63,971 of them, conjugation tables for 5,455 verbs, and a 98-test suite, built in four days. The source is private for now. The dictionary content is CC&nbsp;BY-SA, inherited from Wiktionary.</p>
+                        <p>Ρίζα has been live since 23 August: 95,774 entries (94,509 headwords), declension tables for 63,971 of them, conjugation tables for 5,455 verbs, and a 104-test suite, built 23–25 August on an earlier static prototype. The source is private for now. The dictionary content is CC&nbsp;BY-SA, adapted from Wiktionary.</p>
                         <ul>
                             <li><strong>Scope.</strong> The original plan (a diachronic dictionary with five "lenses" and Cypriot dialect research) was far bigger than what a first version needed. Shipping the core first was the right call, and I'd plan that way from day one.</li>
                             <li><strong>Test the integration, not just the parts.</strong> Unit tests on the SQL function missed the bug in the query that wraps it.</li>
-                            <li><strong>Audience before features.</strong> The next version starts with who it's for, plus an admin view to triage error reports.</li>
+                            <li><strong>Audience before features.</strong> The next version is only a private view to triage error reports (requirements written, not built); before the one after it, I have to answer who the dictionary is for.</li>
                         </ul>
                     </div>
                 </section>
