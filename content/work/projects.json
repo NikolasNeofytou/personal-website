@@ -178,25 +178,25 @@
     "title": "Aristophanes",
     "public": false,
     "tagline": "An end-to-end platform for theatre, from solo practice to running a production.",
-    "description": "Case study: Aristophanes, an end-to-end platform for theatre companies. It grew from a scene partner for one actor into a production space with roles, call board, calendar, wardrobe and box office. Built in Flutter (iOS and Android) on Supabase with row-level security, and documented in 62 ADRs.",
+    "description": "Case study: Aristophanes, an end-to-end platform for theatre companies. It grew from a scene partner for one actor into a production space with roles, call board, calendar, wardrobe and box office. Built in Flutter (iOS and Android) on Supabase with row-level security, and documented in 61 ADRs.",
     "lede": "It began as a scene partner for one actor rehearsing <em>Lysistrata</em> alone. Then a director asked for the whole company. Today it is a platform for theatre: each production gets its own space, with roles that mirror the org chart, a call board, a rehearsal calendar, a shared wardrobe and a box office, and every actor still has a partner to rehearse with.",
     "alt": "A graphite hexagonal block with aluminium adapter plugs around it, one seated and ringed in cobalt light.",
     "meta": {
       "Role": "Solo",
-      "Timeline": "May – Sep 2026",
+      "Timeline": "May 2026 – present",
       "Stack": "Flutter (iOS + Android) · Supabase + RLS · Riverpod · Drift · Next.js · Stripe",
-      "Status": "In use by a 12-person cast · Lampblack redesign in testing"
+      "Status": "Taken up by a theatre company's cast in June 2026 · Lampblack redesign in TestFlight testing"
     },
     "card": {
-      "role": "Solo · Flutter (iOS + Android) + Supabase · May – Sep 2026",
+      "role": "Solo · Flutter (iOS + Android) + Supabase · May 2026 – present",
       "problem": "Amateur theatre runs on paper scripts and group chats: actors rehearse alone, and directors juggle schedules, costumes and casting across a dozen threads.",
       "approach": "An end-to-end platform for theatre: each production is its own space, with roles that mirror the org chart, a call board, calendar, shared wardrobe and box office, plus a scene partner for every actor. It began as a rehearsal app for one actor.",
       "bullets": [
-        "Seven production roles: the app shows the right buttons, and row-level security is the only server boundary.",
-        "Eight versions in eight days took it from one actor to a whole company, with security tested live.",
-        "62 ADRs, and a full design-system pass (Lampblack) before restyling any screen."
+        "Seven production roles: the app shows the right buttons, row-level security guards every table, and the privileged ticket paths check roles themselves.",
+        "Nine versions in eight days took it from one actor to a whole company, with security tested live.",
+        "61 ADRs, and a full design-system pass (Lampblack, in testing) before restyling any screen."
       ],
-      "outcome": "In use by a 12-person cast; 829 automated tests. Private repo, walkthrough on request.",
+      "outcome": "A theatre company's cast took it up in June 2026; 829 automated tests. Private repo, walkthrough on request.",
       "tags": [
         "Flutter",
         "Supabase",
@@ -211,7 +211,7 @@
     },
     "scope": {
       "line": "A whole theatre company in one app.",
-      "status": "in use · cast of 12",
+      "status": "adopted by a cast · Jun 2026",
       "meas": [
         [
           "roles",
@@ -219,7 +219,7 @@
         ],
         [
           "ADRs",
-          "62"
+          "61"
         ],
         [
           "tests",

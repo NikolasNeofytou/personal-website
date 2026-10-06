@@ -305,12 +305,12 @@
             ['Wed', 'Rehearsal', 'Lysistrata rehearses alone. The app reads the Magistrate; she says her own lines.'],
             ['Thu', 'A quick poll', 'Costume fitting, Saturday or Sunday? The cast votes on the call board.'],
             ['Fri', 'Costumes', 'The costume designer uploads photos. Each actor finds theirs in their wardrobe.'],
-            ['Sat', 'Opening night', 'Tickets sold on the web, scanned at the door. Each one admits exactly once.'],
+            ['Sat', 'Opening night', 'Tickets issued on the web, scanned at the door. Each one admits exactly once.'],
         ];
         const WARM = '#C2603F', COOL = '#3E4A9E', LEAD = '#E3A33B', INK = '#1A1A17';
         const CAST = [
             ['Lysistrata', LEAD], ['Kalonike', WARM], ['Myrrhine', WARM], ['Lampito', WARM], ['Stratyllis', WARM], ['Ismenia', WARM],
-            ['Magistrate', COOL], ['Kinesias', COOL], ['Herald', COOL], ['Drakes', COOL], ['Strymodoros', COOL], ['Prytanis', COOL],
+            ['Magistrate', COOL], ['Kinesias', COOL], ['Drakes', COOL], ['Strymodoros', COOL],
         ];
         // seat positions: director + costume on the top row, the cast below
         const SEATS = [[330, 70], [420, 70], [510, 70], [600, 70], [330, 165], [420, 165], [510, 165], [600, 165],
@@ -328,7 +328,7 @@
 
         const sh = weekShell(root, { days: DAYS, kicker: 'ΛΥΣΙΣΤΡΑΤΗ · ΘΙΑΣΟΣ',
             titles: ['Call board', 'Rehearse', 'Call board', 'Wardrobe', 'Door'],
-            label: 'Illustration: the production app on a phone, connected to fourteen members of a theatre company' });
+            label: 'Illustration: the production app on a phone, connected to the members of a theatre company' });
         if (!sh) return false;
         const { art, screens, S, T } = sh;
         const links = S('g', { class: 'week-links' }, sh.back);
@@ -401,7 +401,7 @@
             return { bar, n };
         });
         const pollNote = T(thu, 54, 248, '', 'week-small');
-        const VOTES = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1];   // 8 Saturday · 4 Sunday
+        const VOTES = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0];   // 7 Saturday · 3 Sunday
 
         // FRI: wardrobe fills
         const fri = screens[3];
@@ -484,8 +484,8 @@
                     }
                     if (u >= 1) tally[VOTES[k]]++;
                 });
-                pollRows.forEach((r, i) => { r.bar.setAttribute('width', (144 * tally[i]) / 12); r.n.textContent = String(tally[i]); });
-                pollNote.textContent = `${tally[0] + tally[1]} of 12 voted`;
+                pollRows.forEach((r, i) => { r.bar.setAttribute('width', (144 * tally[i]) / CAST.length); r.n.textContent = String(tally[i]); });
+                pollNote.textContent = `${tally[0] + tally[1]} of ${CAST.length} voted`;
             }
 
             if (day === 3) {
@@ -504,7 +504,7 @@
                     if (u >= 1) got++;
                 });
                 tiles.forEach((tile, i) => tile.style.opacity = clamp((t - 0.1 - i * 0.1) / 0.1));
-                friNote.textContent = `${got} of 12 costumes delivered`;
+                friNote.textContent = `${got} of ${CAST.length} costumes delivered`;
             }
 
             if (day === 4) {
