@@ -48,6 +48,8 @@ python3 scripts/build-cv.py
 
 `scripts/encode-plate.sh` (ffmpeg) turns raw video exports into the bookshelf's plate loops.
 
+Paintings are encoded with `scripts/encode-still.py` (ImageMagick, avifenc, cwebp) into the AVIF and WebP sizes the pages serve, with close-up-only sizes at a higher quality. `scripts/merge-upscale.py` (NumPy, Pillow, SciPy) builds a sharper master from generative upscales of a painting's tiles: it keeps the original's colour and shapes and takes only fine detail from the tiles, so the painting cannot change and the tiles cannot seam. The town's 7680 px master was made this way from four tiles.
+
 When CSS or JS changes, bump the `?v=` asset version in `index.html`, then re-run `build-case-studies.py` so the case studies pick it up.
 
 ## Running locally
