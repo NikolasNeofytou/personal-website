@@ -4,3 +4,4 @@ exclude:
   - content/
   - scripts/
   - assets/og-card.html
+  - assets/photography/    # unlinked until the photography wall ships (feat/photography)
