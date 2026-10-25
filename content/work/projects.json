@@ -38,7 +38,17 @@
       ],
       "flag_html": "<span class=\"case-flag\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private</span>"
     },
-    "scope": {
+    "town": {
+      "place": "The road to the harbour",
+      "pin": [
+        9,
+        74
+      ],
+      "focus": [
+        12,
+        60,
+        2.0
+      ],
       "line": "Real-time transit for Cyprus: where the bus actually is.",
       "status": "backend in production",
       "meas": [
@@ -95,7 +105,17 @@
         "<a class=\"case-badge case-badge--link\" href=\"https://ludi.football\" target=\"_blank\" rel=\"noopener noreferrer\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-arrow-right\"></use></svg> Live site</a>"
       ]
     },
-    "scope": {
+    "town": {
+      "place": "The stadium",
+      "pin": [
+        30,
+        64
+      ],
+      "focus": [
+        30,
+        60,
+        2.2
+      ],
       "line": "Five-a-side pitches, booked without the WhatsApp chase.",
       "status": "in beta",
       "bench": true,
@@ -152,7 +172,17 @@
         "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · walkthrough on request</span>"
       ]
     },
-    "scope": {
+    "town": {
+      "place": "The augur’s hill",
+      "pin": [
+        43,
+        40
+      ],
+      "focus": [
+        47,
+        30,
+        2.2
+      ],
       "line": "A relay board that knows where it is, with no PC in the chain.",
       "status": "on the bench",
       "bench": true,
@@ -209,7 +239,17 @@
       ],
       "flag_html": "<span class=\"case-flag\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private</span>"
     },
-    "scope": {
+    "town": {
+      "place": "The theatre",
+      "pin": [
+        56,
+        66
+      ],
+      "focus": [
+        56,
+        63,
+        2.2
+      ],
       "line": "A whole theatre company in one app.",
       "status": "adopted by a cast · Jun 2026",
       "meas": [
@@ -264,7 +304,17 @@
         "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · walkthrough on request</span>"
       ]
     },
-    "scope": {
+    "town": {
+      "place": "The workshop",
+      "pin": [
+        76,
+        70
+      ],
+      "focus": [
+        76,
+        66,
+        2.2
+      ],
       "line": "A print shop's pricing, from the owner's head to the counter.",
       "status": "running at the shop",
       "meas": [
@@ -319,7 +369,17 @@
       ],
       "flag_html": "<span class=\"case-flag case-flag--open\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-unlock\"></use></svg> Live</span>"
     },
-    "scope": {
+    "town": {
+      "place": "The library",
+      "pin": [
+        92,
+        64
+      ],
+      "focus": [
+        92,
+        60,
+        2.6
+      ],
       "line": "Ρίζα, a free Modern Greek dictionary that finds words from their inflected forms.",
       "status": "live",
       "meas": [

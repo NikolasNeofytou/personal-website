@@ -324,19 +324,27 @@ img { max-width: 100%; display: block; }
 }
 .hero-loop-fig { color: var(--accent); }
 
-/* ---------- Landing: the pitch over an oscilloscope ----------
-   The first screen, full width above the sidebar layout. The scope's soft
-   keys are the six projects (tabs, wired in js/script.js; plain links to the
-   case studies without JS). The trace is static SVG; the sweep is a clip. */
-.landing { min-height: 100vh; min-height: 100svh; display: flex; }
-.landing-inner {
-    width: 100%;
-    max-width: var(--maxw);
-    margin: 0 auto;
-    padding: 1.75rem clamp(1.5rem, 5vw, 4rem) clamp(2rem, 5vh, 3rem);
-    display: flex;
-    flex-direction: column;
+/* ---------- Landing: the pitch over a painted town ----------
+   The first screen, full width above the sidebar layout. One painted
+   panorama; the six projects are places in it. js/script.js turns the tabs
+   (and the pins it shows on the painting) into a camera that glides to a
+   place and opens its placard. Without JS the tabs are plain links to the
+   case studies and the painting shows whole. */
+.landing {
+    /* the content edge of the page below: centred in --maxw, never closer than the gutter */
+    --land-pad: max(clamp(1.5rem, 5vw, 4rem), calc((100% - var(--maxw)) / 2 + clamp(1.5rem, 5vw, 4rem)));
+    --town-ease: cubic-bezier(0.6, 0.05, 0.2, 1);
+    position: relative;
 }
+.landing-head {
+    /* over the painting's sky, which fades into the paper */
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 4;
+    padding: 1.75rem var(--land-pad) 0;
+    pointer-events: none;
+}
+.landing-head a { pointer-events: auto; }
 .landing-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
 .landing-name { font-family: var(--serif); font-size: 1.5rem; line-height: 1; color: var(--text); }
 .landing-nav {
@@ -351,160 +359,210 @@ img { max-width: 100%; display: block; }
 .landing-nav a:hover,
 .landing-nav a:focus-visible { color: var(--accent); }
 .landing-h {
-    margin-top: auto;   /* with .landing-foot's margin-bottom: the pitch sits centred below the top bar */
-    padding-top: clamp(1.75rem, 7vh, 4rem);
+    margin-top: clamp(1.25rem, 4.5vh, 2.75rem);
     font-family: var(--serif);
     font-weight: 400;
-    font-size: clamp(2.6rem, min(6.4vw, 10.5vh), 5.6rem);
+    font-size: clamp(2.6rem, min(5.4vw, 10vh), 5.4rem);
     line-height: 0.98;
     letter-spacing: -0.02em;
     color: var(--text);
-    max-width: 15.5em;
 }
 .landing-h em { font-style: italic; color: var(--accent); }
 
-.scope {
-    --phosphor: #A9B8FF;
-    --scope-dim: rgba(230, 232, 240, 0.6);
-    margin-top: clamp(1.5rem, 4.5vh, 2.6rem);
+.town {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
-    background: #0D0F14;
-    color: #E6E8F0;
-    border-radius: 6px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "view" "tabs";
+}
+.town-view {
+    grid-area: view;
+    position: relative;
     overflow: hidden;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 24px 48px -28px rgba(13, 15, 20, 0.65);
-    animation: rise 0.7s ease 0.1s both;
+    width: 100%;
+    /* 21:9 like the painting, but leave the tabs and the calls to action on the first
+       screen; an explicit height, since aspect-ratio with min-height widens a grid item */
+    height: clamp(560px, 100vw * 9 / 21, 100vh - 9.5rem);
+    height: clamp(560px, 100vw * 9 / 21, 100svh - 9.5rem);
+    background: #D9B985;                 /* the painting's mean tone while it loads */
 }
-.scope-screen { display: flex; flex-direction: column; min-width: 0; padding: 1rem 1.1rem 0; }
-.scope-hud {
-    display: flex;
-    justify-content: space-between;
-    font-family: var(--mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--scope-dim);
-}
-.scope-hud b { font-weight: 400; color: #8FA0FF; }
-.scope-plot { position: relative; flex: 1 0 clamp(150px, 27vh, 250px); margin-top: 0.7rem; }
-.scope-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.scope-grat line,
-.scope-ticks line,
-.scope-seam { vector-effect: non-scaling-stroke; stroke-width: 1; }
-.scope-grat line { stroke: rgba(255, 255, 255, 0.07); }
-.scope-ticks line { stroke: rgba(255, 255, 255, 0.16); }
-.scope-seam { stroke: rgba(143, 160, 255, 0.45); stroke-dasharray: 3 5; }
-.scope-wave { position: absolute; inset: 0; animation: scope-sweep 1.6s cubic-bezier(0.3, 0.6, 0.3, 1) 0.25s both; }
-.scope-glow,
-.scope-line { fill: none; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
-.scope-glow { stroke: #3D56FF; stroke-width: 6; opacity: 0.45; filter: url(#scope-blur); }
-.scope-line { stroke: var(--phosphor); stroke-width: 1.8; }
-@keyframes scope-sweep { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
-
-/* markers: a dashed cursor from the trace down, a dot, a label */
-.scope-m {
+.town-view::before,
+.town-view::after {
+    content: '';
     position: absolute;
-    left: var(--x);
-    top: var(--y);
+    left: 0;
+    right: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+.town-view::before {
+    top: 0;
+    height: 48%;
+    background: linear-gradient(to bottom, var(--bg) 0%, rgba(245, 244, 239, 0.92) 34%, rgba(245, 244, 239, 0.55) 62%, rgba(245, 244, 239, 0));
+}
+.town-view::after {
     bottom: 0;
-    border-left: 1px dashed rgba(169, 184, 255, 0.22);
+    height: 20%;
+    background: linear-gradient(to top, rgba(245, 244, 239, 0.9), rgba(245, 244, 239, 0));
+}
+.town-cam { position: absolute; inset: 0; transform-origin: 0 0; }
+.town-img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+/* live: JS sizes the camera to the cover size and moves it with one transform
+   (no will-change, so the browser re-rasters sharp once a glide ends) */
+.town.is-live .town-cam { inset: auto; left: 0; top: 0; transition: transform 1.4s var(--town-ease); }
+.town.is-live .town-view { cursor: zoom-out; }
+.town.is-live:not(.is-zoomed) .town-view { cursor: default; }
+
+/* pins: a zero-size anchor at the place, with a dot on it and a label beside it */
+.town-pins { position: absolute; inset: 0; z-index: 3; }
+.town-pin { display: none; }
+.town.is-live .town-pin {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
     cursor: pointer;
-    animation: scope-mark 0.35s ease var(--d) both;
-    transition: border-color 0.25s ease;
+    transition: transform 1.4s var(--town-ease), opacity 0.4s ease;
 }
-.scope-m::before { content: ''; position: absolute; left: -16px; top: -16px; width: 32px; height: 32px; }
-.scope-m i {
+.town-pin::before { content: ''; position: absolute; left: -20px; top: -20px; width: 40px; height: 40px; }
+.town-pin i {
     position: absolute;
-    left: -6px;
-    top: -6px;
-    width: 11px;
-    height: 11px;
+    left: -8px;
+    top: -8px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    background: #0D0F14;
-    border: 2px solid var(--phosphor);
-    transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    border: 2px solid #fff;
+    background: rgba(31, 59, 255, 0.35);
+    box-shadow: 0 0 0 4px rgba(31, 59, 255, 0.18), 0 1px 8px rgba(0, 0, 0, 0.35);
+    transition: background 0.25s ease, transform 0.25s ease;
+    animation: town-pin-in 0.45s ease var(--d) both;
 }
-.scope-m b {
+.town-pin b {
     position: absolute;
-    left: 9px;
-    top: -24px;
+    left: 15px;
+    top: -0.75rem;
+    padding: 0.2rem 0.5rem;
     font-family: var(--mono);
-    font-size: 0.66rem;
+    font-size: 0.72rem;
     font-weight: 400;
-    color: var(--scope-dim);
-    transition: color 0.25s ease;
-}
-.scope-m.is-on { border-left-color: rgba(169, 184, 255, 0.8); }
-.scope-m.is-on i { background: #fff; border-color: #3D56FF; transform: scale(1.3); box-shadow: 0 0 0 4px rgba(61, 86, 255, 0.28); }
-.scope-m.is-on b { color: #fff; }
-@keyframes scope-mark { from { opacity: 0; } to { opacity: 1; } }
-
-/* soft keys */
-.scope-keys {
-    display: flex;
-    margin: 0.9rem -1.1rem 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-.scope-key {
-    flex: 1 1 auto;
-    min-width: 0;
-    padding: 0.8rem 0.8rem;
-    font-family: var(--mono);
-    font-size: 0.74rem;
-    letter-spacing: 0.04em;
-    color: rgba(230, 232, 240, 0.72);
-    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    letter-spacing: 0.06em;
+    line-height: 1.6;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: background 0.2s ease, color 0.2s ease;
+    color: #fff;
+    background: rgba(26, 26, 23, 0.6);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    animation: town-pin-in 0.45s ease var(--d) both;
 }
-.scope-key:last-child { border-right: 0; }
-.scope-key span { margin-right: 0.45rem; color: rgba(230, 232, 240, 0.55); }
-.scope-key:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
-.scope-key:focus-visible { outline: 2px solid #8FA0FF; outline-offset: -2px; }
-.scope-key[aria-selected="true"] { background: var(--accent); color: #fff; }
-.scope-key[aria-selected="true"] span { color: rgba(255, 255, 255, 0.72); }
+.town-pin.is-flip b { left: auto; right: 15px; }
+.town-pin.is-off { visibility: hidden; }
+.town-pin:hover i,
+.town-pin.is-on i { background: var(--accent); transform: scale(1.15); }
+.town.is-zoomed .town-pin:not(.is-on) { opacity: 0; pointer-events: none; }
+.town.is-still .town-cam,
+.town.is-still .town-pin { transition: none; }
+@keyframes town-pin-in { from { opacity: 0; transform: translateY(-6px); } }
 
-/* readout */
-.scope-readout { background: #14161C; border-left: 1px solid rgba(255, 255, 255, 0.08); }
-.scope-panel { display: flex; flex-direction: column; height: 100%; padding: 1rem 1.3rem 1.1rem; }
-.scope-panel[hidden] { display: none; }
-.scope-panel-head {
+/* tabs: the six places, then the whole town */
+.town-tabs {
+    grid-area: tabs;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    padding: 0 calc(var(--land-pad) - 1rem);
+    border-bottom: 1px solid var(--line);
+}
+.town-tabs::-webkit-scrollbar { display: none; }
+.town-tab {
+    flex: none;
+    padding: 0.9rem 1rem;
+    margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    color: var(--text-dim);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.town-tab span { margin-right: 0.45rem; color: var(--text-faint); }
+.town-tab:hover { color: var(--text); }
+.town-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.town-tab[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); }
+.town-tab--all { margin-left: auto; }
+.town-tab[hidden] { display: none; }
+
+/* placards: over the painting, on the side away from the place */
+.town-cards {
+    grid-area: view;
+    z-index: 4;
+    align-self: end;
+    justify-self: end;
+    width: min(340px, 80vw);
+    margin: 0 var(--land-pad) 3.25rem;
+    pointer-events: none;
+}
+.town-cards.is-left { justify-self: start; }
+.town-card {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.1rem 1.2rem 1.15rem;
+    background: rgba(245, 244, 239, 0.95);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 18px 40px -20px rgba(60, 40, 15, 0.45);
+    pointer-events: auto;
+    animation: town-card-in 0.5s ease 0.5s both;
+}
+.town-card[hidden] { display: none; }
+.town-card--all {
+    /* the whole town's panel is for screen readers: the painting is already in view */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+.town-card-head {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.2rem 0.7rem;
+    justify-content: space-between;
+    gap: 0.5rem;
     font-family: var(--mono);
-    font-size: 0.66rem;
+    font-size: 0.68rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--scope-dim);
+    color: var(--text-faint);
 }
-.scope-status { display: inline-flex; align-items: center; gap: 0.4rem; color: #3DDC84; }
-.scope-status--bench { color: #8FA0FF; }
-.scope-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-.scope-cover { width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; border-radius: 3px; margin: 0.75rem 0; background: #1C1F27; }
-.scope-name { font-family: var(--serif); font-size: 1.85rem; line-height: 1; color: #fff; }
-.scope-line { margin-top: 0.35rem; font-size: 0.84rem; font-weight: 400; line-height: 1.45; color: rgba(230, 232, 240, 0.7); }
-.scope-meas { display: grid; gap: 0.15rem; margin-top: 0.75rem; font-family: var(--mono); font-size: 0.74rem; }
-.scope-meas div { display: flex; justify-content: space-between; gap: 1rem; }
-.scope-meas dt { color: rgba(230, 232, 240, 0.62); }
-.scope-meas dd { color: #fff; }
-.scope-link {
+.town-status { display: inline-flex; align-items: center; gap: 0.4rem; color: #1E7444; }
+.town-status--bench { color: var(--accent); }
+.town-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.town-name { font-family: var(--serif); font-size: 2rem; line-height: 1; color: var(--text); }
+.town-place { margin-top: -0.3rem; font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: #6B4A2B; }
+.town-line { font-size: 0.9rem; font-weight: 400; line-height: 1.45; color: var(--text-dim); }
+.town-meas { display: grid; gap: 0.15rem; font-family: var(--mono); font-size: 0.76rem; }
+.town-meas div { display: flex; justify-content: space-between; gap: 1rem; }
+.town-meas dt { color: var(--text-faint); }
+.town-meas dd { color: var(--text); }
+.town-link {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    margin-top: auto;
-    padding-top: 0.85rem;
+    margin-top: 0.2rem;
     font-family: var(--mono);
-    font-size: 0.74rem;
+    font-size: 0.76rem;
     letter-spacing: 0.04em;
-    color: #8FA0FF;
-    transition: color 0.2s ease, gap 0.2s ease;
+    color: var(--accent);
+    transition: gap 0.2s ease;
 }
-.scope-link:hover,
-.scope-link:focus-visible { color: #fff; gap: 0.7rem; }
+.town-link:hover,
+.town-link:focus-visible { gap: 0.7rem; }
+@keyframes town-card-in { from { opacity: 0; transform: translateY(10px); } }
 
 /* pitch + calls to action */
 .landing-foot {
@@ -513,11 +571,10 @@ img { max-width: 100%; display: block; }
     align-items: center;
     justify-content: space-between;
     gap: 1.25rem 2rem;
-    margin-top: clamp(1.4rem, 4vh, 2.2rem);
-    margin-bottom: auto;
+    padding: 1.4rem var(--land-pad) clamp(2rem, 5vh, 3rem);
     animation: rise 0.7s ease 0.2s both;
 }
-.landing-sub { max-width: 36rem; font-size: 1.02rem; font-weight: 400; line-height: 1.55; color: var(--text-dim); }
+.landing-sub { max-width: 40rem; font-size: 1.02rem; font-weight: 400; line-height: 1.55; color: var(--text-dim); }
 .landing-avail { display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
 .landing-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .landing-btn {
@@ -542,40 +599,36 @@ img { max-width: 100%; display: block; }
 .landing ~ .layout .side-blurb { display: none; }
 .landing ~ .layout .side-status { margin-top: 1.1rem; }
 
-@media (min-width: 861px) and (max-height: 800px) {
+@media (min-width: 761px) and (max-height: 800px) {
     /* laptops: keep the calls to action above the fold */
-    .landing-inner { padding-top: 1.25rem; padding-bottom: 1.25rem; }
-    .landing-h { padding-top: 1.25rem; }
-    .scope { margin-top: 1.25rem; }
-    .scope-cover { aspect-ratio: 3 / 1; }
-    .landing-foot { margin-top: 1.1rem; }
+    .landing-head { padding-top: 1.25rem; }
+    .landing-foot { padding-top: 1.1rem; padding-bottom: 1.25rem; }
+    .town-view { height: clamp(480px, 100vw * 9 / 21, 100vh - 9.5rem); height: clamp(480px, 100vw * 9 / 21, 100svh - 9.5rem); }
 }
 @media (max-width: 1023px) {
     /* the landing is the page header on small screens; the stacked sidebar would repeat it */
     .landing ~ .layout .sidebar { display: none; }
 }
-@media (max-width: 860px) {
-    .scope { grid-template-columns: minmax(0, 1fr); }
-    .scope-hud-seam { display: none; }
-    .scope-plot { flex-basis: 140px; }
-    .scope-keys { overflow-x: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 2.5rem), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 2.5rem), transparent); }
-    .scope-keys::-webkit-scrollbar { display: none; }
-    .scope-key { flex: 0 0 auto; overflow: visible; }
-    .scope-readout { border-left: 0; border-top: 1px solid rgba(255, 255, 255, 0.08); }
-    .scope-panel { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 0 1rem; padding: 0.9rem 1rem 1rem; }
-    .scope-panel-head { grid-column: 1 / -1; }
-    .scope-cover { grid-row: 2 / span 3; aspect-ratio: 1; margin: 0.75rem 0 0; }
-    .scope-name { margin-top: 0.75rem; font-size: 1.5rem; }
-    .scope-meas { display: none; }
-    .scope-link { margin-top: 0.4rem; padding-top: 0; }
-}
-@media (max-width: 700px) {
-    .landing-inner { padding-top: 1.1rem; padding-bottom: 1.5rem; }
-    .landing-h { padding-top: 1.6rem; font-size: 2.6rem; }
-    .scope { margin-top: 1.4rem; }
-    .scope-plot { flex-basis: 120px; }
-    .scope-panel { grid-template-columns: 84px minmax(0, 1fr); }
-    .landing-foot { margin-top: 1.25rem; gap: 1rem; }
+@media (max-width: 760px) {
+    /* phones: the pitch sits above the painting, and a picked place's placard below the tabs */
+    .landing-head { position: static; padding: 1.1rem var(--land-pad) 1.1rem; pointer-events: auto; }
+    .landing-h { margin-top: 1.6rem; font-size: 2.6rem; }
+    .town { grid-template-areas: "view" "tabs" "cards"; }
+    .town-view { height: 80vw; }   /* 5:4 */
+    .town-view::before { height: 16%; background: linear-gradient(to bottom, var(--bg), rgba(245, 244, 239, 0)); }
+    .town-img { object-position: 42% 50%; }
+    .town-tabs {
+        -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 2.5rem), transparent);
+        mask-image: linear-gradient(90deg, #000 calc(100% - 2.5rem), transparent);
+    }
+    .town-tab--all { margin-left: 0; }
+    .town-cards { grid-area: cards; justify-self: stretch; width: auto; margin: 0 var(--land-pad); }
+    .town-cards.is-left { justify-self: stretch; }
+    .town-card { margin-top: 1rem; background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; animation-delay: 0.2s; }
+    .town-card--all { margin: 0; }
+    .town-pin b { font-size: 0.66rem; }
+    .town:not(.is-zoomed) .town-pin b span { display: none; }   /* the whole town is too tight for names: numerals, as on the tabs */
+    .landing-foot { gap: 1rem; padding-top: 1.25rem; padding-bottom: 1.5rem; }
     .landing-btn { padding: 0.8rem 1.05rem; font-size: 0.88rem; }
     .landing-nav a:not(.landing-cv) { display: none; }
     .landing-sub { font-size: 0.95rem; }

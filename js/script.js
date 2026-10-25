@@ -48,62 +48,132 @@
 })();
 
 // ==========================================
-// Landing scope — the soft keys are tabs: picking a project moves the
-// marker on the trace and swaps the readout. Without JS the keys stay
-// plain links to the case studies and the first readout shows.
+// Landing town — one painting, six places. The tabs and the pins glide a
+// camera to a place and open its placard; "Whole town" (or Escape, or a
+// click on the painting) pulls back. Without JS the tabs stay plain links
+// to the case studies and the painting shows whole.
 // ==========================================
 (function () {
-    const scope = document.querySelector('[data-scope]');
-    if (!scope) return;
-    const keys = [...scope.querySelectorAll('.scope-key')];
-    const panels = keys.map(k => document.getElementById(k.dataset.panel));
-    const marks = [...scope.querySelectorAll('.scope-m')];
-    if (!keys.length || panels.some(p => !p)) return;
+    const town = document.querySelector('[data-town]');
+    if (!town) return;
+    const view = town.querySelector('.town-view');
+    const cam = town.querySelector('.town-cam');
+    const img = town.querySelector('.town-img');
+    const cards = town.querySelector('.town-cards');
+    const pins = [...town.querySelectorAll('.town-pin')];
+    const tabs = [...town.querySelectorAll('.town-tab')];        // the six places, then the whole town
+    const panels = tabs.map(t => document.getElementById(t.dataset.panel));
+    const ALL = tabs.length - 1;
+    if (!pins.length || pins.length !== ALL || panels.some(p => !p)) return;
 
-    const list = scope.querySelector('.scope-keys');
+    const IW = +img.getAttribute('width'), IH = +img.getAttribute('height');
+    const at = pins.map(p => p.dataset.at.split(' ').map(Number));          // % of the painting
+    const focus = pins.map(p => p.dataset.focus.split(' ').map(Number));   // centre (%) and zoom
+    const phone = matchMedia('(max-width: 760px)');
+    const saveData = navigator.connection && navigator.connection.saveData;
+    let current = ALL;
+    let sharp = false;
+
+    const list = town.querySelector('.town-tabs');
     list.setAttribute('role', 'tablist');
-    list.setAttribute('aria-label', 'Selected work');
-    keys.forEach((k, i) => {
-        k.setAttribute('role', 'tab');
-        k.setAttribute('aria-controls', panels[i].id);
+    list.setAttribute('aria-label', 'Places in the town');
+    tabs.forEach((t, i) => {
+        t.setAttribute('role', 'tab');
+        t.setAttribute('aria-controls', panels[i].id);
         panels[i].setAttribute('role', 'tabpanel');
-        panels[i].setAttribute('aria-labelledby', k.id);
+        panels[i].setAttribute('aria-labelledby', t.id);
     });
+    tabs[ALL].hidden = false;   // last in the row, so showing it moves nothing
 
-    // warm a readout's cover before it is picked
-    const warm = (i) => panels[i].querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
-
-    function select(i, focus) {
-        keys.forEach((k, j) => {
-            const on = j === i;
-            k.setAttribute('aria-selected', String(on));
-            k.tabIndex = on ? 0 : -1;
-            panels[j].hidden = !on;
-            if (marks[j]) marks[j].classList.toggle('is-on', on);
+    // The painting is laid out at cover size and moved with one transform;
+    // the pins follow in screen space, so they never scale.
+    function frame(cx, cy, z, whole) {
+        const vw = view.clientWidth, vh = view.clientHeight;
+        const s = Math.max(vw / IW, vh / IH);
+        const w = IW * s, h = IH * s, W = w * z, H = h * z;
+        let tx, ty;
+        if (whole) { tx = (vw - W) * cx; ty = (vh - H) * cy; }            // = object-position: going live doesn't jump
+        else { tx = vw * 0.5 - cx * W; ty = vh * 0.56 - cy * H; }
+        tx = Math.min(0, Math.max(vw - W, tx));
+        ty = Math.min(0, Math.max(vh - H, ty));
+        cam.style.width = w + 'px';
+        cam.style.height = h + 'px';
+        cam.style.transform = `translate(${tx}px, ${ty}px) scale(${z})`;
+        pins.forEach((p, i) => {
+            const x = tx + at[i][0] / 100 * W, y = ty + at[i][1] / 100 * H;
+            p.style.transform = `translate(${x}px, ${y}px)`;
+            p.classList.toggle('is-off', x < 8 || x > vw - 8 || y < 8 || y > vh - 8);
+            p.classList.toggle('is-flip', x > vw - p.lastElementChild.offsetWidth - 32);
         });
-        if (focus) keys[i].focus();
+        return W;
     }
 
-    keys.forEach((k, i) => {
-        k.addEventListener('click', (e) => {
-            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;   // open-in-new-tab still works
+    function select(k, focusTab) {
+        current = k;
+        tabs.forEach((t, j) => {
+            const on = j === k;
+            t.setAttribute('aria-selected', String(on));
+            t.tabIndex = on ? 0 : -1;
+            panels[j].hidden = !on;
+        });
+        pins.forEach((p, i) => p.classList.toggle('is-on', i === k));
+        town.classList.toggle('is-zoomed', k !== ALL);
+        if (k === ALL) {
+            const pos = getComputedStyle(img).objectPosition.split(' ').map(v => parseFloat(v) / 100);
+            frame(pos[0], pos[1], 1, true);
+        } else {
+            const [fx, fy, z] = focus[k];
+            const W = frame(fx / 100, fy / 100, phone.matches ? z * 0.75 : z, false);
+            cards.classList.toggle('is-left', fx > 60);
+            // close up, the screen-sized source goes soft: let srcset pick a bigger one
+            if (!sharp && !saveData) { sharp = true; img.sizes = Math.ceil(W) + 'px'; }
+        }
+        // on phones the row scrolls: keep the picked tab in it
+        const t = tabs[k];
+        if (list.scrollWidth > list.clientWidth) {
+            const r = t.getBoundingClientRect(), lr = list.getBoundingClientRect();
+            list.scrollTo({ left: list.scrollLeft + r.left - lr.left - (lr.width - r.width) / 2 });
+        }
+        if (focusTab) t.focus();
+    }
+
+    // reposition without the glide (first paint, resize)
+    function settle() {
+        town.classList.add('is-still');
+        select(current);
+        requestAnimationFrame(() => requestAnimationFrame(() => town.classList.remove('is-still')));
+    }
+
+    const plain = (e) => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey;   // open-in-new-tab still works
+    tabs.forEach((t, i) => {
+        t.addEventListener('click', (e) => {
+            if (plain(e)) return;
             e.preventDefault();
             select(i);
         });
-        k.addEventListener('keydown', (e) => {
-            const to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: keys.length - 1 }[e.key];
+        t.addEventListener('keydown', (e) => {
+            const to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: ALL }[e.key];
             if (to === undefined) return;
             e.preventDefault();
-            select((to + keys.length) % keys.length, true);
+            select((to + tabs.length) % tabs.length, true);
         });
-        k.addEventListener('pointerenter', () => warm(i));
-        k.addEventListener('focus', () => warm(i));
     });
-    marks.forEach((m, i) => {
-        m.addEventListener('click', () => select(i));
-        m.addEventListener('pointerenter', () => warm(i));
+    pins.forEach((p, i) => p.addEventListener('click', (e) => {
+        if (plain(e) || current === i) return;     // a second click on the picked place opens its case study
+        e.preventDefault();
+        e.stopPropagation();
+        select(i);
+    }));
+    view.addEventListener('click', (e) => {
+        if (current !== ALL && !e.target.closest('.town-pin')) select(ALL);
     });
-    select(0);
+    town.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && current !== ALL) select(ALL, town.contains(document.activeElement));
+    });
+
+    town.classList.add('is-live');
+    settle();
+    new ResizeObserver(settle).observe(view);
 })();
 
 // ==========================================

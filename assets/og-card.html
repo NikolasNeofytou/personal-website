@@ -2,11 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<!-- Source for og-image.jpg (1200×630). Serve the site locally, render with
+<!-- Source for og-town.jpg (1200×630). Serve the site locally, render with
      headless Chrome to PNG (--headless=new --hide-scrollbars --window-size=1200,630
      --virtual-time-budget=6000 --screenshot=og.png <url>/assets/og-card.html),
      then convert to JPEG q90. Rename the output if you change it, so social caches refetch. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=DM+Mono:wght@400;500&family=Inter:wght@400;500&display=swap">
+<style>
+  @font-face { font-family: 'Instrument Serif'; src: url('fonts/instrument-serif.woff2') format('woff2'); }
+  @font-face { font-family: 'Inter'; font-weight: 300 600; src: url('fonts/inter-var.woff2') format('woff2'); }
+  @font-face { font-family: 'DM Mono'; font-weight: 400; src: url('fonts/dm-mono-400.woff2') format('woff2'); }
+  @font-face { font-family: 'DM Mono'; font-weight: 500; src: url('fonts/dm-mono-500.woff2') format('woff2'); }
+</style>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1200px; height: 630px; }
@@ -68,7 +73,7 @@
   .right img {
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: 80% 50%;
+    object-position: 50% 50%;
     display: block;
   }
   .corner {
@@ -77,8 +82,12 @@
     border-top: 1.5px solid #8C9BFF;
     border-right: 1.5px solid #8C9BFF;
   }
+  .right::after {
+    content: ''; position: absolute; inset: auto 0 0 0; height: 140px;
+    background: linear-gradient(to top, rgba(20, 14, 6, 0.62), rgba(20, 14, 6, 0));
+  }
   .fig {
-    position: absolute; left: 28px; bottom: 26px;
+    position: absolute; left: 28px; bottom: 26px; z-index: 1;
     font-family: 'DM Mono', monospace;
     font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase;
     color: rgba(245,244,239,0.72);
@@ -90,7 +99,7 @@
   <div class="left">
     <div class="tag">Electrical &amp; Computer Engineer</div>
     <div class="name">Nikolas<br>Neofytou</div>
-    <div class="pitch">I build at the seam between hardware and software.</div>
+    <div class="pitch">I build software for real places.</div>
     <div class="meta">
       <div class="status"><span class="dot"></span>Available for freelance</div>
       <div class="url">nikolasneofytou.com</div>
@@ -99,7 +108,7 @@
   <div class="right">
     <img src="og-keyframe.jpg" alt="">
     <div class="corner"></div>
-    <div class="fig"><b>Fig. 00</b>Signal on the bench</div>
+    <div class="fig"><b>Plate</b>The town at golden hour</div>
   </div>
 </body>
 </html>
