@@ -46,7 +46,7 @@ def relink(fragment: str) -> str:
 
 
 ICON = '<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-{}"></use></svg>'
-EMAIL = "nikiforialicht@gmail.com"
+EMAIL = "nikolas@nikolasneofytou.com"
 
 
 def mailto(subject: str, body: str = "") -> str:
