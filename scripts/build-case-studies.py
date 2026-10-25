@@ -17,6 +17,7 @@ import html
 import json
 import pathlib
 import re
+import urllib.parse
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content" / "work"
@@ -45,6 +46,18 @@ def relink(fragment: str) -> str:
 
 
 ICON = '<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-{}"></use></svg>'
+EMAIL = "nikiforialicht@gmail.com"
+
+
+def mailto(subject: str, body: str = "") -> str:
+    """A mailto: link, escaped for an HTML attribute."""
+    q = "subject=" + urllib.parse.quote(subject) + ("&body=" + urllib.parse.quote(body) if body else "")
+    return html.escape(f"mailto:{EMAIL}?{q}", quote=True)
+
+
+# the project enquiry, prefilled with the questions the contact section asks (index.html uses the same link)
+ENQUIRY = mailto("Project enquiry",
+                 "Hi Nikolas,\n\nWhat it's for:\n\nWho will use it:\n\nWhen you need it:\n\nBudget (a rough range is fine):\n")
 
 
 def render_card(p: dict, i: int, total: int) -> str:
@@ -219,6 +232,11 @@ def main() -> None:
         # link previews: the cover cropped to 1200x630 when there is one, else the site card
         og_image = (f"{SITE}/assets/og/{p['slug']}.jpg"
                     if (ROOT / "assets" / "og" / f"{p['slug']}.jpg").exists() else f"{SITE}/assets/og-town.jpg")
+        # private repos: offer a walkthrough of the code
+        walk_line = "" if p["public"] else " The code is private, and I'm happy to walk you through it."
+        walk_link = ("" if p["public"] else
+                     f'\n                    <a class="contact-alt" href="{mailto("Walkthrough: " + p["title"])}">'
+                     f'Ask for a walkthrough of {e["title"]} {ICON.format("arrow-right")}</a>')
         page = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -271,6 +289,14 @@ def main() -> None:
 
 {body}
             </article>
+
+            <aside class="cs-cta" aria-labelledby="cs-cta-h">
+                <h2 class="cs-cta-h" id="cs-cta-h">Something like {e['title']} for your business or team?</h2>
+                <p class="cs-cta-line">Tell me what it's for, who will use it and when you need it.{walk_line}</p>
+                <div class="contact-ctas">
+                    <a class="contact-cta" href="{ENQUIRY}">{ICON.format('envelope')} Email me about a project</a>{walk_link}
+                </div>
+            </aside>
 
             <nav class="cs-next" aria-label="Next case study">
                 <a href="{nxt['slug']}.html" class="cs-next-link">

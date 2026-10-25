@@ -28,23 +28,14 @@
 })();
 
 // ==========================================
-// Hero loop — the poster is in the markup (space reserved, no layout
-// shift); only play when motion and data are welcome, and only on screen
+// Mini nav — below 1024px there is no sidebar: once the landing has
+// scrolled away, a slim bar keeps the work and the contact one tap away
 // ==========================================
 (function () {
-    const video = document.querySelector('#heroLoop video');
-    if (!video) return;
-
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const saveData = navigator.connection && navigator.connection.saveData;
-    if (reduceMotion || saveData || !('IntersectionObserver' in window)) return;
-
-    new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) video.play().catch(() => {});
-            else video.pause();
-        });
-    }, { threshold: 0.25 }).observe(video);
+    const bar = document.querySelector('[data-mini-nav]');
+    const landing = document.querySelector('.landing');
+    if (!bar || !landing || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(([e]) => bar.classList.toggle('is-shown', !e.isIntersecting)).observe(landing);
 })();
 
 // ==========================================
@@ -177,105 +168,6 @@
 })();
 
 // ==========================================
-// Fig. 01 scrub — scroll position picks a frame of the bench → silicon
-// push-in and draws it to a pinned canvas (Apple-style image sequence).
-// Frames load coarse-to-fine; until a frame arrives the nearest loaded one
-// is drawn. Without motion/data consent the section stays a static figure.
-// ==========================================
-(function () {
-    const sec = document.getElementById('signal');
-    if (!sec) return;
-    const canvas = sec.querySelector('.scrub-canvas');
-    const ctx = canvas && canvas.getContext('2d');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const saveData = navigator.connection && navigator.connection.saveData;
-    if (!ctx || reduceMotion || saveData || !('IntersectionObserver' in window)) return;
-
-    const count = parseInt(sec.dataset.frames, 10);
-    const small = window.matchMedia('(max-width: 809px)').matches;
-    const dir = small ? sec.dataset.srcSmall : sec.dataset.src;
-    const url = i => `${dir}/${String(i + 1).padStart(3, '0')}.webp`;
-    const frames = new Array(count);
-    const steps = [...sec.querySelectorAll('.scrub-step')];
-    const fill = sec.querySelector('.scrub-fill');
-
-    let target = 0, drawn = null, queued = false, loading = false;
-
-    sec.classList.add('is-live');
-
-    function load(i) {
-        if (frames[i]) return;
-        const img = new Image();
-        img.decoding = 'async';
-        img.onload = () => { img.ready = true; schedule(); };
-        img.src = url(i);
-        frames[i] = img;
-    }
-
-    // every 16th frame first, then fill in at 8, 4, 2, 1 — any scroll
-    // position has a close-enough frame early on
-    function loadAll() {
-        if (loading) return;
-        loading = true;
-        load(0);
-        for (const stride of [16, 8, 4, 2, 1]) {
-            for (let i = 0; i < count; i += stride) load(i);
-        }
-    }
-
-    function nearest(i) {
-        for (let d = 0; d < count; d++) {
-            const a = frames[i - d], b = frames[i + d];
-            if (a && a.ready) return a;
-            if (b && b.ready) return b;
-        }
-        return null;
-    }
-
-    function size() {
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = Math.round(canvas.clientWidth * dpr);
-        canvas.height = Math.round(canvas.clientHeight * dpr);
-        drawn = null;
-    }
-
-    function update() {
-        queued = false;
-        const travel = sec.offsetHeight - window.innerHeight;
-        const p = Math.min(Math.max(-sec.getBoundingClientRect().top / travel, 0), 1);
-        target = Math.round(p * (count - 1));
-
-        const img = nearest(target);
-        if (img && img !== drawn) {
-            // cover-fit: the stage is taller than 16:9, so crop the sides
-            const k = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
-            const w = img.naturalWidth * k, h = img.naturalHeight * k;
-            ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
-            drawn = img;
-        }
-        steps.forEach(s => s.classList.toggle('is-on', p >= +s.dataset.from && p < +s.dataset.to));
-        if (fill) fill.style.transform = `scaleX(${p})`;
-    }
-
-    function schedule() {
-        if (!queued) { queued = true; requestAnimationFrame(update); }
-    }
-
-    // frames wait for the page's own load so they never compete with first paint
-    let near = false, loaded = document.readyState === 'complete';
-    new IntersectionObserver((entries) => {
-        near = entries[0].isIntersecting;
-        if (near && loaded) loadAll();
-        if (near) schedule();
-    }, { rootMargin: '150% 0px' }).observe(sec);
-    if (!loaded) window.addEventListener('load', () => { loaded = true; if (near) loadAll(); }, { once: true });
-
-    window.addEventListener('scroll', () => { if (near) schedule(); }, { passive: true });
-    window.addEventListener('resize', () => { size(); schedule(); });
-    size();
-})();
-
-// ==========================================
 // Signal trace — a PCB-style trace down the left gutter that connects the
 // sections like pads on a board. Routed from live element positions (so
 // it follows layout changes), drawn up to ~55% of the viewport as you
@@ -305,11 +197,8 @@
 
     // things the trace connects to, top to bottom; the footer is the ground
     function anchors() {
-        const list = [];
-        const loop = document.getElementById('heroLoop');
-        if (loop && !loop.hidden) list.push(loop.querySelector('.hero-loop-frame'));
-        main.querySelectorAll('.section-head, .scrub-frame, .cs-hero').forEach(n => list.push(n));
-        return list.filter(n => n && n.getClientRects().length)
+        return [...main.querySelectorAll('.section-head, .cs-hero')]
+            .filter(n => n.getClientRects().length)
             .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
     }
 
@@ -325,7 +214,7 @@
         const jog = Math.max(4, Math.round(gutter / 8));
         const ys = anchors().map(a => {
             const r = a.getBoundingClientRect();
-            // headings: their middle; the pinned stage: just inside its top
+            // headings: their middle; a case study's cover: just inside its top
             return Math.round((a.classList.contains('section-head') ? r.top + r.height / 2 : r.top + 24) - m.top) + 0.5;
         });
         const footer = main.querySelector('.site-footer');

@@ -34,7 +34,7 @@
         "GTFS-RT"
       ],
       "links": [
-        "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · demo on request</span>"
+        "<a class=\"case-badge case-badge--link\" href=\"mailto:nikiforialicht@gmail.com?subject=Walkthrough%3A%20Cinna\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · ask for a demo</a>"
       ],
       "flag_html": "<span class=\"case-flag\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private</span>"
     },
@@ -169,7 +169,7 @@
         "Java"
       ],
       "links": [
-        "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · walkthrough on request</span>"
+        "<a class=\"case-badge case-badge--link\" href=\"mailto:nikiforialicht@gmail.com?subject=Walkthrough%3A%20Augur\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · ask for a walkthrough</a>"
       ]
     },
     "town": {
@@ -235,7 +235,7 @@
         "Stripe"
       ],
       "links": [
-        "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · demo on request</span>"
+        "<a class=\"case-badge case-badge--link\" href=\"mailto:nikiforialicht@gmail.com?subject=Walkthrough%3A%20Aristophanes\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · ask for a demo</a>"
       ],
       "flag_html": "<span class=\"case-flag\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private</span>"
     },
@@ -301,7 +301,7 @@
         "SQLite"
       ],
       "links": [
-        "<span class=\"case-badge\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · walkthrough on request</span>"
+        "<a class=\"case-badge case-badge--link\" href=\"mailto:nikiforialicht@gmail.com?subject=Walkthrough%3A%20Wiseprint\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · ask for a walkthrough</a>"
       ]
     },
     "town": {

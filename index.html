@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Nikolas Neofytou — Electrical & Computer Engineer (NTUA) building embedded systems and the full-stack apps around them. Flutter, Django REST, Next.js, PostGIS. Available for freelance.">
+    <meta name="description" content="Nikolas Neofytou builds software for real places: embedded systems and the full-stack apps around them, for businesses and teams in Cyprus. Flutter, Django REST, Next.js, PostGIS. Available for freelance.">
     <meta name="author" content="Nikolas Neofytou">
     <meta name="theme-color" content="#F5F4EF">
     <link rel="canonical" href="https://nikolasneofytou.com/">
@@ -36,7 +36,7 @@
       "url": "https://nikolasneofytou.com/",
       "image": "https://nikolasneofytou.com/assets/PROFILE.JPEG",
       "jobTitle": "Electrical & Computer Engineer",
-      "affiliation": { "@type": "CollegeOrUniversity", "name": "National Technical University of Athens" },
+      "affiliation": { "@type": "CollegeOrUniversity", "name": "University of Nicosia" },
       "knowsAbout": ["Embedded Systems", "Electronics", "Control Systems", "Full-Stack Development", "Flutter", "Django", "Next.js", "PostgreSQL", "PostGIS"],
       "sameAs": [
         "https://github.com/NikolasNeofytou",
@@ -48,7 +48,7 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css?v=20261025b">
+    <link rel="stylesheet" href="css/styles.css?v=20261025c">
     <link rel="preload" href="assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
@@ -84,8 +84,8 @@
                 <a class="landing-name" href="#top">Nikolas&nbsp;Neofytou</a>
                 <nav class="landing-nav" aria-label="Jump to">
                     <a href="#work">Work</a>
+                    <a href="#how">How I work</a>
                     <a href="#experience">Experience</a>
-                    <a href="#beyond">Beyond</a>
                     <a href="#contact">Contact</a>
                     <a href="assets/cv.pdf" download="Nikolas_Neofytou_CV.pdf" class="landing-cv">Résumé <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-down"></use></svg></a>
                 </nav>
@@ -174,10 +174,19 @@
             <p class="landing-sub">A bus line, a pitch, a theatre, a print shop, a library, and a relay board on a hill. Embedded systems and the full-stack apps around them. <span class="landing-avail"><span class="status-pulse" aria-hidden="true"></span>Available for freelance, Cyprus.</span></p>
             <div class="landing-ctas">
                 <a class="landing-btn landing-btn--primary" href="#work">See the work <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-down"></use></svg></a>
-                <a class="landing-btn landing-btn--ghost" href="mailto:nikiforialicht@gmail.com">Start a project <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
+                <a class="landing-btn landing-btn--ghost" href="mailto:nikiforialicht@gmail.com?subject=Project%20enquiry&amp;body=Hi%20Nikolas%2C%0A%0AWhat%20it%27s%20for%3A%0A%0AWho%20will%20use%20it%3A%0A%0AWhen%20you%20need%20it%3A%0A%0ABudget%20%28a%20rough%20range%20is%20fine%29%3A%0A">Start a project <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
             </div>
         </div>
     </section>
+
+    <!-- MINI NAV — phones and tablets have no sidebar: once the landing scrolls
+         away, a slim bar keeps the work and the contact one tap away (js/script.js) -->
+    <nav class="mini-nav" aria-label="Sections" data-mini-nav>
+        <a class="mini-nav-name" href="#top">Nikolas&nbsp;Neofytou</a>
+        <a href="#work">Work</a>
+        <a href="#how">How I work</a>
+        <a class="mini-nav-cta" href="#contact">Contact</a>
+    </nav>
 
     <div class="layout">
         <!-- ============================================================
@@ -189,16 +198,17 @@
                     <a href="#top" class="side-name">Nikolas&nbsp;Neofytou</a>
                     <p class="side-tagline">I build software for real&nbsp;places.</p>
                     <p class="side-blurb">
-                        Electrical &amp; Computer Engineer at NTUA, shipping embedded systems
-                        and the full-stack apps around them.
+                        Computer Engineering at the University of Nicosia after NTUA, shipping
+                        embedded systems and the full-stack apps around them.
                     </p>
                     <p class="side-status"><span class="status-pulse" aria-hidden="true"></span> Available for freelance</p>
 
                     <nav class="side-nav" aria-label="Section navigation">
                         <ul>
-                            <li><a href="#about" class="nav-link"><span class="nav-rule"></span><span class="nav-text">About</span></a></li>
                             <li><a href="#work" class="nav-link"><span class="nav-rule"></span><span class="nav-text">Selected work</span></a></li>
+                            <li><a href="#how" class="nav-link"><span class="nav-rule"></span><span class="nav-text">How I work</span></a></li>
                             <li><a href="#experience" class="nav-link"><span class="nav-rule"></span><span class="nav-text">Experience</span></a></li>
+                            <li><a href="#about" class="nav-link"><span class="nav-rule"></span><span class="nav-text">About</span></a></li>
                             <li><a href="#beyond" class="nav-link"><span class="nav-rule"></span><span class="nav-text">Beyond engineering</span></a></li>
                             <li><a href="#contact" class="nav-link"><span class="nav-rule"></span><span class="nav-text">Contact</span></a></li>
                         </ul>
@@ -221,87 +231,6 @@
              MAIN — scrolling content
              ============================================================ -->
         <main class="main" id="main">
-
-            <!-- HERO LOOP — decorative; space is reserved up front (no layout shift), the
-                 poster paints immediately, playback is gated in js/script.js -->
-            <figure class="hero-loop" id="heroLoop">
-                <div class="hero-loop-frame">
-                    <video class="hero-loop-video" muted loop playsinline preload="none"
-                           poster="assets/hero/hero-loop-poster.jpg" width="1280" height="720" aria-hidden="true" tabindex="-1">
-                        <source src="assets/hero/hero-loop.webm" type="video/webm">
-                        <source src="assets/hero/hero-loop.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <figcaption class="hero-loop-caption">
-                    <span class="hero-loop-fig">Fig. 00</span>
-                    <span>Signal on the bench</span>
-                </figcaption>
-            </figure>
-
-            <!-- ABOUT -->
-            <section id="about" class="section" aria-labelledby="about-h">
-                <h2 class="section-head" id="about-h"><span class="section-num">00</span> About</h2>
-                <div class="prose">
-                    <p>
-                        I'm an Electrical &amp; Computer Engineer at NTUA, specialising in electronics, control
-                        systems and embedded design — and I build the full-stack software that brings hardware
-                        to life. What began as coursework became the thing I want mastery over: I run a home lab,
-                        ship production apps, and care about the <em>decisions</em> behind the code as much as the
-                        code itself.
-                    </p>
-                    <p>
-                        Away from the bench I read and write — history and philosophy, with a soft spot for Roman
-                        politics, Greek tragedy, Schopenhauer and Nietzsche (essays under <a href="#beyond">Beyond</a>).
-                        Since 2025 I've been shooting with a Sony A7 III — nature, moments, and macro shots of my own
-                        circuits.
-                    </p>
-                </div>
-
-                <div class="toolbox">
-                    <div class="toolbox-col">
-                        <h3 class="toolbox-label">Embedded &amp; hardware</h3>
-                        <p>STM32 · AVR · FPGA · Arduino · Jetson Orin Nano · PCB design (Altium) · oscilloscope · logic analyzer</p>
-                    </div>
-                    <div class="toolbox-col">
-                        <h3 class="toolbox-label">Control &amp; robotics</h3>
-                        <p>PID · root locus · Bode/Nyquist · state-space · observers · LQR · kinematics · Denavit–Hartenberg</p>
-                    </div>
-                    <div class="toolbox-col">
-                        <h3 class="toolbox-label">Languages</h3>
-                        <p>C · C++ · Python · TypeScript · JavaScript · Dart · MATLAB/Simulink · Bash</p>
-                    </div>
-                    <div class="toolbox-col">
-                        <h3 class="toolbox-label">Full-stack &amp; data</h3>
-                        <p>Flutter · Riverpod · Next.js · React · Django REST · PostgreSQL · PostGIS · Redis · Docker · Linux</p>
-                    </div>
-                </div>
-
-                <p class="bench"><span class="bench-label">Home lab</span> STM32 Nucleo · ESP32 · Raspberry Pi 4 · Jetson Orin Nano · oscilloscope · function generator · logic analyzer · soldering station · CAN / RS-485 / Ethernet modules</p>
-            </section>
-
-            <!-- FIG. 01 — scroll-scrubbed push-in, bench → board → silicon.
-                 Static (poster + list) by default; js/script.js upgrades it to a
-                 pinned canvas when motion and data are welcome. Frames: assets/scrub/ -->
-            <section class="scrub" id="signal" aria-label="Fig. 01 — from the bench to the silicon"
-                     data-frames="96" data-src="assets/scrub/d" data-src-small="assets/scrub/m">
-                <div class="scrub-sticky">
-                    <div class="scrub-frame">
-                        <img class="scrub-poster" src="assets/scrub/poster.webp" width="1280" height="720" loading="lazy" decoding="async"
-                             alt="Extreme macro of a silicon die: dense circuitry with one cobalt-blue signal path lit up.">
-                        <canvas class="scrub-canvas" aria-hidden="true"></canvas>
-                        <ol class="scrub-steps">
-                            <li class="scrub-step" data-from="0" data-to="0.3"><span class="scrub-ch">CH1 · Bench</span> Prototype, probe, measure — ideas start as wires on a breadboard.</li>
-                            <li class="scrub-step" data-from="0.34" data-to="0.74"><span class="scrub-ch">CH2 · Board</span> Firmware and drivers — the layer where code meets copper.</li>
-                            <li class="scrub-step" data-from="0.78" data-to="1.01"><span class="scrub-ch">CH3 · Silicon</span> Down to the signal itself — and back up to the apps people use.</li>
-                        </ol>
-                    </div>
-                    <div class="scrub-meta" aria-hidden="true">
-                        <span class="scrub-fig">Fig. 01</span>
-                        <span>Bench → Board → Silicon</span>
-                        <span class="scrub-rule"><span class="scrub-fill"></span></span>
-                    </div>
-                </div>
-            </section>
 
             <!-- SELECTED WORK -->
             <section id="work" class="section" aria-labelledby="work-h">
@@ -343,7 +272,7 @@
                         </div>
                         <div class="case-links">
                             <a class="case-badge case-badge--read" href="work/cinna.html">Read the case study <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
-                            <span class="case-badge"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private · demo on request</span>
+                            <a class="case-badge case-badge--link" href="mailto:nikiforialicht@gmail.com?subject=Walkthrough%3A%20Cinna"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private · ask for a demo</a>
                         </div>
                     </div>
                 </div>
@@ -413,7 +342,7 @@
                         </div>
                         <div class="case-links">
                             <a class="case-badge case-badge--read" href="work/augur.html">Read the case study <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
-                            <span class="case-badge"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private · walkthrough on request</span>
+                            <a class="case-badge case-badge--link" href="mailto:nikiforialicht@gmail.com?subject=Walkthrough%3A%20Augur"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private · ask for a walkthrough</a>
                         </div>
                     </div>
                 </div>
@@ -448,7 +377,7 @@
                         </div>
                         <div class="case-links">
                             <a class="case-badge case-badge--read" href="work/aristophanes.html">Read the case study <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
-                            <span class="case-badge"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private · demo on request</span>
+                            <a class="case-badge case-badge--link" href="mailto:nikiforialicht@gmail.com?subject=Walkthrough%3A%20Aristophanes"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private · ask for a demo</a>
                         </div>
                     </div>
                 </div>
@@ -483,7 +412,7 @@
                         </div>
                         <div class="case-links">
                             <a class="case-badge case-badge--read" href="work/wiseprint.html">Read the case study <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
-                            <span class="case-badge"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private · walkthrough on request</span>
+                            <a class="case-badge case-badge--link" href="mailto:nikiforialicht@gmail.com?subject=Walkthrough%3A%20Wiseprint"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg> Private · ask for a walkthrough</a>
                         </div>
                     </div>
                 </div>
@@ -552,7 +481,7 @@
                     </li>
                     <li class="more-item">
                         <h4 class="more-name">Fons</h4>
-                        <p class="more-line">Prices a business’s leftover stock to sell before a deadline, such as tonight’s dishes, and shows it to people nearby. Starting with restaurants in Athens.</p>
+                        <p class="more-line">Prices a business’s leftover stock to sell before a deadline, such as tonight’s dishes, and shows it to people nearby. Starting with restaurants in Kozani.</p>
                         <p class="more-meta">Expo · Next.js · TypeScript pricing engine <span class="more-status">Prototype · TestFlight</span></p>
                     </li>
                     <li class="more-item">
@@ -576,9 +505,44 @@
                 <a class="more-link" href="https://github.com/NikolasNeofytou?tab=repositories" target="_blank" rel="noopener noreferrer">All projects on GitHub <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
             </section>
 
+            <!-- HOW I WORK -->
+            <section id="how" class="section" aria-labelledby="how-h">
+                <h2 class="section-head" id="how-h"><span class="section-num">02</span> How I work</h2>
+                <div class="prose">
+                    <p>
+                        I take on a few projects at a time. Most start the same way: something runs on paper, a group
+                        chat or one person's memory, and it should run on software instead.
+                    </p>
+                </div>
+                <ul class="offers">
+                    <li class="offer">
+                        <h3 class="offer-title">Tools for a business</h3>
+                        <p>Booking, pricing, scheduling and the job board: the software your staff use at the counter and on their phones.</p>
+                        <p class="offer-proof">Like <a href="work/ludi.html">Ludi</a> and <a href="work/wiseprint.html">Wiseprint</a></p>
+                    </li>
+                    <li class="offer">
+                        <h3 class="offer-title">Apps people carry</h3>
+                        <p>iOS and Android apps over a backend you own, with maps, payments and roles when the job needs them.</p>
+                        <p class="offer-proof">Like <a href="work/cinna.html">Cinna</a> and <a href="work/aristophanes.html">Aristophanes</a></p>
+                    </li>
+                    <li class="offer">
+                        <h3 class="offer-title">Hardware that talks to software</h3>
+                        <p>Firmware, board bring-up and test tooling, and the app or dashboard on top of the device.</p>
+                        <p class="offer-proof">Like <a href="work/augur.html">Augur</a></p>
+                    </li>
+                </ul>
+                <ol class="steps">
+                    <li class="step"><span class="step-n" aria-hidden="true">I</span><div><h3 class="step-title">A first call</h3><p>What it's for, who will use it, and what has to work on day one.</p></div></li>
+                    <li class="step"><span class="step-n" aria-hidden="true">II</span><div><h3 class="step-title">A written plan</h3><p>Requirements and the data model on paper, and the riskiest part tried first, so we agree before I build.</p></div></li>
+                    <li class="step"><span class="step-n" aria-hidden="true">III</span><div><h3 class="step-title">A working version every week</h3><p>Something you can use, not a demo, with each decision written down as it's made.</p></div></li>
+                    <li class="step"><span class="step-n" aria-hidden="true">IV</span><div><h3 class="step-title">Handover</h3><p>Tests and documentation come with the code, and I stay on for fixes and the next version.</p></div></li>
+                </ol>
+                <a class="contact-cta" href="mailto:nikiforialicht@gmail.com?subject=Project%20enquiry&amp;body=Hi%20Nikolas%2C%0A%0AWhat%20it%27s%20for%3A%0A%0AWho%20will%20use%20it%3A%0A%0AWhen%20you%20need%20it%3A%0A%0ABudget%20%28a%20rough%20range%20is%20fine%29%3A%0A"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-envelope"></use></svg> Start a project</a>
+            </section>
+
             <!-- EXPERIENCE -->
             <section id="experience" class="section" aria-labelledby="exp-h">
-                <h2 class="section-head" id="exp-h"><span class="section-num">02</span> Experience</h2>
+                <h2 class="section-head" id="exp-h"><span class="section-num">03</span> Experience</h2>
                 <ol class="xp">
                     <li class="xp-item">
                         <div class="xp-date">Sep 2026 — Now</div>
@@ -588,10 +552,17 @@
                         </div>
                     </li>
                     <li class="xp-item">
-                        <div class="xp-date">2022 — Now</div>
+                        <div class="xp-date">2026 — Now</div>
                         <div class="xp-body">
-                            <h3 class="xp-role">MEng Electrical &amp; Computer Engineering <span class="xp-org">· NTUA</span></h3>
-                            <p>Specialising in Electronics, Systems &amp; Embedded Computers (grad. June 2027). DSP, control-systems design, microcomputer systems, operating systems, VLSI.</p>
+                            <h3 class="xp-role">Computer Engineering <span class="xp-org">· University of Nicosia</span></h3>
+                            <p>Started in autumn 2026.</p>
+                        </div>
+                    </li>
+                    <li class="xp-item">
+                        <div class="xp-date">2022 — 2026</div>
+                        <div class="xp-body">
+                            <h3 class="xp-role">Electrical &amp; Computer Engineering <span class="xp-org">· NTUA</span></h3>
+                            <p>Electronics, Systems &amp; Embedded Computers: DSP, control-systems design, microcomputer systems, operating systems, VLSI.</p>
                         </div>
                     </li>
                     <li class="xp-item">
@@ -633,9 +604,47 @@
                 <a class="more-link" href="assets/cv.pdf" download="Nikolas_Neofytou_CV.pdf">Download full résumé <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-down"></use></svg></a>
             </section>
 
+            <!-- ABOUT -->
+            <section id="about" class="section" aria-labelledby="about-h">
+                <h2 class="section-head" id="about-h"><span class="section-num">04</span> About</h2>
+                <div class="prose">
+                    <p>
+                        I studied electronics, control systems and embedded design at NTUA, and I'm now studying
+                        Computer Engineering at the University of Nicosia. Alongside, I build the full-stack software
+                        that brings hardware to life: I run a home lab, ship production apps, and care about the
+                        <em>decisions</em> behind the code as much as the code itself.
+                    </p>
+                    <p>
+                        Away from the bench I read and write history and philosophy (essays and books under
+                        <a href="#beyond">Beyond</a>), and photograph with a Sony A7 III.
+                    </p>
+                </div>
+
+                <div class="toolbox">
+                    <div class="toolbox-col">
+                        <h3 class="toolbox-label">Embedded &amp; hardware</h3>
+                        <p>STM32 · AVR · FPGA · Arduino · Jetson Orin Nano · PCB design (Altium) · oscilloscope · logic analyzer</p>
+                    </div>
+                    <div class="toolbox-col">
+                        <h3 class="toolbox-label">Control &amp; robotics</h3>
+                        <p>PID · root locus · Bode/Nyquist · state-space · observers · LQR · kinematics · Denavit–Hartenberg</p>
+                    </div>
+                    <div class="toolbox-col">
+                        <h3 class="toolbox-label">Languages</h3>
+                        <p>C · C++ · Python · TypeScript · JavaScript · Dart · MATLAB/Simulink · Bash</p>
+                    </div>
+                    <div class="toolbox-col">
+                        <h3 class="toolbox-label">Full-stack &amp; data</h3>
+                        <p>Flutter · Riverpod · Next.js · React · Django REST · PostgreSQL · PostGIS · Redis · Docker · Linux</p>
+                    </div>
+                </div>
+
+                <p class="bench"><span class="bench-label">Home lab</span> STM32 Nucleo · ESP32 · Raspberry Pi 4 · Jetson Orin Nano · oscilloscope · function generator · logic analyzer · soldering station · CAN / RS-485 / Ethernet modules</p>
+            </section>
+
             <!-- BEYOND ENGINEERING -->
             <section id="beyond" class="section" aria-labelledby="beyond-h">
-                <h2 class="section-head" id="beyond-h"><span class="section-num">03</span> Beyond engineering</h2>
+                <h2 class="section-head" id="beyond-h"><span class="section-num">05</span> Beyond engineering</h2>
 
                 <h3 class="sub-head">Writing <span class="sub-note">— philosophy &amp; history, on Substack</span></h3>
                 <div class="writing-list" id="substackPosts">
@@ -1488,17 +1497,26 @@
 
             <!-- CONTACT -->
             <section id="contact" class="section" aria-labelledby="contact-h">
-                <h2 class="section-head" id="contact-h"><span class="section-num">04</span> Contact</h2>
+                <h2 class="section-head" id="contact-h"><span class="section-num">06</span> Contact</h2>
                 <div class="prose">
                     <p>
-                        I'm open to freelance work and collaborations — embedded, full-stack, or the messy bit
-                        in between. The fastest way to reach me is email; I read everything.
+                        I'm open to freelance work and collaborations: embedded, full-stack, or the messy bit in between.
+                        Email is the fastest way to reach me, and I read everything.
+                    </p>
+                    <p>
+                        For a project, tell me what it's for, who will use it and when you need it. A rough budget helps
+                        if you have one. To see one of the private projects, ask for a walkthrough.
                     </p>
                 </div>
-                <a class="contact-cta" href="mailto:nikiforialicht@gmail.com"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-envelope"></use></svg> Say hello</a>
+                <div class="contact-ctas">
+                    <a class="contact-cta" href="mailto:nikiforialicht@gmail.com?subject=Project%20enquiry&amp;body=Hi%20Nikolas%2C%0A%0AWhat%20it%27s%20for%3A%0A%0AWho%20will%20use%20it%3A%0A%0AWhen%20you%20need%20it%3A%0A%0ABudget%20%28a%20rough%20range%20is%20fine%29%3A%0A"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-envelope"></use></svg> Email me about a project</a>
+                    <a class="contact-alt" href="mailto:nikiforialicht@gmail.com?subject=Walkthrough%20request">Ask for a walkthrough <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
+                </div>
                 <ul class="contact-list">
                     <li><span class="contact-k">Email</span> <a href="mailto:nikiforialicht@gmail.com">nikiforialicht@gmail.com</a></li>
                     <li><span class="contact-k">Phone</span> <a href="tel:+35796666897">+357 96 666 897</a></li>
+                    <li><span class="contact-k">LinkedIn</span> <a href="https://www.linkedin.com/in/nikolasneofytou/" target="_blank" rel="noopener noreferrer">in/nikolasneofytou</a></li>
+                    <li><span class="contact-k">GitHub</span> <a href="https://github.com/NikolasNeofytou" target="_blank" rel="noopener noreferrer">NikolasNeofytou</a></li>
                     <li><span class="contact-k">Based in</span> <span>Cyprus</span></li>
                 </ul>
             </section>
@@ -1533,6 +1551,6 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Back to top"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-up"></use></svg></button>
 
-    <script src="js/script.js?v=20261025b"></script>
+    <script src="js/script.js?v=20261025c"></script>
 </body>
 </html>

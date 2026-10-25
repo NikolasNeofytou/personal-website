@@ -10,7 +10,7 @@ It is hand-written HTML, CSS and JavaScript with no framework and no build step 
 
 - **Landing.** One painted town (`assets/town/`) with the six projects as places in it. Picking a place glides a camera there and opens its placard; the pins, tabs and placards are generated from `content/work/projects.json`.
 - **Selected work.** Six case studies (`work/*.html`), each with an interactive explainer or a scroll-driven "week with" story (`js/explainers.js`).
-- **Fig. 00 / Fig. 01.** A looping hero clip and a scroll-scrubbed canvas (bench → board → silicon).
+- **How I work.** The three kinds of work, each tied to a case study, and how a project runs. Every case study ends with a way to start a project or ask for a walkthrough.
 - **Signal trace.** An SVG PCB trace in the gutter, routed from live element positions.
 - **Bookshelf.** 26 books on five shelves. Each book is one painted panorama with a camera tour of its chapters and animated close-ups.
 - **Writing and photography.** Writing comes from a Substack snapshot; photography has EXIF capture data in a lightbox.
@@ -23,7 +23,7 @@ Motion is skipped under `prefers-reduced-motion` and Save-Data, and every intera
 index.html            front page
 work/*.html           case studies (generated, do not edit by hand)
 css/styles.css        all styles
-js/script.js          site behaviour: nav, trace, scrub, shelf, lightbox
+js/script.js          site behaviour: nav, town, trace, shelf, lightbox
 js/explainers.js      case-study demos
 content/              sources for the generated parts (not published)
 scripts/              generators and media encoders (not published)
@@ -46,7 +46,7 @@ python3 scripts/build-cv.py
 - `build-cv.py` prints `content/cv.html` to `assets/cv.pdf` with headless Chrome and fails if it spills onto a second page.
 - `fetch-substack.py` snapshots the latest posts into `assets/substack.json`. Run it after publishing a post, because Substack blocks CI runners.
 
-The `scripts/encode-*.sh` helpers (ffmpeg) turn raw video exports into the hero loop, scrub frames and plate loops.
+`scripts/encode-plate.sh` (ffmpeg) turns raw video exports into the bookshelf's plate loops.
 
 When CSS or JS changes, bump the `?v=` asset version in `index.html`, then re-run `build-case-studies.py` so the case studies pick it up.
 
