@@ -8,6 +8,7 @@ It is hand-written HTML, CSS and JavaScript with no framework and no build step 
 
 ## What's on it
 
+- **Landing.** One painted town (`assets/town/`) with the six projects as places in it. Picking a place glides a camera there and opens its placard; the pins, tabs and placards are generated from `content/work/projects.json`.
 - **Selected work.** Six case studies (`work/*.html`), each with an interactive explainer or a scroll-driven "week with" story (`js/explainers.js`).
 - **Fig. 00 / Fig. 01.** A looping hero clip and a scroll-scrubbed canvas (bench → board → silicon).
 - **Signal trace.** An SVG PCB trace in the gutter, routed from live element positions.
