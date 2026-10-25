@@ -660,7 +660,6 @@ img { max-width: 100%; display: block; }
 }
 
 .section { padding: 3rem 0; scroll-margin-top: 2rem; }
-.section:first-child { padding-top: 0; }
 
 .section-head {
     font-family: var(--mono);
