@@ -117,7 +117,10 @@
             const W = frame(fx / 100, fy / 100, phone.matches ? z * 0.75 : z, false);
             cards.classList.toggle('is-left', fx > 60);
             // close up, the screen-sized source goes soft: let srcset pick a bigger one
-            if (!sharp && !saveData) { sharp = true; img.sizes = Math.ceil(W) + 'px'; }
+            if (!sharp && !saveData) {
+                sharp = true;
+                cam.querySelectorAll('source, img').forEach(el => { el.sizes = Math.ceil(W) + 'px'; });
+            }
         }
         // on phones the row scrolls: keep the picked tab in it
         const t = tabs[k];
@@ -565,59 +568,28 @@
 })();
 
 // ==========================================
-// Photography lightbox (grid → click → EXIF readout)
+// Copy the email address — an email link opens a mail app many people never
+// set up, so copying the address is the way round it. The buttons stay
+// hidden without the Clipboard API.
 // ==========================================
 (function () {
-    const lightbox = document.getElementById('photoLightbox');
-    const items = [...document.querySelectorAll('.photo-item')];
-    if (!lightbox || !items.length) return;
-
-    const imgEl = document.getElementById('photoLightboxImg');
-    const closeBtn = document.getElementById('photoLightboxClose');
-    const prevBtn = document.getElementById('photoPrev');
-    const nextBtn = document.getElementById('photoNext');
-    const fields = {
-        camera: document.getElementById('exifCamera'),
-        lens: document.getElementById('exifLens'),
-        focal: document.getElementById('exifFocal'),
-        aperture: document.getElementById('exifAperture'),
-        shutter: document.getElementById('exifShutter'),
-        iso: document.getElementById('exifIso'),
-        date: document.getElementById('exifDate')
-    };
-    let current = 0;
-    let lastFocused = null;
-
-    function render(i) {
-        current = (i + items.length) % items.length;
-        const d = items[current].dataset;
-        imgEl.src = d.full;
-        imgEl.alt = d.title || 'Photograph by Nikolas Neofytou';
-        Object.keys(fields).forEach(k => { if (fields[k]) fields[k].textContent = d[k] || '—'; });
-    }
-    function open(i) {
-        lastFocused = document.activeElement;
-        render(i);
-        lightbox.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        closeBtn.focus();
-    }
-    function close() {
-        lightbox.classList.remove('open');
-        document.body.style.overflow = '';
-        if (lastFocused) lastFocused.focus();
-    }
-
-    items.forEach((el, i) => el.addEventListener('click', () => open(i)));
-    closeBtn.addEventListener('click', close);
-    if (prevBtn) prevBtn.addEventListener('click', () => render(current - 1));
-    if (nextBtn) nextBtn.addEventListener('click', () => render(current + 1));
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
-    document.addEventListener('keydown', (e) => {
-        if (!lightbox.classList.contains('open')) return;
-        if (e.key === 'Escape') close();
-        else if (e.key === 'ArrowLeft') render(current - 1);
-        else if (e.key === 'ArrowRight') render(current + 1);
+    const buttons = [...document.querySelectorAll('[data-copy]')];
+    if (!buttons.length || !navigator.clipboard || !window.isSecureContext) return;
+    const status = document.createElement('p');
+    status.className = 'copy-status';
+    status.setAttribute('role', 'status');
+    document.body.append(status);
+    buttons.forEach(btn => {
+        const label = btn.textContent;
+        btn.hidden = false;
+        btn.addEventListener('click', async () => {
+            let done = true;
+            try { await navigator.clipboard.writeText(btn.dataset.copy); } catch (e) { done = false; }
+            btn.textContent = done ? 'Copied' : 'Couldn’t copy';
+            status.textContent = done ? `Copied ${btn.dataset.copy}` : '';
+            clearTimeout(btn.reset);
+            btn.reset = setTimeout(() => { btn.textContent = label; }, 2000);
+        });
     });
 })();
 

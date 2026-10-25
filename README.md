@@ -13,7 +13,7 @@ It is hand-written HTML, CSS and JavaScript with no framework and no build step 
 - **How I work.** The three kinds of work, each tied to a case study, and how a project runs. Every case study ends with a way to start a project or ask for a walkthrough.
 - **Signal trace.** An SVG PCB trace in the gutter, routed from live element positions.
 - **Bookshelf.** 26 books on five shelves. Each book is one painted panorama with a camera tour of its chapters and animated close-ups.
-- **Writing and photography.** Writing comes from a Substack snapshot; photography has EXIF capture data in a lightbox.
+- **Writing.** The latest Substack posts, from a snapshot.
 
 Motion is skipped under `prefers-reduced-motion` and Save-Data, and every interactive section has static markup without JavaScript.
 
@@ -23,7 +23,7 @@ Motion is skipped under `prefers-reduced-motion` and Save-Data, and every intera
 index.html            front page
 work/*.html           case studies (generated, do not edit by hand)
 css/styles.css        all styles
-js/script.js          site behaviour: nav, town, trace, shelf, lightbox
+js/script.js          site behaviour: nav, town, trace, shelf, copy
 js/explainers.js      case-study demos
 content/              sources for the generated parts (not published)
 scripts/              generators and media encoders (not published)

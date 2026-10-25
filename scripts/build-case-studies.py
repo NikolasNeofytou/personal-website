@@ -117,7 +117,7 @@ def write_cards(projects: list) -> None:
 
 
 ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
-TOWN_W, TOWN_H = 3840, 1648                 # one painting, encoded at assets/town/town-<w>.webp
+TOWN_W, TOWN_H = 3840, 1648                 # one painting, encoded at assets/town/town-<w>.{avif,webp}
 TOWN_SIZES = [1280, 1920, 2560, 3840]
 TOWN_ALT = ("A painted Mediterranean town on a hillside above the sea at golden hour: a road winding down "
             "to a harbour, a stadium, a round temple on a knoll where an augur watches a flock of birds, "
@@ -136,7 +136,8 @@ def write_town(projects: list) -> None:
     end = text.index("        <!-- TOWN:END -->")
     I = " " * 8
 
-    srcset = ", ".join(f"assets/town/town-{w}.webp {w}w" for w in TOWN_SIZES)
+    srcset = lambda ext: ", ".join(f"assets/town/town-{w}.{ext} {w}w" for w in TOWN_SIZES)
+    sizes = "(max-width: 760px) 160vw, 100vw"
     pins, tabs, cards, places = [], [], [], []
     for i, p in enumerate(projects):
         s, t, n = p["slug"], p["town"], ROMAN[i]
@@ -158,7 +159,7 @@ def write_town(projects: list) -> None:
         places.append(f"{place[0].lower() + place[1:]} is {name}")
     block = f"""{I}<div class="town" data-town>
 {I}    <div class="town-view">
-{I}        <div class="town-cam"><img class="town-img" src="assets/town/town-1920.webp" srcset="{srcset}" sizes="(max-width: 760px) 160vw, 100vw" width="{TOWN_W}" height="{TOWN_H}" alt="{html.escape(TOWN_ALT)}" fetchpriority="high"></div>
+{I}        <picture class="town-cam"><source type="image/avif" srcset="{srcset('avif')}" sizes="{sizes}"><img class="town-img" src="assets/town/town-1920.webp" srcset="{srcset('webp')}" sizes="{sizes}" width="{TOWN_W}" height="{TOWN_H}" alt="{html.escape(TOWN_ALT)}" fetchpriority="high"></picture>
 {I}        <div class="town-pins" aria-hidden="true">
 {chr(10).join(pins)}
 {I}        </div>
@@ -295,6 +296,7 @@ def main() -> None:
                 <p class="cs-cta-line">Tell me what it's for, who will use it and when you need it.{walk_line}</p>
                 <div class="contact-ctas">
                     <a class="contact-cta" href="{ENQUIRY}">{ICON.format('envelope')} Email me about a project</a>{walk_link}
+                    <button class="copy-btn" type="button" data-copy="{EMAIL}" hidden>Copy email address</button>
                 </div>
             </aside>
 
