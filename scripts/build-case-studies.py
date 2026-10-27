@@ -109,11 +109,66 @@ def write_cards(projects: list) -> None:
     start = text.index("<!-- CASES:START")
     start = text.index("\n", start) + 1
     end = text.index("                <!-- CASES:END -->")
-    cards = "".join(render_card(p, i + 1, len(projects)) for i, p in enumerate(projects))
+    # a project with a `see` frame above the gallery is not repeated as a card
+    carded = [p for p in projects if "see" not in p]
+    cards = "".join(render_card(p, i + 1, len(carded)) for i, p in enumerate(carded))
     text = text[:start] + cards + text[end:]
-    text = re.sub(r'(<span id="caseTotal">)\d+(</span>)', rf"\g<1>{len(projects):02d}\g<2>", text)
+    text = re.sub(r'(<span id="caseTotal">)\d+(</span>)', rf"\g<1>{len(carded):02d}\g<2>", text)
     path.write_text(text)
-    print(f"index.html: {len(projects)} cards")
+    print(f"index.html: {len(carded)} cards")
+
+
+def rgba(hex_: str, alpha: float) -> str:
+    """#RRGGBB at an alpha, as CSS rgba()."""
+    r, g, b = (int(hex_.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4))
+    return f"rgba({r},{g},{b},{alpha})"
+
+
+def write_see(projects: list) -> None:
+    """Regenerate the see-it frames between the SEE markers in index.html: one
+    full-width frame per project that has a `see` block (its own colours, one
+    line, the real app on screen). The still is always there; js/script.js adds
+    the recorded loop only when the frame is on screen, never under reduced
+    motion or Save-Data. Without JS the still stands."""
+    path = ROOT / "index.html"
+    text = path.read_text()
+    start = text.index("<!-- SEE:START")
+    start = text.index("\n", start) + 1
+    end = text.index("        <!-- SEE:END -->")
+    I = " " * 8
+    total = ROMAN[len(projects) - 1]
+    frames = []
+    for i, p in enumerate(projects):
+        if "see" not in p:
+            continue
+        s, v, n = p["slug"], p["see"], ROMAN[i]
+        c = v["colors"]
+        a1, a2, a3 = c["arch"]
+        colours = (f"--see-field: {c['field']}; --see-accent: {c['accent']}; --see-text: {c['text']}; "
+                   f"--see-ring-1: {rgba(a3, 0.14)}; --see-ring-2: {rgba(a2, 0.16)}; "
+                   f"--see-ring-3: {rgba(a1, 0.26)}; --see-ring-4: {rgba(a1, 0.16)}")
+        alt = html.escape(v["alt"], quote=True)
+        frames.append(f"""{I}<!-- {p['title']} -->
+{I}<section class="see" id="see-{s}" aria-labelledby="see-{s}-h" style="{colours}">
+{I}    <div class="see-inner">
+{I}        <div class="see-arches" aria-hidden="true"></div>
+{I}        <div class="see-copy">
+{I}            <p class="see-num">{n} / {total} · {html.escape(p['title'])}</p>
+{I}            <h2 class="see-h" id="see-{s}-h">{v['line']}</h2>
+{I}            <p class="see-line"><span class="status-pulse" aria-hidden="true"></span>{html.escape(v['status'])}</p>
+{I}        </div>
+{I}        <p class="see-rec"><i aria-hidden="true"></i>{html.escape(v['rec'])}</p>
+{I}        <figure class="see-device">
+{I}            <img class="see-still" src="{v['assets']}/poster.jpg" width="788" height="1713" alt="{alt}" loading="lazy" decoding="async">
+{I}            <video class="see-loop" muted loop playsinline preload="none" data-webm="{v['assets']}/loop.webm" data-mp4="{v['assets']}/loop.mp4" aria-hidden="true" tabindex="-1"></video>
+{I}        </figure>
+{I}        <a class="see-more" href="work/{s}.html">How it&#x27;s built {ICON.format('arrow-down')}</a>
+{I}    </div>
+{I}</section>
+""")
+    text = text[:start] + "".join(frames) + text[end:]
+    path.write_text(text)
+    print(f"index.html: {len(frames)} see-it frame(s)")
 
 
 ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
@@ -213,6 +268,7 @@ def main() -> None:
     projects = [p for p in json.loads((CONTENT / "projects.json").read_text()) if not p.get("hidden")]
     for i, p in enumerate(projects):
         p["num"] = f"{i + 1:02d}"
+    write_see(projects)
     write_cards(projects)
     write_town(projects)
     write_more(json.loads((CONTENT / "more.json").read_text()))
