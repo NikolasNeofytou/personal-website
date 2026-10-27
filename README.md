@@ -50,6 +50,8 @@ python3 scripts/build-cv.py
 
 `scripts/encode-plate.sh` (ffmpeg) turns raw video exports into the bookshelf's plate loops.
 
+Paintings are encoded with `scripts/encode-still.py` (ImageMagick, avifenc, cwebp) into the AVIF and WebP sizes the pages serve, with close-up-only sizes at a higher quality. `scripts/merge-upscale.py` (NumPy, Pillow, SciPy) builds a sharper master from generative upscales of a painting's tiles: it keeps the original's colour and shapes and takes only fine detail from the tiles, so the painting cannot change and the tiles cannot seam. The town's 7680 px master was made this way from four tiles.
+
 `scripts/build-v2-data.py` cuts Cinna's recorded hour (the stage data built from OpenStreetMap and the national feed, Mon 26 Oct 2026) down to what `/v2/` shows: `assets/v2/cinna-hour.json`. That is 105 s of every bus, the streets in view, and the 400's path to its stop. The input carries no plates, vehicle IDs or trip IDs. The first-screen stills in `assets/v2/frame1-*` are screenshots of `/v2/` at the top of the scroll with the words hidden, since the words are HTML.
 
 When CSS or JS changes, bump the `?v=` asset version in `index.html`, then re-run `build-case-studies.py` so the case studies pick it up.

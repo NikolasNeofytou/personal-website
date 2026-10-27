@@ -173,7 +173,7 @@ def write_see(projects: list) -> None:
 
 ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
 TOWN_W, TOWN_H = 3840, 1648                 # one painting, encoded at assets/town/town-<w>.{avif,webp}
-TOWN_SIZES = [1280, 1920, 2560, 3840]
+TOWN_SIZES = [1280, 1920, 2560, 3840, 5120, 7680]   # the two largest only load for close-ups
 TOWN_ALT = ("A painted Mediterranean town on a hillside above the sea at golden hour: a road winding down "
             "to a harbour, a stadium, a round temple on a knoll where an augur watches a flock of birds, "
             "a theatre carved into the hill, a workshop with paper drying on lines, and a library under "

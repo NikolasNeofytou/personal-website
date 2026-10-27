@@ -421,13 +421,15 @@ img { max-width: 100%; display: block; }
     pointer-events: none;
 }
 .town-view::before {
+    /* only behind the headline: the hill and the stadium below it show at full strength.
+       The cobalt "real places" keeps at least 4:1 on the painting at 1280-1920 px wide */
     top: 0;
-    height: 48%;
-    background: linear-gradient(to bottom, var(--bg) 0%, rgba(245, 244, 239, 0.92) 34%, rgba(245, 244, 239, 0.55) 62%, rgba(245, 244, 239, 0));
+    height: 32%;
+    background: linear-gradient(to bottom, var(--bg) 0%, rgba(245, 244, 239, 0.9) 45%, rgba(245, 244, 239, 0.72) 80%, rgba(245, 244, 239, 0));
 }
 .town-view::after {
     bottom: 0;
-    height: 20%;
+    height: 14%;
     background: linear-gradient(to top, rgba(245, 244, 239, 0.9), rgba(245, 244, 239, 0));
 }
 .town-cam { position: absolute; inset: 0; transform-origin: 0 0; }

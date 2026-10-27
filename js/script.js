@@ -117,9 +117,11 @@
             const W = frame(fx / 100, fy / 100, phone.matches ? z * 0.75 : z, false);
             cards.classList.toggle('is-left', fx > 60);
             // close up, the screen-sized source goes soft: let srcset pick a bigger one
+            // (phones stop at the 5120 copy rather than decode 25 megapixels)
             if (!sharp && !saveData) {
                 sharp = true;
-                cam.querySelectorAll('source, img').forEach(el => { el.sizes = Math.ceil(W) + 'px'; });
+                const px = phone.matches ? Math.min(W, 5120 / devicePixelRatio) : W;
+                cam.querySelectorAll('source, img').forEach(el => { el.sizes = Math.ceil(px) + 'px'; });
             }
         }
         // on phones the row scrolls: keep the picked tab in it
