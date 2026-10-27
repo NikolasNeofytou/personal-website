@@ -414,5 +414,60 @@
         ]
       ]
     }
+  },
+  {
+    "slug": "gorgias",
+    "num": "00",
+    "title": "Gorgias",
+    "public": false,
+    "flag": "In build",
+    "tagline": "The Sunday Divine Liturgy, one paragraph at a time, on my father’s phone.",
+    "description": "Case study: Gorgias, an app for following the Sunday Divine Liturgy in polytonic Greek, one paragraph a tap. A pure Dart engine computes the day’s service from the Church of Cyprus Τυπικόν and the Octoechos, a Python pipeline builds the text, and every line can say where it came from.",
+    "lede": "An app for my father to follow the Sunday Divine Liturgy at his church in Cyprus on his phone: the paragraph being chanted, large and in polytonic Greek, and his tap brings the next. A pure Dart engine computes the day’s service from the Church of Cyprus Τυπικόν and the Octoechos; a Python pipeline builds the text it reads from; every line can say where it came from. Free, donation-supported, never sold.",
+    "alt": "The app’s own title miniature: a small Byzantine church with a gold dome and cinnabar roofs, flanked by two peacocks with fanned tails, in a double gilt frame on lapis.",
+    "meta": {
+      "Role": "Solo, for my father",
+      "Timeline": "Jul 2026 – present",
+      "Stack": "Flutter · Dart engine · Python pipeline · Gentium Plus",
+      "Status": "v0.3 in build · handover Sunday 15 Nov 2026 · free, never sold"
+    },
+    "card": {
+      "flag_html": "<span class=\"case-flag case-flag--open\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-unlock\"></use></svg> In build</span>",
+      "role": "Solo · for my father · Flutter + Dart + Python · Jul 2026 – present",
+      "problem": "The Sunday Liturgy changes every week with the tone and the saint, the books are small and scattered, and the church is dark at 6:30 in the morning.",
+      "approach": "One paragraph at a time, large and in polytonic Greek, advanced by his tap. A pure Dart engine computes the day’s service from the Church of Cyprus Τυπικόν and the Octoechos; a Python pipeline builds the corpus the app ships with.",
+      "bullets": [
+        "The cycles are computed and audited against the published Τυπικόν; the Church’s editorial choices are transcribed, month by month.",
+        "Every line in the corpus records its source, so it can be cited and corrected.",
+        "Lapis and gold by night, parchment by day; nothing moves while he reads."
+      ],
+      "outcome": "v0.3 in build with 503 tests green; handover set for Sunday 15 November 2026; two parishes have said yes to the idea.",
+      "tags": [
+        "Flutter",
+        "Dart",
+        "Python",
+        "Polytonic Greek"
+      ],
+      "links": [
+        "<a class=\"case-badge case-badge--link\" href=\"mailto:nikolas@nikolasneofytou.com?subject=Walkthrough%3A%20Gorgias\"><svg class=\"icon\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#i-lock\"></use></svg> Private · ask for a walkthrough</a>"
+      ]
+    },
+    "see": {
+      "line": "The Liturgy, one <em>paragraph</em> at a time.",
+      "status": "In build · polytonic Greek, a tap a paragraph · handover 15 Nov 2026",
+      "rec": "The real screens · rendered by the app, 27 Oct 2026 · Sunday 25 Oct, night to day",
+      "alt": "Gorgias on Sunday 25 October 2026, by night: the resurrectional apolytikion in the fourth tone, large in Gentium Plus with its cinnabar initial, under a mosaic arch with two peacocks and a hanging lamp, his place marked on the track below.",
+      "colors": {
+        "field": "#0E1420",
+        "arch": [
+          "#7D6A3F",
+          "#4E9A82",
+          "#D0AC58"
+        ],
+        "accent": "#D0AC58",
+        "text": "#E6DDCB"
+      },
+      "assets": "assets/work/gorgias"
+    }
   }
 ]

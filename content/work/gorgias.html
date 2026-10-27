@@ -1,0 +1,139 @@
+                <section class="section" aria-labelledby="go-problem">
+                    <h2 class="section-head" id="go-problem"><span class="section-num">01</span> Problem</h2>
+                    <div class="cs-prose">
+                        <p>My father follows the Sunday Divine Liturgy at his church in Cyprus from memory and from the chanters. The service is in polytonic Greek, its variable parts change every Sunday with the tone of the week and the saint of the day, and the books that hold them are small, scattered across several volumes, and hard to read in a church that is still dark at 6:30 in the morning.</p>
+                        <p>The brief I set myself was one sentence: he opens the app on a Sunday, the day's service is on screen, and he reaches the end without ever losing his place in a way he cannot recover from. One person, one church, one phone, and nothing on the screen competing with the words being chanted.</p>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="go-built">
+                    <h2 class="section-head" id="go-built"><span class="section-num">02</span> What I built</h2>
+                    <div class="cs-prose">
+                        <p>A Flutter app that shows the Liturgy one paragraph at a time, large and centred in Gentium Plus, advanced by his tap. Underneath it, a pure Dart engine computes the day's service, and a Python pipeline builds the text it reads from.</p>
+                        <ul>
+                            <li>Today's service, resolved on open. No date to pick and no menu: the engine works out the Sunday, the tone and the commemorations from the date.</li>
+                            <li>One paragraph in focus, with a faint peek of the one before and the one after. A tap brings the next; long prayers page; a long press opens the whole service as a list with his place marked.</li>
+                            <li>Where a text has not been acquired, the app says plainly what is being chanted and stays navigable, instead of showing nothing.</li>
+                            <li>Lapis and gold by night, parchment by day. The palette follows the light, because the service starts in the dark and ends in daylight.</li>
+                            <li>A call or a pocket does not lose his place: reopening returns him to the paragraph he was on.</li>
+                        </ul>
+                    </div>
+                    <div class="cs-stats" role="list">
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">39</span><span class="cs-stat-label">Slots in the Ordo</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">141</span><span class="cs-stat-label">Taps, one Sunday</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">503</span><span class="cs-stat-label">Automated tests</span></div>
+                        <div class="cs-stat" role="listitem"><span class="cs-stat-num">8</span><span class="cs-stat-label">Written ADRs</span></div>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="go-arch">
+                    <h2 class="section-head" id="go-arch"><span class="section-num">03</span> Architecture</h2>
+                    <div class="cs-prose">
+                        <p>Two programs, not one. A build-time pipeline on my laptop turns three messy sources into one validated corpus: the Church of Cyprus Τυπικόν, which gives the month's directives; the AGES liturgical libraries, which give the Octoechos and the Menaion; and the fixed text of the Liturgy. The app ships with that corpus and never ingests anything. On the phone, a pure Dart resolver turns a date into an ordered service plan, a session holds the only mutable state, his place, and the presentation layer has one job: legible polytonic Greek.</p>
+                    </div>
+                    <figure class="cs-diagram">
+                        <svg viewBox="0 0 680 292" role="img" aria-labelledby="go-dg-title">
+                            <title id="go-dg-title">Data flow: three sources (the Church of Cyprus Τυπικόν, the AGES liturgical libraries, the fixed Liturgy text) go through a Python pipeline of adapters, a normaliser and a validator into one bundled JSON corpus; on the phone a pure Dart engine (Paschalion and Resolver) turns the date into a service plan, and the Flutter app holds his place and sets the text.</title>
+                            <defs>
+                                <marker id="go-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="rgba(26,26,23,0.55)"/></marker>
+                                <marker id="go-arrow-a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="#1F3BFF"/></marker>
+                            </defs>
+                            <text class="dg-tag" x="0" y="14">SOURCES</text>
+                            <rect class="dg-box" x="0" y="26" width="150" height="58"/>
+                            <text class="dg-label" x="10" y="48">Τυπικόν, Cyprus</text>
+                            <text class="dg-sub" x="10" y="64">the month's directives,</text>
+                            <text class="dg-sub" x="10" y="77">transcribed by hand</text>
+                            <rect class="dg-box" x="0" y="100" width="150" height="58"/>
+                            <text class="dg-label" x="10" y="122">AGES libraries</text>
+                            <text class="dg-sub" x="10" y="138">Octoechos, Menaion</text>
+                            <text class="dg-sub" x="10" y="151">polytonic, CC0</text>
+                            <rect class="dg-box" x="0" y="174" width="150" height="58"/>
+                            <text class="dg-label" x="10" y="196">The fixed Liturgy</text>
+                            <text class="dg-sub" x="10" y="212">a pre-Unicode PDF,</text>
+                            <text class="dg-sub" x="10" y="225">character-mapped</text>
+
+                            <text class="dg-tag" x="180" y="14">BUILD TIME · PYTHON</text>
+                            <rect class="dg-box dg-box--accent" x="180" y="26" width="150" height="206"/>
+                            <text class="dg-label" x="190" y="48">Pipeline</text>
+                            <text class="dg-sub" x="190" y="66">one adapter per source</text>
+                            <text class="dg-sub" x="190" y="84">one normalisation form</text>
+                            <text class="dg-sub" x="190" y="98">at the boundary</text>
+                            <text class="dg-sub" x="190" y="116">validator: invariants</text>
+                            <text class="dg-sub" x="190" y="130">fail the build</text>
+                            <text class="dg-sub" x="190" y="148">provenance on every line</text>
+                            <text class="dg-sub" x="190" y="166">golden diffs against</text>
+                            <text class="dg-sub" x="190" y="180">the published Τυπικόν</text>
+                            <text class="dg-sub" x="190" y="212">→ corpus.json, bundled</text>
+
+                            <text class="dg-tag" x="360" y="14">ON THE PHONE · DART</text>
+                            <rect class="dg-box dg-box--accent" x="360" y="26" width="150" height="100"/>
+                            <text class="dg-label" x="370" y="48">Engine</text>
+                            <text class="dg-sub" x="370" y="66">Paschalion: Julian Pascha</text>
+                            <text class="dg-sub" x="370" y="80">Resolver: date → plan</text>
+                            <text class="dg-sub" x="370" y="98">pure Dart, no Flutter;</text>
+                            <text class="dg-sub" x="370" y="112">tested in milliseconds</text>
+                            <rect class="dg-box" x="360" y="146" width="150" height="86"/>
+                            <text class="dg-label" x="370" y="168">Corpus store</text>
+                            <text class="dg-sub" x="370" y="184">read-only; no writes, ever</text>
+                            <text class="dg-sub" x="370" y="202">slots, texts, citations,</text>
+                            <text class="dg-sub" x="370" y="216">where each came from</text>
+
+                            <text class="dg-tag" x="540" y="14">THE SCREEN</text>
+                            <rect class="dg-box dg-box--accent" x="540" y="26" width="140" height="100"/>
+                            <text class="dg-label" x="550" y="48">Session</text>
+                            <text class="dg-sub" x="550" y="66">his place: the only</text>
+                            <text class="dg-sub" x="550" y="80">mutable state</text>
+                            <text class="dg-sub" x="550" y="98">tap → next step</text>
+                            <text class="dg-sub" x="550" y="112">kept across a pocket</text>
+                            <rect class="dg-box" x="540" y="146" width="140" height="86"/>
+                            <text class="dg-label" x="550" y="168">Service screen</text>
+                            <text class="dg-sub" x="550" y="184">one paragraph, 30 pt</text>
+                            <text class="dg-sub" x="550" y="202">Gentium Plus, balanced</text>
+                            <text class="dg-sub" x="550" y="216">lapis or parchment</text>
+
+                            <path class="dg-edge" d="M150 55 H180" marker-end="url(#go-arrow)"/>
+                            <path class="dg-edge" d="M150 129 H180" marker-end="url(#go-arrow)"/>
+                            <path class="dg-edge" d="M150 203 H180" marker-end="url(#go-arrow)"/>
+                            <path class="dg-edge dg-edge--accent" d="M330 190 H360" marker-end="url(#go-arrow-a)"/>
+                            <path class="dg-edge" d="M435 146 V126" marker-end="url(#go-arrow)"/>
+                            <path class="dg-edge dg-edge--accent" d="M510 76 H540" marker-end="url(#go-arrow-a)"/>
+                            <path class="dg-edge" d="M610 126 V146" marker-end="url(#go-arrow)"/>
+                            <text class="dg-sub" x="0" y="268">Every arrow points one way. The resolver does not know the session exists; the app never parses a PDF,</text>
+                            <text class="dg-sub" x="0" y="282">decodes a legacy encoding or normalises a character. The corpus is the same bytes on the laptop and in the app.</text>
+                        </svg>
+                        <figcaption>Three sources in, one corpus out; the phone only reads. The pipeline runs when the Church publishes the next month's Τυπικόν, a few days before the month, and the new corpus ships with the next build.</figcaption>
+                    </figure>
+                </section>
+
+                <section class="section" aria-labelledby="go-decisions">
+                    <h2 class="section-head" id="go-decisions"><span class="section-num">04</span> Key decisions</h2>
+                    <div class="cs-prose">
+                        <ul>
+                            <li><strong>Compute the cycles, transcribe the directives.</strong> The Paschal and weekly cycles are arithmetic, so the engine computes them and the build audits the result against the published Τυπικόν with golden diffs. The choices only the Church makes, which hymn gives way to which on a given Sunday, are transcribed from its monthly Τυπικόν, one file per month, and built into the corpus. The Τυπικόν is one for the whole Church of Cyprus, so a second parish adds no monthly work.</li>
+                            <li><strong>Provenance on every line.</strong> Three sources, three licences, three encodings. Every text in the corpus records where it came from, so it can be cited on screen and corrected when a chanter says it is wrong. The AGES text is used inside its grant for worship; the app is free and donation-supported, and will never be sold.</li>
+                            <li><strong>The engine has no Flutter in it.</strong> Paschalion, resolver and corpus store are a plain Dart package, tested in milliseconds on a laptop against the Church's own published order, with no simulator in the loop.</li>
+                            <li><strong>Steps measured, not assumed.</strong> "One paragraph a tap" was measured at the real type size and came to 229 taps for one Sunday, three times the earlier count. He chose two exchanges per screen in the litanies and one paragraph elsewhere, measured at 141, and that number is pinned by a test.</li>
+                            <li><strong>The look was rejected, and redone in the real framework.</strong> The first screen was turned down on sight. Four rounds of concepts followed, each rendered by the app's own engine and judged side by side: one paragraph at a time; the tradition's beauty on the reading screen, with an arch and twisted columns drawn in code and peacocks, a lamp and two church miniatures as vector art the project owns; every text colour at WCAG AA; and motion only on his tap, with nothing moving while he reads.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="go-hard">
+                    <h2 class="section-head" id="go-hard"><span class="section-num">05</span> Hard problems</h2>
+                    <div class="cs-prose">
+                        <ul>
+                            <li><strong>Text that was never Unicode.</strong> The fixed Liturgy exists as a PDF set in a pre-Unicode font that maps Greek onto Latin codepoints. The pipeline applies a deterministic character map before anything else sees the text, and one normalisation form is fixed once at the ingestion boundary, because polytonic Greek composed two different ways compares as unequal.</li>
+                            <li><strong>Polytonic type on a phone.</strong> Gentium Plus was chosen because it was designed for polytonic Greek. Flutter has no balanced wrapping, so the typesetter binary-searches the narrowest width that keeps the line count. Material's default letter spacing made the typesetter measure one width and the screen draw another, and a paragraph measured to fit overflowed, until every property that changes a line's width was set explicitly.</li>
+                            <li><strong>Named gaps.</strong> Some texts, a Cypriot saint's hymn most often, exist only in print. Rather than hide the slot, the app names what is being chanted and lets him tap past it. That turned an untranscribed hymn from a defect into the app telling him what the Church is doing.</li>
+                            <li><strong>The work that is not code.</strong> The engineering came in under its estimates. What stalled the project, twice, was the rest: the call to the first chanter about the parish's rubric, the letters on rights, the first TestFlight upload. The plan now gives those the first dates.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="go-outcome">
+                    <h2 class="section-head" id="go-outcome"><span class="section-num">06</span> Where it stands</h2>
+                    <div class="cs-prose">
+                        <p>The redesign is in build on its own branch, with the engine, pipeline and app suites green. The handover to my father is set for Sunday 15 November 2026, after a dry run at the service on the 8th. Nothing has reached a phone yet beyond the simulator: the first TestFlight build is the next step, and the app is not on the App Store.</p>
+                        <p>Two parishes have just said yes to the idea. Their build comes after one man has followed one Liturgy with it, because every decision a parish would need, its patron saint's hymn, its rubric, the phones in its pews, waits on that evidence. Gorgias is free and donation-supported, and will never be sold: the text belongs to the Church.</p>
+                    </div>
+                </section>
