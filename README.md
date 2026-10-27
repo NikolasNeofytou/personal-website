@@ -15,6 +15,8 @@ It is hand-written HTML, CSS and JavaScript with no framework and no build step 
 - **Bookshelf.** 26 books on five shelves. Each book is one painted panorama with a camera tour of its chapters and animated close-ups.
 - **Writing.** The latest Substack posts, from a snapshot.
 
+- **A new first screen, in preview (`/v2/`).** Built in parallel with the live landing and not linked from it (`noindex`). Cinna's real network is drawn in SVG from a recorded hour. As you scroll, the camera closes in on one bus and Cinna's colours open from it until they fill the screen and become Cinna's see-it frame, with the real app looping. Its own `v2/v2.css` and `v2/v2.js`. Without JavaScript, or with reduced motion or Save-Data, it shows the two stills instead.
+
 Motion is skipped under `prefers-reduced-motion` and Save-Data, and every interactive section has static markup without JavaScript.
 
 ## Layout
@@ -47,6 +49,8 @@ python3 scripts/build-cv.py
 - `fetch-substack.py` snapshots the latest posts into `assets/substack.json`. Run it after publishing a post, because Substack blocks CI runners.
 
 `scripts/encode-plate.sh` (ffmpeg) turns raw video exports into the bookshelf's plate loops.
+
+`scripts/build-v2-data.py` cuts Cinna's recorded hour (the stage data built from OpenStreetMap and the national feed, Mon 26 Oct 2026) down to what `/v2/` shows: `assets/v2/cinna-hour.json`. That is 105 s of every bus, the streets in view, and the 400's path to its stop. The input carries no plates, vehicle IDs or trip IDs. The first-screen stills in `assets/v2/frame1-*` are screenshots of `/v2/` at the top of the scroll with the words hidden, since the words are HTML.
 
 When CSS or JS changes, bump the `?v=` asset version in `index.html`, then re-run `build-case-studies.py` so the case studies pick it up.
 
