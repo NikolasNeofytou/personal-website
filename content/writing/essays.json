@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "memory-palace",
+    "title": "The memory palace was the first page table",
+    "kicker": "Essay · Simonides project",
+    "lede": "Virtual memory outside the computer: a design two thousand years old, a mechanism in the brain, and the traffic that runs both ways.",
+    "description": "A computer with virtual memory lets a program use more memory than the machine has. The same arrangement is found outside computers: whole in warehouses, in part in the brain, and designed two thousand years ago in the memory palace.",
+    "date": "2026-10-27",
+    "reading_minutes": 17,
+    "meta": {
+      "Written": "27 October 2026",
+      "Reading time": "17 minutes",
+      "Sources": "34, with links",
+      "Part of": "Simonides, a research project on virtual memory outside the computer"
+    },
+    "excerpt": "What computers call virtual memory is a bundle of five things. Outside the computer, the whole bundle is found in warehouses; the index and the fault are found in the brain; and the oldest designed version is Roman.",
+    "og_image": "assets/og-town.jpg",
+    "og_alt": "A painted Mediterranean town at golden hour, the landing image of nikolasneofytou.com."
+  }
+]
