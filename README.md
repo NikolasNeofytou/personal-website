@@ -8,8 +8,8 @@ It is hand-written HTML, CSS and JavaScript with no framework and no build step 
 
 ## What's on it
 
-- **Landing.** One painted town (`assets/town/`) with the six projects as places in it. Picking a place glides a camera there and opens its placard; the pins, tabs and placards are generated from `content/work/projects.json`.
-- **Selected work.** Six case studies (`work/*.html`), each with an interactive explainer or a scroll-driven "week with" story (`js/explainers.js`).
+- **Landing.** One painted town (`assets/town/`) with six of the projects as places in it. Picking a place glides a camera there and opens its placard; the pins, tabs and placards are generated from `content/work/projects.json`.
+- **Selected work.** A see-it frame per project (Cinna, Gorgias): its own colours, one line, the real app on a phone, and a link down to its case study. Seven case studies (`work/*.html`), most with an interactive explainer or a scroll-driven "week with" story (`js/explainers.js`). Gorgias's phone shows the app's own screens, rendered by its render tool on the real engine; nothing is mocked.
 - **How I work.** The three kinds of work, each tied to a case study, and how a project runs. Every case study ends with a way to start a project or ask for a walkthrough.
 - **Signal trace.** An SVG PCB trace in the gutter, routed from live element positions.
 - **Bookshelf.** 26 books on five shelves. Each book is one painted panorama with a camera tour of its chapters and animated close-ups.

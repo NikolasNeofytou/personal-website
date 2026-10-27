@@ -124,6 +124,21 @@ def rgba(hex_: str, alpha: float) -> str:
     return f"rgba({r},{g},{b},{alpha})"
 
 
+def jpeg_size(path: pathlib.Path) -> tuple:
+    """(width, height) of a baseline or progressive JPEG, from its SOF marker."""
+    data = path.read_bytes()
+    i = 2
+    while i + 9 < len(data):
+        if data[i] != 0xFF:
+            i += 1
+            continue
+        marker = data[i + 1]
+        if marker in (0xC0, 0xC1, 0xC2):
+            return int.from_bytes(data[i + 7:i + 9], "big"), int.from_bytes(data[i + 5:i + 7], "big")
+        i += 2 + int.from_bytes(data[i + 2:i + 4], "big")
+    return 788, 1713
+
+
 def write_see(projects: list) -> None:
     """Regenerate the see-it frames between the SEE markers in index.html: one
     full-width frame per project that has a `see` block (its own colours, one
@@ -148,6 +163,7 @@ def write_see(projects: list) -> None:
                    f"--see-ring-1: {rgba(a3, 0.14)}; --see-ring-2: {rgba(a2, 0.16)}; "
                    f"--see-ring-3: {rgba(a1, 0.26)}; --see-ring-4: {rgba(a1, 0.16)}")
         alt = html.escape(v["alt"], quote=True)
+        pw, ph = jpeg_size(ROOT / v["assets"] / "poster.jpg")
         frames.append(f"""{I}<!-- {p['title']} -->
 {I}<section class="see" id="see-{s}" aria-labelledby="see-{s}-h" style="{colours}">
 {I}    <div class="see-inner">
@@ -159,7 +175,7 @@ def write_see(projects: list) -> None:
 {I}        </div>
 {I}        <p class="see-rec"><i aria-hidden="true"></i>{html.escape(v['rec'])}</p>
 {I}        <figure class="see-device">
-{I}            <img class="see-still" src="{v['assets']}/poster.jpg" width="788" height="1713" alt="{alt}" loading="lazy" decoding="async">
+{I}            <img class="see-still" src="{v['assets']}/poster.jpg" width="{pw}" height="{ph}" alt="{alt}" loading="lazy" decoding="async">
 {I}            <video class="see-loop" muted loop playsinline preload="none" data-webm="{v['assets']}/loop.webm" data-mp4="{v['assets']}/loop.mp4" aria-hidden="true" tabindex="-1"></video>
 {I}        </figure>
 {I}        <a class="see-more" href="work/{s}.html">How it&#x27;s built {ICON.format('arrow-down')}</a>
@@ -195,6 +211,8 @@ def write_town(projects: list) -> None:
     sizes = "(max-width: 760px) 160vw, 100vw"
     pins, tabs, cards, places = [], [], [], []
     for i, p in enumerate(projects):
+        if "town" not in p:          # not a place in the painting (Gorgias): numbered, not pinned
+            continue
         s, t, n = p["slug"], p["town"], ROMAN[i]
         name, place = html.escape(p["title"]), html.escape(t["place"])
         focus = " ".join(str(v) for v in t["focus"])
@@ -230,7 +248,7 @@ def write_town(projects: list) -> None:
 {I}</div>
 """
     path.write_text(text[:start] + block + text[end:])
-    print(f"index.html: town with {len(projects)} places")
+    print(f"index.html: town with {len(pins)} places")
 
 
 def write_more(items: list) -> None:
