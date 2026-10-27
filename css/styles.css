@@ -1601,6 +1601,25 @@ g.is-dim { opacity: 0.35; }
 .writing-card:hover .writing-title { color: var(--accent); }
 .writing-excerpt { font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; max-width: 64ch; }
 .writing-read-more { display: none; }
+.writing-list--here { margin-bottom: 1.1rem; border-bottom: 1px solid var(--line); }
+.writing-list--here .writing-card:first-child { padding-top: 0; }
+
+/* Essays on the site: the case-study shell with a reading measure, numbered
+   citations that jump to the sources, and the sources as a numbered list. */
+.essay-title { font-size: clamp(2.6rem, 5.6vw, 4.4rem); max-width: 14ch; }
+.essay .cs-prose { max-width: 42rem; }
+.essay .cs-prose p { color: var(--text); font-weight: 300; }
+.essay .cs-prose var { font-style: italic; font-family: var(--serif); font-size: 1.1em; }
+.cites { font-family: var(--mono); font-size: 0.66em; letter-spacing: 0.02em; line-height: 0; vertical-align: 0.5em; color: var(--text-faint); }
+.cite { color: var(--accent-dim); text-decoration: none; }
+.cite:hover { color: var(--accent); }
+.essay-sources { list-style: none; counter-reset: src; margin: 1.5rem 0 0; padding: 0; max-width: 42rem; }
+.essay-sources li { position: relative; padding: 0 0 0.8rem 2.6rem; font-size: 0.86rem; line-height: 1.55; color: var(--text-dim); }
+.essay-sources li::before { counter-increment: src; content: '[' counter(src) ']'; position: absolute; left: 0; top: 0.15em; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.04em; color: var(--text-faint); }
+.essay-sources li:target { color: var(--text); }
+.essay-sources li:target::before { color: var(--accent); }
+.essay-sources a { color: var(--accent-dim); word-break: break-all; }
+.essay-sources a:hover { color: var(--accent); }
 
 /* Bookshelf — the spines on the shelf are tabs; the picked book comes off
    the shelf as its plate (a neoclassical oil painting of the book's idea,
