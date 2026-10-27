@@ -68,6 +68,16 @@ def main() -> None:
         url = f"{SITE}/writing/{e['slug']}.html"
         og_image = f"{SITE}/{e['og_image']}"
         subject = cs.mailto("About the essay: " + e["title"])
+        # a painted cover, when the essay has one (same recipe and sizes as the case studies)
+        has_cover = (ROOT / "assets" / "covers" / f"{e['slug']}-1344.webp").exists()
+        preload = (f'\n    <link rel="preload" href="../assets/covers/{e["slug"]}-1344.webp" as="image" fetchpriority="high">'
+                   if has_cover else "")
+        hero = (f"""
+                <figure class="cs-hero">
+                    <img src="../assets/covers/{e['slug']}-1344.webp" width="1344" height="752" alt="{esc['og_alt']}"
+                         fetchpriority="high" decoding="async">
+                </figure>
+""" if has_cover else "")
         page = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,7 +102,7 @@ def main() -> None:
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
     <link rel="stylesheet" href="../css/styles.css?v={version}">
     <link rel="preload" href="../assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="../assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>{preload}
 </head>
 <body class="cs-page essay-page">
 {sprite}
@@ -113,7 +123,7 @@ def main() -> None:
 {meta}
                     </dl>
                 </header>
-
+{hero}
 {body}
             </article>
 
