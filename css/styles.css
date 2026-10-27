@@ -1980,3 +1980,112 @@ g.is-dim { opacity: 0.35; }
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
+
+/* ---------- SEE IT: one full-width frame per project ----------
+   Generated between the SEE markers by scripts/build-case-studies.py from the
+   `see` block in content/work/projects.json. The project's own colours are
+   the field (set inline as --see-* variables), one line in the serif, the
+   real app large on the right with the frame cutting it off on purpose, a
+   live status, and one link down to the case study. The screen is a still
+   (poster) always; js/script.js adds the recorded loop only while the frame
+   is on screen, and never under reduced motion or Save-Data. The faint rings
+   are the app icon's own arches. */
+.see-work { position: relative; z-index: 1; }
+.see {
+    --see-pad: clamp(1.25rem, 3.9vw, 3.5rem);
+    position: relative;
+    height: clamp(640px, 100svh, 940px);
+    overflow: hidden;
+    background: var(--see-field, #1A1A17);
+    color: var(--see-text, #F5F4EF);
+}
+.see-inner { position: relative; height: 100%; max-width: 1440px; margin: 0 auto; }
+.see-arches {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+        radial-gradient(circle at calc(100% - 272px) 124%, transparent 0 318px, var(--see-ring-1) 319px 392px, transparent 393px),
+        radial-gradient(circle at calc(100% - 272px) 124%, transparent 0 406px, var(--see-ring-2) 407px 480px, transparent 481px),
+        radial-gradient(circle at calc(100% - 272px) 124%, transparent 0 494px, var(--see-ring-3) 495px 568px, transparent 569px),
+        radial-gradient(circle at calc(100% - 272px) 124%, transparent 0 582px, var(--see-ring-4) 583px 656px, transparent 657px);
+}
+.see-copy { position: absolute; left: var(--see-pad); top: 22%; z-index: 3; max-width: min(760px, calc(100% - 540px)); }
+.see-num { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--see-accent); }
+.see-h {
+    margin-top: 1.1rem;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(3.4rem, 8.6vw, 7.75rem);
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    color: var(--see-text);
+}
+.see-h em { font-style: italic; color: var(--see-accent); }
+.see-line {
+    margin-top: 1.9rem;
+    display: flex; align-items: center; gap: 0.65rem;
+    font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.see-line .status-pulse { flex: none; }
+.see-rec {
+    position: absolute; right: 64px; top: 60px; z-index: 4;
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--see-accent);
+}
+.see-rec i { width: 7px; height: 7px; border-radius: 50%; background: #E5484D; }
+.see-device {
+    position: absolute; z-index: 2; right: 64px; top: 96px;
+    width: 416px; height: 902px;
+    border-radius: 58px; background: #0A0C0D;
+    box-shadow: 0 60px 90px -40px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+.see-still, .see-loop {
+    position: absolute; inset: 11px;
+    width: calc(100% - 22px); height: calc(100% - 22px);
+    object-fit: cover; object-position: top;
+    border-radius: 48px;
+    background: #0A0C0D;
+}
+.see-loop { opacity: 0; transition: opacity 0.6s ease; }
+.see-loop.is-playing { opacity: 1; }
+.see-more {
+    position: absolute; left: var(--see-pad); bottom: 48px; z-index: 3;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--see-text); text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.45); padding-bottom: 5px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.see-more:hover, .see-more:focus-visible { color: var(--see-accent); border-color: currentColor; }
+.see-more .icon { width: 0.85em; height: 0.85em; }
+@media (max-width: 1023px) {
+    .see-rec, .see-device { right: 40px; }
+    .see-device { width: 360px; height: 780px; top: 84px; border-radius: 50px; }
+    .see-still, .see-loop { border-radius: 40px; }
+    .see-copy { max-width: calc(100% - 460px); }
+}
+@media (max-width: 760px) {
+    .see { height: auto; }
+    /* stacked: the words, the link, the label, then the phone cut off by the frame's edge */
+    .see-inner { height: auto; padding: 4.25rem 0 0; display: flex; flex-direction: column; align-items: flex-start; }
+    .see-copy { order: 1; } .see-more { order: 2; } .see-rec { order: 3; } .see-device { order: 4; align-self: center; }
+    .see-arches {
+        background:
+            radial-gradient(circle at 50% 116%, transparent 0 150px, var(--see-ring-1) 151px 196px, transparent 197px),
+            radial-gradient(circle at 50% 116%, transparent 0 206px, var(--see-ring-2) 207px 252px, transparent 253px),
+            radial-gradient(circle at 50% 116%, transparent 0 262px, var(--see-ring-3) 263px 308px, transparent 309px);
+    }
+    .see-copy { position: static; max-width: none; padding: 0 var(--gutter, 1.5rem); }
+    .see-h { font-size: clamp(3rem, 15.5vw, 4.4rem); }
+    .see-line { margin-top: 1.1rem; font-size: 0.68rem; letter-spacing: 0.08em; }
+    .see-more { position: static; margin: 1.5rem var(--gutter, 1.5rem) 0; font-size: 0.72rem; }
+    .see-rec { position: static; margin: 2rem var(--gutter, 1.5rem) 0; font-size: 0.62rem; }
+    .see-device {
+        position: relative; right: auto; top: auto;
+        width: 300px; height: 650px; margin: 0.9rem auto -230px;
+        border-radius: 44px;
+    }
+    .see-still, .see-loop { inset: 9px; width: calc(100% - 18px); height: calc(100% - 18px); border-radius: 36px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .see-loop { display: none; }
+}

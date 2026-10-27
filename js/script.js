@@ -688,3 +688,45 @@
 
     render(0);
 })();
+
+// ==========================================
+// See it — the frame per project above the gallery. The screen is a still;
+// the recorded loop is fetched only when its frame comes near the viewport,
+// plays only while the frame is on screen, and is never loaded under
+// reduced motion or Save-Data (the still stands, as it does without JS).
+// ==========================================
+(function () {
+    const loops = [...document.querySelectorAll('.see-loop[data-mp4]')];
+    if (!loops.length) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const saveData = navigator.connection && navigator.connection.saveData;
+    if (reduceMotion || saveData || !('IntersectionObserver' in window)) return;
+
+    // The loop's first frame is the still, so fading it in once it plays is seamless.
+    const arm = (v) => {
+        if (v.dataset.armed) return;
+        v.dataset.armed = '1';
+        [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([k, type]) => {
+            if (!v.dataset[k]) return;
+            const s = document.createElement('source');
+            s.src = v.dataset[k];
+            s.type = type;
+            v.appendChild(s);
+        });
+        v.addEventListener('playing', () => v.classList.add('is-playing'), { once: true });
+        v.load();
+    };
+
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            const v = e.target;
+            if (e.isIntersecting) {
+                arm(v);
+                v.play().catch(() => {});
+            } else if (!v.paused) {
+                v.pause();
+            }
+        });
+    }, { rootMargin: '25% 0px', threshold: 0.05 });
+    loops.forEach(v => io.observe(v));
+})();
