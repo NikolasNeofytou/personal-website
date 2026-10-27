@@ -65,6 +65,23 @@
           "15"
         ]
       ]
+    },
+    "see": {
+      "line": "Where the bus <em>actually</em> is.",
+      "status": "Live · every bus in Cyprus, every 15 s · iOS on TestFlight",
+      "rec": "The real app · recorded 27 Oct 2026 · 96 s at ×8",
+      "alt": "Cinna's live map of Larnaca at 07:42 on a Tuesday: the buses with their route numbers along Makariou Avenue, and the next arrival at each stop.",
+      "colors": {
+        "field": "#0F3B40",
+        "arch": [
+          "#175F65",
+          "#22838A",
+          "#35A5AB"
+        ],
+        "accent": "#A6DBDE",
+        "text": "#EEF7F6"
+      },
+      "assets": "assets/work/cinna"
     }
   },
   {
