@@ -28,146 +28,14 @@
 })();
 
 // ==========================================
-// Mini nav — below 1024px there is no sidebar: once the landing has
-// scrolled away, a slim bar keeps the work and the contact one tap away
+// Mini nav — below 1024px there is no sidebar: once the work at the top
+// has scrolled away, a slim bar keeps the work and the contact one tap away
 // ==========================================
 (function () {
     const bar = document.querySelector('[data-mini-nav]');
-    const landing = document.querySelector('.landing');
-    if (!bar || !landing || !('IntersectionObserver' in window)) return;
-    new IntersectionObserver(([e]) => bar.classList.toggle('is-shown', !e.isIntersecting)).observe(landing);
-})();
-
-// ==========================================
-// Landing town — one painting, six places. The tabs and the pins glide a
-// camera to a place and open its placard; "Whole town" (or Escape, or a
-// click on the painting) pulls back. Without JS the tabs stay plain links
-// to the case studies and the painting shows whole.
-// ==========================================
-(function () {
-    const town = document.querySelector('[data-town]');
-    if (!town) return;
-    const view = town.querySelector('.town-view');
-    const cam = town.querySelector('.town-cam');
-    const img = town.querySelector('.town-img');
-    const cards = town.querySelector('.town-cards');
-    const pins = [...town.querySelectorAll('.town-pin')];
-    const tabs = [...town.querySelectorAll('.town-tab')];        // the six places, then the whole town
-    const panels = tabs.map(t => document.getElementById(t.dataset.panel));
-    const ALL = tabs.length - 1;
-    if (!pins.length || pins.length !== ALL || panels.some(p => !p)) return;
-
-    const IW = +img.getAttribute('width'), IH = +img.getAttribute('height');
-    const at = pins.map(p => p.dataset.at.split(' ').map(Number));          // % of the painting
-    const focus = pins.map(p => p.dataset.focus.split(' ').map(Number));   // centre (%) and zoom
-    const phone = matchMedia('(max-width: 760px)');
-    const saveData = navigator.connection && navigator.connection.saveData;
-    let current = ALL;
-    let sharp = false;
-
-    const list = town.querySelector('.town-tabs');
-    list.setAttribute('role', 'tablist');
-    list.setAttribute('aria-label', 'Places in the town');
-    tabs.forEach((t, i) => {
-        t.setAttribute('role', 'tab');
-        t.setAttribute('aria-controls', panels[i].id);
-        panels[i].setAttribute('role', 'tabpanel');
-        panels[i].setAttribute('aria-labelledby', t.id);
-    });
-    tabs[ALL].hidden = false;   // last in the row, so showing it moves nothing
-
-    // The painting is laid out at cover size and moved with one transform;
-    // the pins follow in screen space, so they never scale.
-    function frame(cx, cy, z, whole) {
-        const vw = view.clientWidth, vh = view.clientHeight;
-        const s = Math.max(vw / IW, vh / IH);
-        const w = IW * s, h = IH * s, W = w * z, H = h * z;
-        let tx, ty;
-        if (whole) { tx = (vw - W) * cx; ty = (vh - H) * cy; }            // = object-position: going live doesn't jump
-        else { tx = vw * 0.5 - cx * W; ty = vh * 0.56 - cy * H; }
-        tx = Math.min(0, Math.max(vw - W, tx));
-        ty = Math.min(0, Math.max(vh - H, ty));
-        cam.style.width = w + 'px';
-        cam.style.height = h + 'px';
-        cam.style.transform = `translate(${tx}px, ${ty}px) scale(${z})`;
-        pins.forEach((p, i) => {
-            const x = tx + at[i][0] / 100 * W, y = ty + at[i][1] / 100 * H;
-            p.style.transform = `translate(${x}px, ${y}px)`;
-            p.classList.toggle('is-off', x < 8 || x > vw - 8 || y < 8 || y > vh - 8);
-            p.classList.toggle('is-flip', x > vw - p.lastElementChild.offsetWidth - 32);
-        });
-        return W;
-    }
-
-    function select(k, focusTab) {
-        current = k;
-        tabs.forEach((t, j) => {
-            const on = j === k;
-            t.setAttribute('aria-selected', String(on));
-            t.tabIndex = on ? 0 : -1;
-            panels[j].hidden = !on;
-        });
-        pins.forEach((p, i) => p.classList.toggle('is-on', i === k));
-        town.classList.toggle('is-zoomed', k !== ALL);
-        if (k === ALL) {
-            const pos = getComputedStyle(img).objectPosition.split(' ').map(v => parseFloat(v) / 100);
-            frame(pos[0], pos[1], 1, true);
-        } else {
-            const [fx, fy, z] = focus[k];
-            const W = frame(fx / 100, fy / 100, phone.matches ? z * 0.75 : z, false);
-            cards.classList.toggle('is-left', fx > 60);
-            // close up, the screen-sized source goes soft: let srcset pick a bigger one
-            if (!sharp && !saveData) {
-                sharp = true;
-                cam.querySelectorAll('source, img').forEach(el => { el.sizes = Math.ceil(W) + 'px'; });
-            }
-        }
-        // on phones the row scrolls: keep the picked tab in it
-        const t = tabs[k];
-        if (list.scrollWidth > list.clientWidth) {
-            const r = t.getBoundingClientRect(), lr = list.getBoundingClientRect();
-            list.scrollTo({ left: list.scrollLeft + r.left - lr.left - (lr.width - r.width) / 2 });
-        }
-        if (focusTab) t.focus();
-    }
-
-    // reposition without the glide (first paint, resize)
-    function settle() {
-        town.classList.add('is-still');
-        select(current);
-        requestAnimationFrame(() => requestAnimationFrame(() => town.classList.remove('is-still')));
-    }
-
-    const plain = (e) => e.metaKey || e.ctrlKey || e.shiftKey || e.altKey;   // open-in-new-tab still works
-    tabs.forEach((t, i) => {
-        t.addEventListener('click', (e) => {
-            if (plain(e)) return;
-            e.preventDefault();
-            select(i);
-        });
-        t.addEventListener('keydown', (e) => {
-            const to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: ALL }[e.key];
-            if (to === undefined) return;
-            e.preventDefault();
-            select((to + tabs.length) % tabs.length, true);
-        });
-    });
-    pins.forEach((p, i) => p.addEventListener('click', (e) => {
-        if (plain(e) || current === i) return;     // a second click on the picked place opens its case study
-        e.preventDefault();
-        e.stopPropagation();
-        select(i);
-    }));
-    view.addEventListener('click', (e) => {
-        if (current !== ALL && !e.target.closest('.town-pin')) select(ALL);
-    });
-    town.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && current !== ALL) select(ALL, town.contains(document.activeElement));
-    });
-
-    town.classList.add('is-live');
-    settle();
-    new ResizeObserver(settle).observe(view);
+    const top = document.querySelector('.ap');
+    if (!bar || !top || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(([e]) => bar.classList.toggle('is-shown', !e.isIntersecting)).observe(top);
 })();
 
 // ==========================================
@@ -594,107 +462,13 @@
 })();
 
 // ==========================================
-// Selected work — horizontal snap gallery
-// (Apple-style scroll-container + paddlenav)
-// ==========================================
-(function () {
-    const track = document.getElementById('caseTrack');
-    if (!track) return;
-    const cards = [...track.querySelectorAll('.case')];
-    if (cards.length < 2) return;
-
-    const prevBtn = document.getElementById('casePrev');
-    const nextBtn = document.getElementById('caseNext');
-    const indexEl = document.getElementById('caseIndex');
-    const totalEl = document.getElementById('caseTotal');
-    const fill = document.getElementById('caseProgressFill');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-    const pad2 = n => String(n).padStart(2, '0');
-    if (totalEl) totalEl.textContent = pad2(cards.length);
-    if (fill) fill.style.width = (100 / cards.length) + '%';
-
-    // Left edge of the snapport (scroll-padding-left), so card positions line up with it.
-    const snapPadLeft = () => parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
-    // Where a card sits when snapped to the start edge.
-    const targetFor = i => cards[i].offsetLeft - snapPadLeft();
-
-    let current = 0;
-
-    function nearestIndex() {
-        const x = track.scrollLeft;
-        let best = 0, bestD = Infinity;
-        cards.forEach((_, i) => {
-            const d = Math.abs(targetFor(i) - x);
-            if (d < bestD) { bestD = d; best = i; }
-        });
-        // At the far right the last card may not reach the start edge — treat max scroll as "last".
-        if (track.scrollLeft >= track.scrollWidth - track.clientWidth - 2) best = cards.length - 1;
-        return best;
-    }
-
-    function setDisabled(btn, v) {
-        if (!btn) return;
-        btn.setAttribute('aria-disabled', v ? 'true' : 'false');
-        btn.tabIndex = v ? -1 : 0;
-    }
-
-    function render(i) {
-        current = i;
-        cards.forEach((c, k) => c.classList.toggle('is-active', k === i));
-        if (indexEl) indexEl.textContent = pad2(i + 1);
-        if (fill) fill.style.transform = `translateX(${i * 100}%)`;
-        setDisabled(prevBtn, i === 0);
-        setDisabled(nextBtn, i === cards.length - 1);
-    }
-
-    function goTo(i) {
-        i = Math.max(0, Math.min(cards.length - 1, i));
-        track.scrollTo({ left: targetFor(i), behavior: reduceMotion.matches ? 'auto' : 'smooth' });
-        render(i);
-    }
-
-    // Track native scrolling (trackpad / touch / scrollbar) with rAF throttling.
-    let ticking = false;
-    track.addEventListener('scroll', () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-            ticking = false;
-            const i = nearestIndex();
-            if (i !== current) render(i);
-        });
-    }, { passive: true });
-
-    if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
-    if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
-
-    // Keyboard: arrows / Home / End while the track has focus.
-    track.addEventListener('keydown', (e) => {
-        const map = { ArrowRight: current + 1, ArrowLeft: current - 1, Home: 0, End: cards.length - 1 };
-        if (!(e.key in map)) return;
-        e.preventDefault();
-        goTo(map[e.key]);
-    });
-
-    // Keep the snapped card aligned when the column width changes.
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => track.scrollTo({ left: targetFor(current), behavior: 'auto' }), 120);
-    });
-
-    render(0);
-})();
-
-// ==========================================
-// See it — the frame per project above the gallery. The screen is a still;
-// the recorded loop is fetched only when its frame comes near the viewport,
+// Recorded loops — a card's first screen is a still; its recorded loop
+// is fetched only when the screen comes near the viewport,
 // plays only while the frame is on screen, and is never loaded under
 // reduced motion or Save-Data (the still stands, as it does without JS).
 // ==========================================
 (function () {
-    const loops = [...document.querySelectorAll('.see-loop[data-mp4]')];
+    const loops = [...document.querySelectorAll('.ap-loop[data-mp4]')];
     if (!loops.length) return;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const saveData = navigator.connection && navigator.connection.saveData;
@@ -725,6 +499,48 @@
                 v.pause();
             }
         });
-    }, { rootMargin: '25% 0px', threshold: 0.05 });
+    }, { rootMargin: '0px 0px 15% 0px', threshold: 0.2 });
     loops.forEach(v => io.observe(v));
+})();
+
+// ==========================================
+// Work, icons first — once the six icons have passed under the top of the
+// screen, a bar of the same icons slides down and marks the card you are on.
+// It leaves again after the last card. Without JS there is no bar: the icons
+// are links to the cards.
+// ==========================================
+(function () {
+    const bar = document.querySelector('[data-ap-bar]');
+    const icons = document.querySelector('.ap-icons');
+    const work = document.querySelector('.ap-work');
+    if (!bar || !icons || !work || !('IntersectionObserver' in window)) return;
+
+    let iconsGone = false, inWork = false;
+    const update = () => bar.classList.toggle('is-shown', iconsGone && inWork);
+    new IntersectionObserver(([e]) => {
+        iconsGone = !e.isIntersecting && e.boundingClientRect.top < 0;
+        update();
+    }, { rootMargin: '-72px 0px 0px 0px' }).observe(icons);
+    new IntersectionObserver(([e]) => { inWork = e.isIntersecting; update(); }).observe(work);
+
+    // mark the card in view; chips for projects without a card link to the case study
+    const chips = [...bar.querySelectorAll('.ap-chip')];
+    const cards = [...work.querySelectorAll('.ap-card')];
+    const row = bar.querySelector('.ap-chips');
+    const mark = (id) => chips.forEach(c => {
+        const on = c.getAttribute('href') === '#' + id;
+        c.classList.toggle('is-on', on);
+        if (!on) { c.removeAttribute('aria-current'); return; }
+        c.setAttribute('aria-current', 'true');
+        // on a phone the chips scroll sideways: keep the marked one in view
+        if (row.scrollWidth > row.clientWidth) {
+            const left = c.offsetLeft - (row.clientWidth - c.offsetWidth) / 2;
+            row.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
+        }
+    });
+    const spy = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) mark(e.target.id); });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    cards.forEach(c => spy.observe(c));
+    if (cards[0]) mark(cards[0].id);
 })();

@@ -4,9 +4,9 @@
 Each page = the shared shell (head, icon sprite, sidebar, footer — taken
 from index.html so there is one source of truth) + an article from
 content/work/<slug>.html, described by content/work/projects.json. It also
-regenerates the Selected Work cards (between the CASES markers) and the landing
-town (TOWN markers) in index.html from the same file, so a project's facts
-live in one place.
+regenerates the work on the homepage (the six app icons, their bar and the
+App Store-style cards, between the APPS, APPBAR and APPCARDS markers) from the
+same file, so a project's facts live in one place.
 
     python3 scripts/build-case-studies.py
 
@@ -60,195 +60,98 @@ ENQUIRY = mailto("Project enquiry",
                  "Hi Nikolas,\n\nWhat it's for:\n\nWho will use it:\n\nWhen you need it:\n\nBudget (a rough range is fine):\n")
 
 
-def render_card(p: dict, i: int, total: int) -> str:
-    """One Selected Work card for index.html, from projects.json."""
-    c, slug, title = p["card"], p["slug"], html.escape(p["title"])
-    bullets = "\n".join(f"                            <li>{b}</li>" for b in c["bullets"])
-    tags = "".join(f'<span class="tech-tag">{t}</span>' for t in c["tags"])
-    links = "\n".join(f"                            {l}" for l in c["links"])
-    return f"""                <!-- {p['title']} -->
-                <div class="case" role="group" aria-roledescription="slide" aria-label="Project {i} of {total}">
-                    <div class="case-cover" aria-hidden="true">
-                        <a href="work/{slug}.html" class="case-cover-link" tabindex="-1">
-                        <img src="assets/covers/{slug}-1344.webp" style="view-transition-name: cover-{slug}"
-                             srcset="assets/covers/{slug}-672.webp 672w, assets/covers/{slug}-1344.webp 1344w"
-                             sizes="(max-width: 1023px) 86vw, 700px"
-                             width="1344" height="752" alt="" loading="lazy" decoding="async">
-                        </a>
-                    </div>
-                    <div class="case-rule" aria-hidden="true"><span>{p['num']}</span></div>
-                    <div class="case-body">
-                        <header class="case-head">
-                            <h3 class="case-title" style="view-transition-name: title-{slug}">{title}</h3>
-                            {c['flag_html']}
-                        </header>
-                        <p class="case-role">{c['role']}</p>
-                        <p class="case-line"><span class="case-k">Problem</span> {c['problem']}</p>
-                        <p class="case-line"><span class="case-k">Approach</span> {c['approach']}</p>
-                        <ul class="case-decisions">
-{bullets}
-                        </ul>
-                        <p class="case-line"><span class="case-k">Outcome</span> {c['outcome']}</p>
-                        <div class="case-tech">
-                            {tags}
-                        </div>
-                        <div class="case-links">
-                            <a class="case-badge case-badge--read" href="work/{slug}.html">Read the case study {ICON.format('arrow-right')}</a>
-{links}
-                        </div>
-                    </div>
-                </div>
-
-"""
-
-
-def write_cards(projects: list) -> None:
-    """Regenerate the cards between the CASES markers in index.html."""
+def write_apps(projects: list) -> None:
+    """Regenerate the work, icons first, from each project's `app` block: the six
+    app icons on the first screen (APPS markers), the same six in the bar that
+    follows you through the cards (APPBAR), and an App Store-style card for each
+    project that has screens (APPCARDS): icon and one line, a strip of true
+    numbers, the real screens with a caption each. A card's first screen can
+    carry its recorded loop; js/script.js plays it only while it is on screen,
+    never under reduced motion or Save-Data, and without JS the still stands.
+    An icon without a card links to the project's case study."""
     path = ROOT / "index.html"
     text = path.read_text()
-    start = text.index("<!-- CASES:START")
-    start = text.index("\n", start) + 1
-    end = text.index("                <!-- CASES:END -->")
-    # a project with a `see` frame above the gallery is not repeated as a card
-    carded = [p for p in projects if "see" not in p]
-    cards = "".join(render_card(p, i + 1, len(carded)) for i, p in enumerate(carded))
-    text = text[:start] + cards + text[end:]
-    text = re.sub(r'(<span id="caseTotal">)\d+(</span>)', rf"\g<1>{len(carded):02d}\g<2>", text)
-    path.write_text(text)
-    print(f"index.html: {len(carded)} cards")
 
+    def put(text: str, name: str, indent: str, block: str) -> str:
+        a = text.index("\n", text.index(f"<!-- {name}:START")) + 1
+        b = text.index(f"{indent}<!-- {name}:END -->")
+        return text[:a] + block + text[b:]
 
-def rgba(hex_: str, alpha: float) -> str:
-    """#RRGGBB at an alpha, as CSS rgba()."""
-    r, g, b = (int(hex_.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4))
-    return f"rgba({r},{g},{b},{alpha})"
+    def href(p: dict) -> str:
+        return f"#app-{p['slug']}" if p["app"].get("shots") else f"work/{p['slug']}.html"
 
+    def name(p: dict) -> str:
+        return html.escape(p["app"].get("name", p["title"]))
 
-def jpeg_size(path: pathlib.Path) -> tuple:
-    """(width, height) of a baseline or progressive JPEG, from its SOF marker."""
-    data = path.read_bytes()
-    i = 2
-    while i + 9 < len(data):
-        if data[i] != 0xFF:
-            i += 1
-            continue
-        marker = data[i + 1]
-        if marker in (0xC0, 0xC1, 0xC2):
-            return int.from_bytes(data[i + 7:i + 9], "big"), int.from_bytes(data[i + 5:i + 7], "big")
-        i += 2 + int.from_bytes(data[i + 2:i + 4], "big")
-    return 788, 1713
+    def state(p: dict) -> str:
+        return " ap-st--bench" if p["app"]["state"] == "bench" else ""
 
+    I = " " * 12
+    icons = []
+    for p in projects:
+        a = p["app"]
+        icons.append(f"""{I}<li class="ap-app"><a href="{href(p)}">
+{I}    <img class="ap-icon" src="{a['icon']}" width="288" height="288" alt="" decoding="async">
+{I}    <span class="ap-app-name">{name(p)}</span>
+{I}    <span class="ap-app-kind">{html.escape(a['kind'])}</span>
+{I}    <span class="ap-st{state(p)}">{html.escape(a['status'])}</span>
+{I}</a></li>""")
+    text = put(text, "APPS", "        ", f'{I[:-4]}<ul class="ap-icons">\n' + "\n".join(icons) + f"\n{I[:-4]}</ul>\n")
 
-def write_see(projects: list) -> None:
-    """Regenerate the see-it frames between the SEE markers in index.html: one
-    full-width frame per project that has a `see` block (its own colours, one
-    line, the real app on screen). The still is always there; js/script.js adds
-    the recorded loop only when the frame is on screen, never under reduced
-    motion or Save-Data. Without JS the still stands."""
-    path = ROOT / "index.html"
-    text = path.read_text()
-    start = text.index("<!-- SEE:START")
-    start = text.index("\n", start) + 1
-    end = text.index("        <!-- SEE:END -->")
-    I = " " * 8
-    total = ROMAN[len(projects) - 1]
-    frames = []
+    J = " " * 12
+    chips = "\n".join(
+        f'{J}<a class="ap-chip" href="{href(p)}"><img src="{p["app"]["icon"]}" width="288" height="288" alt="" '
+        f'loading="lazy" decoding="async">{name(p)}</a>' for p in projects)
+    text = put(text, "APPBAR", "        ", chips + "\n")
+
+    K = " " * 8
+    cards = []
+    total = len(projects)
     for i, p in enumerate(projects):
-        if "see" not in p:
+        a = p["app"]
+        if not a.get("shots"):
             continue
-        s, v, n = p["slug"], p["see"], ROMAN[i]
-        c = v["colors"]
-        a1, a2, a3 = c["arch"]
-        colours = (f"--see-field: {c['field']}; --see-accent: {c['accent']}; --see-text: {c['text']}; "
-                   f"--see-ring-1: {rgba(a3, 0.14)}; --see-ring-2: {rgba(a2, 0.16)}; "
-                   f"--see-ring-3: {rgba(a1, 0.26)}; --see-ring-4: {rgba(a1, 0.16)}")
-        alt = html.escape(v["alt"], quote=True)
-        pw, ph = jpeg_size(ROOT / v["assets"] / "poster.jpg")
-        frames.append(f"""{I}<!-- {p['title']} -->
-{I}<section class="see" id="see-{s}" aria-labelledby="see-{s}-h" style="{colours}">
-{I}    <div class="see-inner">
-{I}        <div class="see-arches" aria-hidden="true"></div>
-{I}        <div class="see-copy">
-{I}            <p class="see-num">{n} / {total} · {html.escape(p['title'])}</p>
-{I}            <h2 class="see-h" id="see-{s}-h">{v['line']}</h2>
-{I}            <p class="see-line"><span class="status-pulse" aria-hidden="true"></span>{html.escape(v['status'])}</p>
-{I}        </div>
-{I}        <p class="see-rec"><i aria-hidden="true"></i>{html.escape(v['rec'])}</p>
-{I}        <figure class="see-device">
-{I}            <img class="see-still" src="{v['assets']}/poster.jpg" width="{pw}" height="{ph}" alt="{alt}" loading="lazy" decoding="async">
-{I}            <video class="see-loop" muted loop playsinline preload="none" data-webm="{v['assets']}/loop.webm" data-mp4="{v['assets']}/loop.mp4" aria-hidden="true" tabindex="-1"></video>
-{I}        </figure>
-{I}        <a class="see-more" href="work/{s}.html">How it&#x27;s built {ICON.format('arrow-down')}</a>
-{I}    </div>
-{I}</section>
-""")
-    text = text[:start] + "".join(frames) + text[end:]
+        s = p["slug"]
+        facts = "\n".join(
+            f'{K}        <li><span class="ap-fact-k">{html.escape(k)}</span><b>{html.escape(v)}</b>'
+            f'<span class="ap-fact-v">{html.escape(t)}</span></li>' for k, v, t in a["facts"])
+        shots = []
+        for sh in a["shots"]:
+            w, h = 600, 1305
+            loop = ""
+            if sh.get("loop"):
+                loop = (f'\n{K}                <video class="ap-loop" muted loop playsinline preload="none" '
+                        f'data-webm="{sh["loop"]}.webm" data-mp4="{sh["loop"]}.mp4" aria-hidden="true" tabindex="-1"></video>')
+            rec = f'\n{K}            <span class="ap-rec">{html.escape(sh["rec"])}</span>' if sh.get("rec") else ""
+            shots.append(f"""{K}        <figure class="ap-shot">
+{K}            <div class="ap-screen">
+{K}                <img src="{sh['src']}" width="{w}" height="{h}" alt="{html.escape(sh['alt'], quote=True)}" loading="lazy" decoding="async">{loop}
+{K}            </div>{rec}
+{K}            <figcaption><b>{html.escape(sh['b'])}</b> {html.escape(sh['t'])}</figcaption>
+{K}        </figure>""")
+        how = f'href="work/{s}.html"'
+        cards.append(f"""{K}<!-- {html.escape(p['title'])} -->
+{K}<article class="ap-card" id="app-{s}" aria-labelledby="app-{s}-h">
+{K}    <div class="ap-head">
+{K}        <img class="ap-icon" src="{a['icon']}" width="288" height="288" alt="" loading="lazy" decoding="async">
+{K}        <div class="ap-title">
+{K}            <p class="ap-k">{i + 1} of {total} · {html.escape(a['kind'])}</p>
+{K}            <h2 class="ap-h" id="app-{s}-h">{name(p)}</h2>
+{K}            <p class="ap-line">{html.escape(a['line'])}</p>
+{K}        </div>
+{K}        <a class="ap-how" {how}>How it&#x27;s built</a>
+{K}    </div>
+{K}    <ul class="ap-facts" aria-label="{name(p)} in numbers">
+{facts}
+{K}    </ul>
+{K}    <div class="ap-shots">
+{chr(10).join(shots)}
+{K}    </div>
+{K}    <a class="ap-how ap-how--foot" {how}>How it&#x27;s built</a>
+{K}</article>""")
+    text = put(text, "APPCARDS", "        ", "\n".join(cards) + "\n")
     path.write_text(text)
-    print(f"index.html: {len(frames)} see-it frame(s)")
-
-
-ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
-TOWN_W, TOWN_H = 3840, 1648                 # one painting, encoded at assets/town/town-<w>.{avif,webp}
-TOWN_SIZES = [1280, 1920, 2560, 3840]
-TOWN_ALT = ("A painted Mediterranean town on a hillside above the sea at golden hour: a road winding down "
-            "to a harbour, a stadium, a round temple on a knoll where an augur watches a flock of birds, "
-            "a theatre carved into the hill, a workshop with paper drying on lines, and a library under "
-            "an old olive tree.")
-
-
-def write_town(projects: list) -> None:
-    """Regenerate the landing town between the TOWN markers in index.html: the
-    painting, one pin and tab per project (a place in the town), and a placard each.
-    Without JS the tabs are plain links to the case studies and the whole town shows."""
-    path = ROOT / "index.html"
-    text = path.read_text()
-    start = text.index("<!-- TOWN:START")
-    start = text.index("\n", start) + 1
-    end = text.index("        <!-- TOWN:END -->")
-    I = " " * 8
-
-    srcset = lambda ext: ", ".join(f"assets/town/town-{w}.{ext} {w}w" for w in TOWN_SIZES)
-    sizes = "(max-width: 760px) 160vw, 100vw"
-    pins, tabs, cards, places = [], [], [], []
-    for i, p in enumerate(projects):
-        if "town" not in p:          # not a place in the painting (Gorgias): numbered, not pinned
-            continue
-        s, t, n = p["slug"], p["town"], ROMAN[i]
-        name, place = html.escape(p["title"]), html.escape(t["place"])
-        focus = " ".join(str(v) for v in t["focus"])
-        pins.append(f'{I}            <a class="town-pin" href="work/{s}.html" tabindex="-1" data-at="{t["pin"][0]} {t["pin"][1]}" '
-                    f'data-focus="{focus}" style="--d: {0.3 + 0.12 * i:.2f}s"><i></i><b>{n}<span> · {name}</span></b></a>')
-        tabs.append(f'{I}        <a class="town-tab" id="town-k-{s}" href="work/{s}.html" data-panel="town-p-{s}"><span>{n}</span>{name}</a>')
-        meas = "".join(f"<div><dt>{html.escape(k)}</dt><dd>{html.escape(v)}</dd></div>" for k, v in t["meas"])
-        state = " town-status--bench" if t.get("bench") else ""
-        cards.append(f"""{I}        <div class="town-card" id="town-p-{s}" hidden>
-{I}            <p class="town-card-head">Place {n} <span class="town-status{state}"><span class="town-dot" aria-hidden="true"></span>{html.escape(t["status"])}</span></p>
-{I}            <p class="town-name">{name}</p>
-{I}            <p class="town-place">{place}</p>
-{I}            <p class="town-line">{html.escape(t["line"])}</p>
-{I}            <dl class="town-meas">{meas}</dl>
-{I}            <a class="town-link" href="work/{s}.html">Read the case study <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
-{I}        </div>""")
-        places.append(f"{place[0].lower() + place[1:]} is {name}")
-    block = f"""{I}<div class="town" data-town>
-{I}    <div class="town-view">
-{I}        <picture class="town-cam"><source type="image/avif" srcset="{srcset('avif')}" sizes="{sizes}"><img class="town-img" src="assets/town/town-1920.webp" srcset="{srcset('webp')}" sizes="{sizes}" width="{TOWN_W}" height="{TOWN_H}" alt="{html.escape(TOWN_ALT)}" fetchpriority="high"></picture>
-{I}        <div class="town-pins" aria-hidden="true">
-{chr(10).join(pins)}
-{I}        </div>
-{I}    </div>
-{I}    <div class="town-tabs">
-{chr(10).join(tabs)}
-{I}        <a class="town-tab town-tab--all" id="town-k-all" href="#work" data-panel="town-p-all" hidden>Whole town</a>
-{I}    </div>
-{I}    <div class="town-cards">
-{I}        <p class="town-card town-card--all" id="town-p-all">In the whole town, {"; ".join(places)}.</p>
-{chr(10).join(cards)}
-{I}    </div>
-{I}</div>
-"""
-    path.write_text(text[:start] + block + text[end:])
-    print(f"index.html: town with {len(pins)} places")
+    print(f"index.html: {len(projects)} icons, {len(cards)} cards")
 
 
 def write_more(items: list) -> None:
@@ -264,7 +167,7 @@ def write_more(items: list) -> None:
             name = (f'<a href="{html.escape(m["url"])}" target="_blank" rel="noopener noreferrer">{name} '
                     f'{ICON.format("arrow-right")}</a>')
         rows.append(f"""                    <li class="more-item">
-                        <h4 class="more-name">{name}</h4>
+                        <h3 class="more-name">{name}</h3>
                         <p class="more-line">{html.escape(m["line"])}</p>
                         <p class="more-meta">{html.escape(m["stack"])} <span class="more-status">{html.escape(m["status"])}</span></p>
                     </li>""")
@@ -286,9 +189,7 @@ def main() -> None:
     projects = [p for p in json.loads((CONTENT / "projects.json").read_text()) if not p.get("hidden")]
     for i, p in enumerate(projects):
         p["num"] = f"{i + 1:02d}"
-    write_see(projects)
-    write_cards(projects)
-    write_town(projects)
+    write_apps(projects)
     write_more(json.loads((CONTENT / "more.json").read_text()))
     index = (ROOT / "index.html").read_text()   # re-read: the shell below is lifted from it
     OUT.mkdir(exist_ok=True)
