@@ -82,6 +82,68 @@
         "text": "#EEF7F6"
       },
       "assets": "assets/work/cinna"
+    },
+    "app": {
+      "icon": "assets/apps/cinna/icon.webp",
+      "kind": "Live bus map",
+      "status": "Live",
+      "state": "live",
+      "line": "Where the bus actually is.",
+      "facts": [
+        [
+          "Status",
+          "Live",
+          "backend in production"
+        ],
+        [
+          "Coverage",
+          "7",
+          "Cyprus bus operators"
+        ],
+        [
+          "Refresh",
+          "15 s",
+          "national live feed"
+        ],
+        [
+          "Tests",
+          "1,400+",
+          "automated"
+        ],
+        [
+          "App",
+          "iOS",
+          "on TestFlight"
+        ]
+      ],
+      "shots": [
+        {
+          "src": "assets/apps/cinna/map.webp",
+          "alt": "Cinna's live map of Larnaca at 07:42 on a Tuesday: the buses with their route numbers along Makariou Avenue.",
+          "b": "Every bus, live.",
+          "t": "The whole island's fleet on one map, refreshed every 15 seconds.",
+          "loop": "assets/work/cinna/loop",
+          "rec": "Real recording · ×8"
+        },
+        {
+          "src": "assets/apps/cinna/today.webp",
+          "alt": "Cinna's guide to Larnaca today: the day's pick, a beach, with the bus that gets you there.",
+          "b": "A day out, planned.",
+          "t": "A visitor's guide to one town, with the bus to each place."
+        },
+        {
+          "src": "assets/apps/cinna/explore.webp",
+          "alt": "Cinna's map of beaches and sights around Larnaca.",
+          "b": "Beaches and sights.",
+          "t": "Each pin knows which bus gets you there."
+        },
+        {
+          "src": "assets/apps/cinna/plan.webp",
+          "alt": "Cinna's trip planner, starting from your stop.",
+          "b": "Where to?",
+          "t": "From your stop to anywhere, now or later."
+        }
+      ]
     }
   },
   {
@@ -150,6 +212,68 @@
           "test mode"
         ]
       ]
+    },
+    "app": {
+      "icon": "assets/apps/ludi/icon.webp",
+      "kind": "Pitch booking",
+      "status": "Beta",
+      "state": "live",
+      "line": "The pitch, booked tonight.",
+      "facts": [
+        [
+          "Status",
+          "Beta",
+          "iOS approved"
+        ],
+        [
+          "Venues",
+          "2",
+          "partners enrolled"
+        ],
+        [
+          "Race test",
+          "1 of 100",
+          "same-slot bookings wins"
+        ],
+        [
+          "Database tests",
+          "426",
+          "pgTAP"
+        ],
+        [
+          "Payments",
+          "Stripe",
+          "Connect, test mode"
+        ]
+      ],
+      "shots": [
+        {
+          "src": "assets/apps/ludi/discover.webp",
+          "alt": "Ludi's discover screen in Larnaca: today's pitches on a map.",
+          "b": "Tonight, nearby.",
+          "t": "Pitches in your town with their price per hour.",
+          "loop": "assets/work/ludi/loop",
+          "rec": "Real recording · ×3"
+        },
+        {
+          "src": "assets/apps/ludi/pitch.webp",
+          "alt": "Pitch 2 at Larnaca Sportsplex: amenities and the free hours this week.",
+          "b": "Pick a time.",
+          "t": "Every free hour of the week, live from the venue's calendar."
+        },
+        {
+          "src": "assets/apps/ludi/pay.webp",
+          "alt": "Stripe's payment sheet in test mode, €35.",
+          "b": "Pay in the app.",
+          "t": "Card payments and venue payouts through Stripe, in test mode for now."
+        },
+        {
+          "src": "assets/apps/ludi/booked.webp",
+          "alt": "Ludi's confirmation: Booked, with the booking code LAR-2026-0004.",
+          "b": "Booked.",
+          "t": "A code for the desk, and a button to bring your team."
+        }
+      ]
     }
   },
   {
@@ -217,6 +341,12 @@
           "none"
         ]
       ]
+    },
+    "app": {
+      "icon": "assets/apps/augur/icon.webp",
+      "kind": "Relay board",
+      "status": "On the bench",
+      "state": "bench"
     }
   },
   {
@@ -283,6 +413,12 @@
           "829"
         ]
       ]
+    },
+    "app": {
+      "icon": "assets/apps/aristophanes/icon.webp",
+      "kind": "Theatre company",
+      "status": "In use",
+      "state": "live"
     }
   },
   {
@@ -348,6 +484,12 @@
           "26"
         ]
       ]
+    },
+    "app": {
+      "icon": "assets/apps/wiseprint/icon.webp",
+      "kind": "Print shop pricing",
+      "status": "In use",
+      "state": "live"
     }
   },
   {
@@ -413,6 +555,13 @@
           "104"
         ]
       ]
+    },
+    "app": {
+      "icon": "assets/apps/plutarch/icon.webp",
+      "name": "Ρίζα",
+      "kind": "Greek dictionary",
+      "status": "Live",
+      "state": "live"
     }
   }
 ]
