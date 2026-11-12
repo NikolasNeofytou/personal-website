@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nikolas Neofytou · I build software for real places</title>
+    <meta name="description" content="Nikolas Neofytou builds software for real places: embedded systems and the apps around them, in Nicosia. Cinna, every bus in Cyprus, drawn where it really is.">
+    <meta name="robots" content="noindex">
+    <link rel="canonical" href="https://nikolasneofytou.com/">
+    <meta name="theme-color" content="#F5F4EF">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="preload" href="../assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../assets/fonts/instrument-serif-italic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="../assets/fonts/dm-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="v2.css?v=20261027a">
+    <script>
+        // The scroll story runs only with motion allowed and without Save-Data; otherwise, as without JS, two stills.
+        (function () {
+            var c = navigator.connection, still = matchMedia('(prefers-reduced-motion: reduce)').matches || (c && c.saveData);
+            document.documentElement.classList.add(still ? 'mode-stills' : 'mode-run');
+        })();
+    </script>
+</head>
+<body>
+    <main>
+        <!-- The scroll story: the first screen, the camera closes in on the 400, Cinna's field opens and fills, Cinna's frame. -->
+        <section class="run" id="run" aria-labelledby="h1">
+            <div class="stage">
+                <svg class="map" id="map" aria-hidden="true" focusable="false">
+                    <defs>
+                        <clipPath id="clip"><circle id="clipc" cx="0" cy="0" r="0"/></clipPath>
+                        <linearGradient id="fd1" x1="0" x2="1"><stop offset=".3" stop-color="#F5F4EF"/><stop offset=".4" stop-color="#F5F4EF" stop-opacity=".86"/><stop offset=".58" stop-color="#F5F4EF" stop-opacity="0"/></linearGradient>
+                        <linearGradient id="fd2" x1="0" x2="1"><stop offset=".24" stop-color="#F5F4EF"/><stop offset=".31" stop-color="#F5F4EF" stop-opacity=".88"/><stop offset=".42" stop-color="#F5F4EF" stop-opacity="0"/></linearGradient>
+                        <linearGradient id="fp1" x1="0" x2="0" y1="0" y2="1"><stop offset=".33" stop-color="#F5F4EF"/><stop offset=".42" stop-color="#F5F4EF" stop-opacity=".8"/><stop offset=".55" stop-color="#F5F4EF" stop-opacity="0"/></linearGradient>
+                        <linearGradient id="fp2" x1="0" x2="0" y1="0" y2="1"><stop offset=".26" stop-color="#F5F4EF"/><stop offset=".33" stop-color="#F5F4EF" stop-opacity=".85"/><stop offset=".41" stop-color="#F5F4EF" stop-opacity="0"/></linearGradient>
+                    </defs>
+                    <g id="paperW"></g><g id="paperM"></g>
+                    <rect id="fade1" width="100%" height="100%"/><rect id="fade2" width="100%" height="100%" opacity="0"/>
+                    <circle id="ring" fill="none" stroke="#22838A" stroke-opacity=".35" stroke-width="1" r="0"/>
+                    <g clip-path="url(#clip)"><rect width="100%" height="100%" fill="#0F3B40"/><g id="fieldW"></g><g id="fieldM"></g></g>
+                </svg>
+                <div class="arches" id="arches" aria-hidden="true"></div>
+                <header class="nav" id="nav">
+                    <a class="nav-name" href="./">Nikolas Neofytou</a>
+                    <nav aria-label="Site"><a href="../#work">Work</a><a href="../#contact">Contact</a><a href="../assets/cv.pdf" download="Nikolas_Neofytou_CV.pdf">Résumé</a></nav>
+                </header>
+
+                <div class="f1" id="f1">
+                    <h1 id="h1">I build software for <em>real places</em>.</h1>
+                    <p>Embedded systems and the apps around them, in Nicosia. This is one of them: every bus in Cyprus, drawn where it really is.</p>
+                </div>
+                <p class="six" id="six"><a href="../work/cinna.html" class="on">Cinna</a> · <a href="../work/ludi.html">Ludi</a> · <a href="../work/augur.html">Augur</a> · <a href="../work/aristophanes.html">Aristophanes</a> · <a href="../work/wiseprint.html">Wiseprint</a> · <a href="../work/plutarch.html" lang="el">Ρίζα</a></p>
+                <div class="card" id="card" aria-hidden="true"><i></i><span class="r">400</span><span id="cardtxt">Apolloneio Hospital in 4 min</span></div>
+                <div class="ys" id="ys" aria-hidden="true">your stop</div>
+                <div class="eta" id="eta" aria-hidden="true"><i></i><span id="etatxt">4 min</span></div>
+                <div class="sn" id="sn" aria-hidden="true">Apolloneio Hospital</div>
+
+                <!-- Cinna's words twice: ink on paper, and a light copy clipped to the circle, so they change colour exactly where the field passes -->
+                <div class="layer ink" id="LA">
+                    <section class="cin" id="cinna" aria-labelledby="cin-h">
+                        <p class="num">I / VI · Cinna</p>
+                        <h2 id="cin-h">Where the bus<br> <em>actually</em> is.</h2>
+                        <p class="line"><i aria-hidden="true"></i><span>Live · every bus in Cyprus, every 15 s<span class="tf"> · iOS on TestFlight</span></span></p>
+                    </section>
+                    <p class="credit"></p>
+                </div>
+                <div class="layer lit" id="LB" aria-hidden="true">
+                    <section class="cin">
+                        <p class="num">I / VI · Cinna</p>
+                        <p class="h2">Where the bus<br> <em>actually</em> is.</p>
+                        <p class="line"><i></i><span>Live · every bus in Cyprus, every 15 s<span class="tf"> · iOS on TestFlight</span></span></p>
+                    </section>
+                    <p class="credit"></p>
+                </div>
+
+                <p class="rec" id="rec"><i aria-hidden="true"></i>The real app · recorded 27 Oct 2026 · 96 s at ×8</p>
+                <figure class="device" id="device">
+                    <img class="dev-still" id="devstill" data-src="../assets/work/cinna/poster.jpg" width="788" height="1713" alt="Cinna's live map of Larnaca at 07:42 on a Tuesday: the buses with their route numbers along Makariou Avenue, and the next arrival at each stop." decoding="async">
+                    <video class="dev-loop" id="loop" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+                </figure>
+                <a class="more" id="more" href="../work/cinna.html">How it's built ↓</a>
+            </div>
+        </section>
+
+        <!-- The stills: without JS, with reduced motion or with Save-Data. The first screen, then Cinna's frame. -->
+        <section class="still s1" aria-labelledby="s1-h">
+            <header class="nav">
+                <a class="nav-name" href="./">Nikolas Neofytou</a>
+                <nav aria-label="Site"><a href="../#work">Work</a><a href="../#contact">Contact</a><a href="../assets/cv.pdf" download="Nikolas_Neofytou_CV.pdf">Résumé</a></nav>
+            </header>
+            <picture>
+                <source media="(max-width: 600px)" type="image/avif" srcset="../assets/v2/frame1-phone.avif">
+                <source media="(max-width: 600px)" type="image/webp" srcset="../assets/v2/frame1-phone.webp">
+                <source type="image/avif" srcset="../assets/v2/frame1-1440.avif 1440w, ../assets/v2/frame1-2880.avif 2880w" sizes="100vw">
+                <img class="s1-map" src="../assets/v2/frame1-1440.webp" srcset="../assets/v2/frame1-1440.webp 1440w, ../assets/v2/frame1-2880.webp 2880w" sizes="100vw" width="1440" height="900" loading="lazy" decoding="async"
+                     alt="Nicosia's streets drawn in ink, with Cinna's 67 bus routes in blue and the 70 buses that were out at 06:08 on Monday 26 October. The 400 is four minutes from its stop at Apolloneio Hospital.">
+            </picture>
+            <div class="f1">
+                <h1 id="s1-h">I build software for <em>real places</em>.</h1>
+                <p>Embedded systems and the apps around them, in Nicosia. This is one of them: every bus in Cyprus, drawn where it really is.</p>
+            </div>
+            <p class="six"><a href="../work/cinna.html" class="on">Cinna</a> · <a href="../work/ludi.html">Ludi</a> · <a href="../work/augur.html">Augur</a> · <a href="../work/aristophanes.html">Aristophanes</a> · <a href="../work/wiseprint.html">Wiseprint</a> · <a href="../work/plutarch.html" lang="el">Ρίζα</a></p>
+            <p class="s1-credit">recorded 06:08 · Mon 26 Oct · © OpenStreetMap contributors</p>
+        </section>
+        <section class="still s3" aria-labelledby="s3-h">
+            <div class="s3-arches" aria-hidden="true"></div>
+            <div class="s3-copy">
+                <p class="num">I / VI · Cinna</p>
+                <h2 id="s3-h">Where the bus <em>actually</em> is.</h2>
+                <p class="line"><i aria-hidden="true"></i><span>Live · every bus in Cyprus, every 15 s · iOS on TestFlight</span></p>
+            </div>
+            <a class="s3-more" href="../work/cinna.html">How it's built ↓</a>
+            <figure class="s3-device"><img src="../assets/work/cinna/poster.jpg" width="788" height="1713" loading="lazy" decoding="async" alt="Cinna's live map of Larnaca at 07:42 on a Tuesday: the buses with their route numbers along Makariou Avenue, and the next arrival at each stop."></figure>
+        </section>
+
+        <section class="rest" aria-labelledby="rest-h">
+            <h2 id="rest-h">The other five</h2>
+            <ul>
+                <li><a href="../work/ludi.html"><b>II · Ludi</b><span>Football pitch booking and matchmaking for Cyprus.</span></a></li>
+                <li><a href="../work/augur.html"><b>III · Augur</b><span>A relay module that knows where it is.</span></a></li>
+                <li><a href="../work/aristophanes.html"><b>IV · Aristophanes</b><span>An end-to-end platform for theatre, from solo practice to running a production.</span></a></li>
+                <li><a href="../work/wiseprint.html"><b>V · Wiseprint</b><span>A cost-plus pricing engine that became a print shop's working tool.</span></a></li>
+                <li><a href="../work/plutarch.html"><b>VI · <span lang="el">Ρίζα</span></b><span>A free dictionary of Modern Greek where every definition cites its source.</span></a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="foot">
+        <p>A preview of a new first screen. <a href="../">The current site is here.</a></p>
+        <p>Cinna's map: streets © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>; buses from the national feed, recorded Mon 26 Oct 2026, 06:00–07:00.</p>
+    </footer>
+
+    <script src="v2.js?v=20261027a" defer></script>
+</body>
+</html>
