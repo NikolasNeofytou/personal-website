@@ -3,5 +3,6 @@ exclude:
   - README.md
   - content/
   - scripts/
+  - docs/             # briefs and studies for the work, not pages of the site
   - assets/og-card.html
   - assets/photography/    # unlinked until the photography wall ships (feat/photography)
